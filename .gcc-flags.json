@@ -1,0 +1,8 @@
+{
+  "execPath": "/Users/chris/.platformio/packages/toolchain-atmelavr/bin/avr-g++",
+  "gccDefaultCFlags": "-fsyntax-only -std=gnu11 -fno-fat-lto-objects -Os -Wall -ffunction-sections -fdata-sections -flto -mmcu=atmega328p -DPLATFORMIO=40301 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -D__AVR_ATmega328P__",
+  "gccDefaultCppFlags": "-fsyntax-only -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -Os -Wall -ffunction-sections -fdata-sections -flto -mmcu=atmega328p -DPLATFORMIO=40301 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -D__AVR_ATmega328P__",
+  "gccErrorLimit": 15,
+  "gccIncludePaths": "/Users/chris/dev/frank/frank.counts/include,/Users/chris/dev/frank/frank.counts/src,/Users/chris/.platformio/packages/framework-arduino-avr/cores/arduino,/Users/chris/.platformio/packages/framework-arduino-avr/variants/standard,/Users/chris/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src,/Users/chris/.platformio/packages/framework-arduino-avr/libraries/HID/src,/Users/chris/.platformio/packages/framework-arduino-avr/libraries/SPI/src,/Users/chris/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src,/Users/chris/.platformio/packages/framework-arduino-avr/libraries/Wire/src,/Users/chris/.platformio/packages/toolchain-atmelavr/avr/include,/Users/chris/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/5.4.0/include,/Users/chris/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/5.4.0/include-fixed,/Users/chris/.platformio/packages/tool-unity",
+  "gccSuppressWarnings": false
+}
