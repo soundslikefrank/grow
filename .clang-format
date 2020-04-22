@@ -1,2 +1,6 @@
-BasedOnStyle: LLVM
+# vim: set ft=conf:
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+# To disable for a line use `// clang-format off`
+BasedOnStyle: Google # https://google.github.io/styleguide/cppguide.html
 ColumnLimit: 80
+IndentPPDirectives: BeforeHash
