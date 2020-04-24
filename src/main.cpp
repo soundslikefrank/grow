@@ -4,13 +4,14 @@
 #include <SPI.h>
 #include <Wire.h>
 
-#define DAC_PIN 8
+#define DAC_PIN 6
 #define FADER_PIN 7
-#define FADER_SPI_CLOCK_MAX 20000000
+#define FADER_SPI_CLOCK_MAX 8000000
 #define DAC_SPI_CLOCK_MAX 2000000
 #define MCP23017_ADDRESS 0x20
 
-SPISettings MCP3008(FADER_SPI_CLOCK_MAX, MSBFIRST, SPI_MODE0);
+SPISettings FADER_READER(FADER_SPI_CLOCK_MAX, MSBFIRST, SPI_MODE0);
+SPISettings DAC_SETTER(DAC_SPI_CLOCK_MAX, MSBFIRST, SPI_MODE0);
 
 // setVoltage -- Set DAC voltage output
 // dacpin: chip select pin for DAC.  Note and velocity on DAC1, pitch bend and
@@ -44,7 +45,7 @@ void setVoltage(uint8_t pin, bool channel, bool gain, unsigned int mV) {
   // & -----------------------------
   // 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 0     - command & 0xff
 
-  SPI.beginTransaction(SPISettings(DAC_SPI_CLOCK_MAX, MSBFIRST, SPI_MODE0));
+  SPI.beginTransaction(DAC_SETTER);
   digitalWrite(pin, LOW);
   // first part of command, zero padded with a byte
   SPI.transfer(command >> 8);
@@ -59,12 +60,12 @@ int readFader(byte channel) {
   byte dataMSB = 0;
   byte dataLSB = 0;
   byte JUNK = 0x00;
-  SPI.beginTransaction(MCP3008);
+  SPI.beginTransaction(FADER_READER);
   digitalWrite(FADER_PIN, LOW);
   SPI.transfer(0x01);
   // Get the first byte of data, masked to the last two bits (0x03)
   // 0x08 for channel 0
-  dataMSB = SPI.transfer(0x08 << 4) & 0x03;
+  dataMSB = SPI.transfer(0x09 << 4) & 0x03;
   // Send a bunch of junk (MCP  don't care but we want data back)
   dataLSB = SPI.transfer(JUNK);
   digitalWrite(FADER_PIN, HIGH);
@@ -73,30 +74,35 @@ int readFader(byte channel) {
   return dataMSB << 8 | dataLSB;
 }
 
-void setLedRegister() {
+void setLedRegister(uint8_t registerValue) {
   Wire.beginTransmission(MCP23017_ADDRESS);
   Wire.write((uint8_t)0x13);
-  Wire.write((uint8_t)B11111111);
+  Wire.write((uint8_t)registerValue);
   Wire.endTransmission();
 }
 
 int val = 0;
 
 void setup() {
+  // Set up SPI stuff
   SPI.begin();
-  Serial.begin(9600);  //  setup serial
+  // DAC setup
   pinMode(DAC_PIN, OUTPUT);
   digitalWrite(DAC_PIN, HIGH);
+  // Fader setup
   pinMode(FADER_PIN, OUTPUT);
   digitalWrite(FADER_PIN, LOW);  // cycle the MCP3008 as per datasheet
   digitalWrite(FADER_PIN, HIGH);
-
+  // LED setup
   Wire.beginTransmission(MCP23017_ADDRESS);
   // Set IODIRB register (0x01) to all zeros (output)
-  Wire.write((uint8_t) 0x01);
-  Wire.write((uint8_t) 0x00);
+  Wire.write((uint8_t)0x01);
+  Wire.write((uint8_t)0x00);
   Wire.endTransmission();
-  setLedRegister();
+  // Debug
+  Serial.begin(9600);
+
+  setLedRegister(B11111111);
 }
 
 int i = 8;
@@ -104,6 +110,6 @@ int i = 8;
 void loop() {
   val = readFader(FADER_PIN);  // read the input pin
   Serial.println(val);
-  setVoltage(DAC_PIN, 0, 1, val * 4);
+  setVoltage(DAC_PIN, 0, 1, 2000);
   delay(2000);
 }
