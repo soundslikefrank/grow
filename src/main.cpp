@@ -65,7 +65,7 @@ int readFader(byte channel) {
   SPI.transfer(0x01);
   // Get the first byte of data, masked to the last two bits (0x03)
   // 0x08 for channel 0
-  dataMSB = SPI.transfer(0x09 << 4) & 0x03;
+  dataMSB = SPI.transfer(0x08 << 4) & 0x03;
   // Send a bunch of junk (MCP  don't care but we want data back)
   dataLSB = SPI.transfer(JUNK);
   digitalWrite(FADER_PIN, HIGH);
@@ -84,6 +84,8 @@ void setLedRegister(uint8_t registerValue) {
 int val = 0;
 
 void setup() {
+  // Debug
+  Serial.begin(9600);
   // Set up SPI stuff
   SPI.begin();
   // DAC setup
@@ -94,15 +96,15 @@ void setup() {
   digitalWrite(FADER_PIN, LOW);  // cycle the MCP3008 as per datasheet
   digitalWrite(FADER_PIN, HIGH);
   // LED setup
+  /*
   Wire.beginTransmission(MCP23017_ADDRESS);
   // Set IODIRB register (0x01) to all zeros (output)
   Wire.write((uint8_t)0x01);
   Wire.write((uint8_t)0x00);
   Wire.endTransmission();
-  // Debug
-  Serial.begin(9600);
 
   setLedRegister(B11111111);
+  */
 }
 
 int i = 8;
@@ -110,6 +112,6 @@ int i = 8;
 void loop() {
   val = readFader(FADER_PIN);  // read the input pin
   Serial.println(val);
-  setVoltage(DAC_PIN, 0, 1, 2000);
-  delay(2000);
+  setVoltage(DAC_PIN, 0, 1, val * 4);
+  delay(500);
 }
