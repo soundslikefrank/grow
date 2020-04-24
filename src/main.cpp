@@ -88,6 +88,8 @@ void setup() {
   Serial.begin(9600);
   // Set up SPI stuff
   SPI.begin();
+  // Set up I2C bus
+  Wire.begin();
   // DAC setup
   pinMode(DAC_PIN, OUTPUT);
   digitalWrite(DAC_PIN, HIGH);
@@ -96,7 +98,6 @@ void setup() {
   digitalWrite(FADER_PIN, LOW);  // cycle the MCP3008 as per datasheet
   digitalWrite(FADER_PIN, HIGH);
   // LED setup
-  /*
   Wire.beginTransmission(MCP23017_ADDRESS);
   // Set IODIRB register (0x01) to all zeros (output)
   Wire.write((uint8_t)0x01);
@@ -104,7 +105,6 @@ void setup() {
   Wire.endTransmission();
 
   setLedRegister(B11111111);
-  */
 }
 
 int i = 8;
