@@ -4,11 +4,31 @@
 #include <SPI.h>
 #include <Wire.h>
 
+#define arrayLength(a) (sizeof(a) / sizeof(*a))
+
+#define BUTTON_PIN 2
 #define DAC_PIN 6
 #define FADER_PIN 7
 #define FADER_SPI_CLOCK_MAX 8000000
 #define DAC_SPI_CLOCK_MAX 2000000
 #define MCP23017_ADDRESS 0x20
+
+// Our DAC voltage (4096mA max) gets multiplied by this value to output a proper
+// V/Oct voltage
+#define DAC_VOLTAGE_MULTIPLIER 1.77
+
+#define NoteA 0
+#define NoteA_ 1
+#define NoteB 2
+#define NoteC 3
+#define NoteC_ 4
+#define NoteD 5
+#define NoteD_ 6
+#define NoteE 7
+#define NoteF 8
+#define NoteF_ 9
+#define NoteG 10
+#define NoteG_ 11
 
 SPISettings FADER_READER(FADER_SPI_CLOCK_MAX, MSBFIRST, SPI_MODE0);
 SPISettings DAC_SETTER(DAC_SPI_CLOCK_MAX, MSBFIRST, SPI_MODE0);
@@ -65,7 +85,7 @@ int readFader(byte channel) {
   SPI.transfer(0x01);
   // Get the first byte of data, masked to the last two bits (0x03)
   // 0x08 for channel 0
-  dataMSB = SPI.transfer(0x08 << 4) & 0x03;
+  dataMSB = SPI.transfer((0x08 + channel) << 4) & 0x03;
   // Send a bunch of junk (MCP  don't care but we want data back)
   dataLSB = SPI.transfer(JUNK);
   digitalWrite(FADER_PIN, HIGH);
@@ -74,18 +94,91 @@ int readFader(byte channel) {
   return dataMSB << 8 | dataLSB;
 }
 
+uint8_t flipByte(uint8_t byte) {
+  // https://gcc.gnu.org/onlinedocs/gcc/AVR-Built-in-Functions.html#AVR-Built-in-Functions
+  return __builtin_avr_insert_bits(0x01234567, byte, 0);
+}
+
 void setLedRegister(uint8_t registerValue) {
   Wire.beginTransmission(MCP23017_ADDRESS);
   Wire.write((uint8_t)0x13);
-  Wire.write((uint8_t)registerValue);
+  // Bytes in register are in reversed order to GPIO pin numbers
+  Wire.write(flipByte(registerValue));
   Wire.endTransmission();
 }
 
-int val = 0;
+class Quantizer {
+ private:
+  bool majorScale[7] = {1, 1, 0, 1, 1, 1, 0};
+  bool minorScale[7] = {1, 0, 1, 1, 0, 1, 1};
+
+ public:
+  uint8_t notes[8] = {NoteA};
+  uint8_t octaves[8] = {0};
+  void setKey(uint8_t note, uint8_t octave) { return setKey(note, octave, 0); }
+  void setKey(uint8_t note, uint8_t octave, bool minor) {
+    // Pick the right scale array
+    bool *scale = minor ? minorScale : majorScale;
+    // The first note of the scale is the one we start with
+    notes[0] = note;
+    octaves[0] = octave;
+    for (int step = 0; step < 7; step++) {
+      // Go up one semitone (because we do that in any case)
+      if (++note == 12) {
+        note = 0;
+        octave++;
+      }
+      if (scale[step]) {
+        // If the current step is a whole tone, bump again
+        note++;
+      }
+      // If that got us out of the scale, start from 0
+      if (note == 12) {
+        note = 0;
+        octave++;
+      }
+      notes[step + 1] = note;
+      octaves[step + 1] = octave;
+    }
+  }
+};
+
+/* int cMajorNotes[8] = {1836, 1930, 2024, 2072, 2166, 2260, 2354, 2401}; */
+
+/* [2, 2, 1, 2, 2, 2, 1] */
+
+/* struct NoteInKey { */
+/*   Note note; */
+/*   uint8_t offset; */
+/*   NoteInKey(Note note) : note(note), offset(0) {} */
+/*   NoteInKey(Note note, uint8_t offset) : note(note), offset(offset) {} */
+/* }; */
+
+/* NoteInKey cMajorNotes[8] = {{Note::C}, {Note::D}, {Note::E}, {Note::F}, */
+/*                             {Note::G}, {Note::A}, {Note::B}, {Note::C, 1}};
+ */
+
+/* NoteInKey* getNotesInKey(Note note) {} */
+
+int getNoteVoltage(uint8_t note, uint8_t octave) {
+  // return A0 as the lowest note
+  if (octave < 0) return 0;
+  // return C7 as the highest note
+  if ((octave == 7 && note > 3) || octave > 7) {
+    return getNoteVoltage(NoteC, 7);
+  }
+  // Calculate V/OCT value divided by the voltage multiplier
+  float vValue = (float)octave + (float)note / 12.0;
+  return floor(1000.0 * vValue / DAC_VOLTAGE_MULTIPLIER);
+}
+
+Quantizer quantizer;
 
 void setup() {
   // Debug
   Serial.begin(9600);
+  // Set up button
+  pinMode(BUTTON_PIN, INPUT);
   // Set up SPI stuff
   SPI.begin();
   // Set up I2C bus
@@ -103,15 +196,39 @@ void setup() {
   Wire.write((uint8_t)0x01);
   Wire.write((uint8_t)0x00);
   Wire.endTransmission();
-
-  setLedRegister(B11111111);
+  // Set initial quantizer key and octave
+  quantizer.setKey(NoteF_, 0, 1);
 }
 
-int i = 8;
+int i = 0;
+uint32_t loopMillis = millis();
+uint32_t shiftMillis = millis();
+// FIXME check whether divisor is the correct term here
+float tonicFaderDivisor = 1024 / 12;
+float octaveFaderDivisor = 1024 / 7;
+float keyFaderDivisor = 1024 / 2;
 
 void loop() {
-  val = readFader(FADER_PIN);  // read the input pin
-  Serial.println(val);
-  setVoltage(DAC_PIN, 0, 1, val * 4);
-  delay(500);
+  // Debounce 200ms
+  if (digitalRead(BUTTON_PIN) && millis() - shiftMillis > 200) {
+    shiftMillis = millis();
+    byte tonicFaderPosition = floor(readFader(0) / tonicFaderDivisor);
+    byte octaveFaderPosition = floor(readFader(1) / octaveFaderDivisor);
+    byte keyFaderPosition = floor(readFader(2) / keyFaderDivisor);
+    quantizer.setKey(tonicFaderPosition, octaveFaderPosition, keyFaderPosition);
+  }
+  if (millis() - loopMillis > 500) {
+    loopMillis = millis();
+    float octaveDivisor = 1024 / arrayLength(quantizer.notes);
+    byte position = floor(readFader(i) / octaveDivisor);
+    float voltage =
+        getNoteVoltage(quantizer.notes[position], quantizer.octaves[position]);
+    setVoltage(DAC_PIN, 0, 1, voltage);
+    setLedRegister(B10000000 >> i);
+    if (i < 7) {
+      i++;
+    } else {
+      i = 0;
+    }
+  }
 }
