@@ -31,6 +31,13 @@
 #define NoteG 10
 #define NoteG_ 11
 
+#define MAJOR 0
+#define MINOR 1
+
+// Any number is fine, but difference can't be more than 256
+#define BPM_LOWER 44
+#define BPM_UPPER 300
+
 SPISettings FADER_READER(FADER_SPI_CLOCK_MAX, MSBFIRST, SPI_MODE0);
 SPISettings DAC_SETTER(DAC_SPI_CLOCK_MAX, MSBFIRST, SPI_MODE0);
 
@@ -112,14 +119,21 @@ class Quantizer {
  private:
   bool majorScale[7] = {1, 1, 0, 1, 1, 1, 0};
   bool minorScale[7] = {1, 0, 1, 1, 0, 1, 1};
+  uint8_t currentTonic = NoteC;
+  bool currentKey = MAJOR;
+  uint8_t currentOctave = 0;
 
  public:
   uint8_t notes[8] = {NoteA};
   uint8_t octaves[8] = {0};
-  void setKey(uint8_t note, uint8_t octave) { return setKey(note, octave, 0); }
-  void setKey(uint8_t note, uint8_t octave, bool minor) {
+  void setTonic(uint8_t tonic) { currentTonic = tonic; }
+  void setKey(bool key) { currentKey = key; }
+  void setOctave(uint8_t octave) { currentOctave = octave; }
+  void refresh() {
     // Pick the right scale array
-    bool *scale = minor ? minorScale : majorScale;
+    bool *scale = currentKey ? minorScale : majorScale;
+    uint8_t note = currentTonic;
+    uint8_t octave = currentOctave;
     // The first note of the scale is the one we start with
     notes[0] = note;
     octaves[0] = octave;
@@ -175,6 +189,20 @@ int getNoteVoltage(uint8_t note, uint8_t octave) {
 
 Quantizer quantizer;
 
+uint8_t i = 0;
+uint16_t bpm = 120;
+uint32_t loopMillis = millis();
+uint32_t shiftMillis = millis();
+bool trigger = 0;
+float tonicFaderDivisor = 1024 / 12;
+float octaveFaderDivisor = 1024 / 7;
+float keyFaderDivisor = 1024 / 2;
+float bpmFaderDivisor = 1024 / (BPM_UPPER - BPM_LOWER);
+byte previousTonicFaderPosition;
+byte previousOctaveFaderPosition;
+byte previousKeyFaderPosition;
+byte previousBpmFaderPosition;
+
 void setup() {
   // Debug
   Serial.begin(9600);
@@ -200,28 +228,55 @@ void setup() {
   Wire.write((uint8_t)0x01);
   Wire.write((uint8_t)0x00);
   Wire.endTransmission();
-  // Set initial quantizer key and octave
-  quantizer.setKey(NoteF_, 0, 1);
+  // Set initial quantizer tonic, key and octave
+  quantizer.refresh();
 }
 
-uint8_t i = 0;
-uint32_t loopMillis = millis();
-uint32_t shiftMillis = millis();
-bool trigger = 0;
-float tonicFaderDivisor = 1024 / 12;
-float octaveFaderDivisor = 1024 / 7;
-float keyFaderDivisor = 1024 / 2;
+bool previousButtonPressed = 0;
 
 void loop() {
   // Debounce 200ms
   if (digitalRead(BUTTON_PIN) && millis() - shiftMillis > 200) {
-    shiftMillis = millis();
     byte tonicFaderPosition = floor(readFader(0) / tonicFaderDivisor);
     byte octaveFaderPosition = floor(readFader(1) / octaveFaderDivisor);
     byte keyFaderPosition = floor(readFader(2) / keyFaderDivisor);
-    quantizer.setKey(tonicFaderPosition, octaveFaderPosition, keyFaderPosition);
+    byte bpmFaderPosition = floor(readFader(3) / bpmFaderDivisor);
+    if (!previousButtonPressed) {
+      // Set all previous values to the current values to prevent immediate
+      // change
+      previousTonicFaderPosition = tonicFaderPosition;
+      previousOctaveFaderPosition = octaveFaderPosition;
+      previousKeyFaderPosition = keyFaderPosition;
+      previousBpmFaderPosition = bpmFaderPosition;
+      previousButtonPressed = 1;
+    }
+    shiftMillis = millis();
+    if (previousTonicFaderPosition != tonicFaderPosition) {
+      Serial.println("Setting tonic");
+      quantizer.setTonic(tonicFaderPosition);
+      previousTonicFaderPosition = tonicFaderPosition;
+    }
+    if (previousOctaveFaderPosition != octaveFaderPosition) {
+      Serial.println("Setting octave");
+      quantizer.setOctave(octaveFaderPosition);
+      previousOctaveFaderPosition = octaveFaderPosition;
+    }
+    if (keyFaderPosition != previousKeyFaderPosition) {
+      Serial.println("Setting key");
+      quantizer.setKey(keyFaderPosition);
+      previousKeyFaderPosition = keyFaderPosition;
+    }
+    if (bpmFaderPosition != previousBpmFaderPosition) {
+      Serial.println("Setting bpm");
+      bpm = bpmFaderPosition;
+      previousBpmFaderPosition = bpmFaderPosition;
+    }
+    quantizer.refresh();
   }
-  if (millis() - loopMillis > 500) {
+  if (!digitalRead(BUTTON_PIN)) {
+    previousButtonPressed = 0;
+  }
+  if (millis() - loopMillis > floor((60000.0 / (float)bpm))) {
     loopMillis = millis();
     trigger = 1;
     digitalWrite(TRIGGER_PIN, HIGH);
