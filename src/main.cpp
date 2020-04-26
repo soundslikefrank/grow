@@ -7,6 +7,7 @@
 #define arrayLength(a) (sizeof(a) / sizeof(*a))
 
 #define BUTTON_PIN 2
+#define TRIGGER_PIN 3
 #define DAC_PIN 6
 #define FADER_PIN 7
 #define FADER_SPI_CLOCK_MAX 8000000
@@ -179,6 +180,9 @@ void setup() {
   Serial.begin(9600);
   // Set up button
   pinMode(BUTTON_PIN, INPUT);
+  // Set up trigger
+  pinMode(TRIGGER_PIN, OUTPUT);
+  digitalWrite(TRIGGER_PIN, LOW);
   // Set up SPI stuff
   SPI.begin();
   // Set up I2C bus
@@ -200,10 +204,10 @@ void setup() {
   quantizer.setKey(NoteF_, 0, 1);
 }
 
-int i = 0;
+uint8_t i = 0;
 uint32_t loopMillis = millis();
 uint32_t shiftMillis = millis();
-// FIXME check whether divisor is the correct term here
+bool trigger = 0;
 float tonicFaderDivisor = 1024 / 12;
 float octaveFaderDivisor = 1024 / 7;
 float keyFaderDivisor = 1024 / 2;
@@ -219,6 +223,8 @@ void loop() {
   }
   if (millis() - loopMillis > 500) {
     loopMillis = millis();
+    trigger = 1;
+    digitalWrite(TRIGGER_PIN, HIGH);
     float octaveDivisor = 1024 / arrayLength(quantizer.notes);
     byte position = floor(readFader(i) / octaveDivisor);
     float voltage =
@@ -230,5 +236,10 @@ void loop() {
     } else {
       i = 0;
     }
+  }
+  // 20ms after loopMillis was reset, set trigger to low again
+  if (millis() > loopMillis + 20 && trigger) {
+    digitalWrite(TRIGGER_PIN, LOW);
+    trigger = 0;
   }
 }
