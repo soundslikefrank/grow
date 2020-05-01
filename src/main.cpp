@@ -158,23 +158,6 @@ class Quantizer {
   }
 };
 
-/* int cMajorNotes[8] = {1836, 1930, 2024, 2072, 2166, 2260, 2354, 2401}; */
-
-/* [2, 2, 1, 2, 2, 2, 1] */
-
-/* struct NoteInKey { */
-/*   Note note; */
-/*   uint8_t offset; */
-/*   NoteInKey(Note note) : note(note), offset(0) {} */
-/*   NoteInKey(Note note, uint8_t offset) : note(note), offset(offset) {} */
-/* }; */
-
-/* NoteInKey cMajorNotes[8] = {{Note::C}, {Note::D}, {Note::E}, {Note::F}, */
-/*                             {Note::G}, {Note::A}, {Note::B}, {Note::C, 1}};
- */
-
-/* NoteInKey* getNotesInKey(Note note) {} */
-
 int getNoteVoltage(uint8_t note, uint8_t octave) {
   // return A0 as the lowest note
   if (octave < 0) return 0;
