@@ -4,6 +4,8 @@
 #include <SPI.h>
 #include <Wire.h>
 
+#include "metronome.hh"
+
 #define arrayLength(a) (sizeof(a) / sizeof(*a))
 
 #define BUTTON_PIN 2
@@ -187,6 +189,7 @@ byte previousKeyFaderPosition;
 byte previousBpmFaderPosition;
 
 void setup() {
+  Metronome.Begin();
   // Debug
   Serial.begin(9600);
   // Set up button
