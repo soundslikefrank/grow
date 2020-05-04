@@ -176,7 +176,7 @@ Quantizer quantizer;
 
 uint8_t i = 0;
 uint16_t bpm = 120;
-uint32_t loopMillis = millis();
+/* uint32_t loopMillis = millis(); */
 uint32_t shiftMillis = millis();
 bool trigger = 0;
 float tonicFaderDivisor = 1024 / 12;
@@ -262,10 +262,11 @@ void loop() {
   if (!digitalRead(BUTTON_PIN)) {
     previousButtonPressed = 0;
   }
-  if (millis() - loopMillis > floor((60000.0 / (float)bpm))) {
-    loopMillis = millis();
-    trigger = 1;
-    digitalWrite(TRIGGER_PIN, HIGH);
+  if (Metronome.Tick()) {
+    /* loopMillis = millis(); */
+    // FIXME reimplement trigger
+    /* trigger = 1; */
+    /* digitalWrite(TRIGGER_PIN, HIGH); */
     float octaveDivisor = 1024 / arrayLength(quantizer.notes);
     byte position = floor(readFader(i) / octaveDivisor);
     float voltage =
@@ -278,9 +279,10 @@ void loop() {
       i = 0;
     }
   }
+  // FIXME reimplement trigger
   // 20ms after loopMillis was reset, set trigger to low again
-  if (millis() > loopMillis + 20 && trigger) {
-    digitalWrite(TRIGGER_PIN, LOW);
-    trigger = 0;
-  }
+  /* if (millis() > loopMillis + 20 && trigger) { */
+  /*   digitalWrite(TRIGGER_PIN, LOW); */
+  /*   trigger = 0; */
+  /* } */
 }

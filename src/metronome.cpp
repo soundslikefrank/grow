@@ -33,7 +33,9 @@
 
 #define DEFAULT_BPM 120
 
+// @TODO: Understand we these are necessary
 uint16_t MetronomeClass::bpm_;
+boolean MetronomeClass::tick_;
 
 /*
  * Setup timers, using ATMega328P timers for now
@@ -62,13 +64,24 @@ void MetronomeClass::Begin() {
 }
 
 void MetronomeClass::SetBPM(uint16_t bpm) {
-  MetronomeClass::bpm_ = bpm;
+  bpm_ = bpm;
   // On this value we will reach (60s / bpm), so the timer should interrupt
   // Precision of this will be max 8us off / beat
   OCR1A = round(16000000.0 / 256.0 * 60.0 / static_cast<float>(bpm));
 }
 
+void MetronomeClass::SetTick() {
+  tick_ = true;
+}
+
+boolean MetronomeClass::Tick() {
+  if (tick_) {
+    tick_ = false;
+    return true;
+  }
+  return false;
+}
+
 ISR(TIMER1_COMPA_vect) {
-  Serial.println("Timer interrupt!");
-  Serial.println(millis());
+  MetronomeClass::SetTick();
 }

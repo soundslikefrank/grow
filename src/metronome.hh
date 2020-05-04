@@ -30,10 +30,16 @@
 #include <Arduino.h>
 
 class MetronomeClass {
+ private:
+  static boolean tick_;
+  static uint16_t bpm_;
+
  public:
   static void Begin();
+  static uint16_t GetBPM();
   static void SetBPM(uint16_t);
-  static uint16_t bpm_;
+  static void SetTick();
+  static boolean Tick();
 };
 
 extern MetronomeClass Metronome;
