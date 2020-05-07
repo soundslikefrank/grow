@@ -176,9 +176,9 @@ Quantizer quantizer;
 
 uint8_t i = 0;
 uint16_t bpm = 120;
-/* uint32_t loopMillis = millis(); */
+uint32_t triggerMillis = millis();
 uint32_t shiftMillis = millis();
-bool trigger = 0;
+bool trigger = false;
 float tonicFaderDivisor = 1024 / 12;
 float octaveFaderDivisor = 1024 / 7;
 float keyFaderDivisor = 1024 / 2;
@@ -263,10 +263,9 @@ void loop() {
     previousButtonPressed = 0;
   }
   if (Metronome.Tick()) {
-    /* loopMillis = millis(); */
-    // FIXME reimplement trigger
-    /* trigger = 1; */
-    /* digitalWrite(TRIGGER_PIN, HIGH); */
+    digitalWrite(TRIGGER_PIN, HIGH);
+    trigger = true;
+    triggerMillis = millis();
     float octaveDivisor = 1024 / arrayLength(quantizer.notes);
     byte position = floor(readFader(i) / octaveDivisor);
     float voltage =
@@ -279,10 +278,10 @@ void loop() {
       i = 0;
     }
   }
-  // FIXME reimplement trigger
   // 20ms after loopMillis was reset, set trigger to low again
-  /* if (millis() > loopMillis + 20 && trigger) { */
-  /*   digitalWrite(TRIGGER_PIN, LOW); */
-  /*   trigger = 0; */
-  /* } */
+  // @TODO this could be done with a timer as well I guess?
+  if (millis() > triggerMillis + 20 && trigger) {
+    digitalWrite(TRIGGER_PIN, LOW);
+    trigger = false;
+  }
 }
