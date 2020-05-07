@@ -4,7 +4,7 @@
 #include <SPI.h>
 #include <Wire.h>
 
-#include "metronome.hh"
+#include "./metronome.h"
 
 #define arrayLength(a) (sizeof(a) / sizeof(*a))
 

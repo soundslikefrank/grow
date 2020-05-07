@@ -24,8 +24,8 @@
 //
 // -----------------------------------------------------------------------------
 
-#ifndef SRC_METRONOME_HH_
-#define SRC_METRONOME_HH_
+#ifndef SRC_METRONOME_H_
+#define SRC_METRONOME_H_
 
 #include <Arduino.h>
 
@@ -44,4 +44,4 @@ class MetronomeClass {
 
 extern MetronomeClass Metronome;
 
-#endif  // SRC_METRONOME_HH_
+#endif  // SRC_METRONOME_H_

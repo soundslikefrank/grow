@@ -26,7 +26,7 @@
 //
 // Simple metronome, running a tick interval for a given BPM
 
-#include "metronome.hh"
+#include "metronome.h"
 
 #include <Arduino.h>
 #include <math.h>

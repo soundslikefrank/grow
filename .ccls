@@ -1,10 +1,9 @@
 clang
 
+%h -x c++-header
+
 %c -std=c11
 %cpp -std=c++11
-
-%h -x
-%h c++-header
 
 -I/Users/chris/dev/frank/frank.counts/include
 -I/Users/chris/dev/frank/frank.counts/src
