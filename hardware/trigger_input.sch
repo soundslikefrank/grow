@@ -1,0 +1,205 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 3
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5ED56FD6
+P 4700 2650
+F 0 "#PWR?" H 4700 2500 50  0001 C CNN
+F 1 "+3.3V" H 4715 2823 50  0000 C CNN
+F 2 "" H 4700 2650 50  0001 C CNN
+F 3 "" H 4700 2650 50  0001 C CNN
+	1    4700 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED578BC
+P 4700 4300
+F 0 "#PWR?" H 4700 4050 50  0001 C CNN
+F 1 "GND" H 4705 4127 50  0000 C CNN
+F 2 "" H 4700 4300 50  0001 C CNN
+F 3 "" H 4700 4300 50  0001 C CNN
+	1    4700 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:MMBT3904 Q?
+U 1 1 5ED5AD18
+P 7100 3450
+F 0 "Q?" H 7291 3496 50  0000 L CNN
+F 1 "MMBT3904" H 7291 3405 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 7300 3375 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 7100 3450 50  0001 L CNN
+	1    7100 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L thonkiconn_jackSocket_fuzzySi:fuzzySI_thonkiconn J?
+U 1 1 5ED5F1B0
+P 4100 3550
+F 0 "J?" H 4078 3875 50  0000 C CNN
+F 1 "fuzzySI_thonkiconn" H 4078 3784 50  0000 C CNN
+F 2 "" H 4350 3650 50  0001 C CNN
+F 3 "" H 4350 3650 50  0001 C CNN
+	1    4100 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5ED61718
+P 4700 3050
+F 0 "R?" H 4770 3096 50  0000 L CNN
+F 1 "R" H 4770 3005 50  0000 L CNN
+F 2 "" V 4630 3050 50  0001 C CNN
+F 3 "~" H 4700 3050 50  0001 C CNN
+	1    4700 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5ED61C77
+P 7200 2900
+F 0 "R?" H 7270 2946 50  0000 L CNN
+F 1 "1k" H 7270 2855 50  0000 L CNN
+F 2 "" V 7130 2900 50  0001 C CNN
+F 3 "~" H 7200 2900 50  0001 C CNN
+	1    7200 2900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5ED61E0C
+P 4700 4000
+F 0 "R?" H 4770 4046 50  0000 L CNN
+F 1 "100k" H 4770 3955 50  0000 L CNN
+F 2 "" V 4630 4000 50  0001 C CNN
+F 3 "~" H 4700 4000 50  0001 C CNN
+	1    4700 4000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5ED62145
+P 5700 3450
+F 0 "R?" V 5493 3450 50  0000 C CNN
+F 1 "47k" V 5584 3450 50  0000 C CNN
+F 2 "" V 5630 3450 50  0001 C CNN
+F 3 "~" H 5700 3450 50  0001 C CNN
+	1    5700 3450
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5ED6232E
+P 6550 4000
+F 0 "R?" H 6620 4046 50  0000 L CNN
+F 1 "100k" H 6620 3955 50  0000 L CNN
+F 2 "" V 6480 4000 50  0001 C CNN
+F 3 "~" H 6550 4000 50  0001 C CNN
+	1    6550 4000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED63404
+P 3900 4300
+F 0 "#PWR?" H 3900 4050 50  0001 C CNN
+F 1 "GND" H 3905 4127 50  0000 C CNN
+F 2 "" H 3900 4300 50  0001 C CNN
+F 3 "" H 3900 4300 50  0001 C CNN
+	1    3900 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3900 3650 3900 4300
+Wire Wire Line
+	4700 4150 4700 4300
+Wire Wire Line
+	4300 3550 4700 3550
+Wire Wire Line
+	4700 3550 4700 3700
+Connection ~ 4700 3700
+Wire Wire Line
+	4700 3700 4700 3850
+Wire Wire Line
+	4700 3700 5400 3700
+Text HLabel 5400 3700 2    50   Output ~ 0
+JACK_DETECT
+Wire Wire Line
+	4300 3450 4700 3450
+Wire Wire Line
+	4700 3200 4700 3450
+Wire Wire Line
+	4700 2650 4700 2900
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5ED6C9CF
+P 7200 2650
+F 0 "#PWR?" H 7200 2500 50  0001 C CNN
+F 1 "+3.3V" H 7215 2823 50  0000 C CNN
+F 2 "" H 7200 2650 50  0001 C CNN
+F 3 "" H 7200 2650 50  0001 C CNN
+	1    7200 2650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7200 2750 7200 2650
+Wire Wire Line
+	7200 3050 7200 3150
+Text HLabel 7950 3150 2    50   Output ~ 0
+TRIGGER_IN
+Wire Wire Line
+	7950 3150 7200 3150
+Connection ~ 7200 3150
+Wire Wire Line
+	7200 3150 7200 3250
+Wire Wire Line
+	4700 3450 5550 3450
+Connection ~ 4700 3450
+Wire Wire Line
+	5850 3450 6550 3450
+Wire Wire Line
+	6550 3450 6550 3850
+Wire Wire Line
+	6550 3450 6900 3450
+Connection ~ 6550 3450
+$Comp
+L power:GND #PWR?
+U 1 1 5ED7253E
+P 6550 4300
+F 0 "#PWR?" H 6550 4050 50  0001 C CNN
+F 1 "GND" H 6555 4127 50  0000 C CNN
+F 2 "" H 6550 4300 50  0001 C CNN
+F 3 "" H 6550 4300 50  0001 C CNN
+	1    6550 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6550 4300 6550 4150
+$Comp
+L power:GND #PWR?
+U 1 1 5ED73092
+P 7200 4300
+F 0 "#PWR?" H 7200 4050 50  0001 C CNN
+F 1 "GND" H 7205 4127 50  0000 C CNN
+F 2 "" H 7200 4300 50  0001 C CNN
+F 3 "" H 7200 4300 50  0001 C CNN
+	1    7200 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7200 4300 7200 3650
+$EndSCHEMATC
