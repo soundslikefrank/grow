@@ -47,17 +47,6 @@ F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 7100 3450 50  000
 	1    0    0    -1  
 $EndComp
 $Comp
-L thonkiconn_jackSocket_fuzzySi:fuzzySI_thonkiconn J?
-U 1 1 5ED5F1B0
-P 4100 3550
-F 0 "J?" H 4078 3875 50  0000 C CNN
-F 1 "fuzzySI_thonkiconn" H 4078 3784 50  0000 C CNN
-F 2 "" H 4350 3650 50  0001 C CNN
-F 3 "" H 4350 3650 50  0001 C CNN
-	1    4100 3550
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:R R?
 U 1 1 5ED61718
 P 4700 3050
@@ -112,25 +101,8 @@ F 3 "~" H 6550 4000 50  0001 C CNN
 	1    6550 4000
 	1    0    0    -1  
 $EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 5ED63404
-P 3900 4300
-F 0 "#PWR?" H 3900 4050 50  0001 C CNN
-F 1 "GND" H 3905 4127 50  0000 C CNN
-F 2 "" H 3900 4300 50  0001 C CNN
-F 3 "" H 3900 4300 50  0001 C CNN
-	1    3900 4300
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3900 3650 3900 4300
 Wire Wire Line
 	4700 4150 4700 4300
-Wire Wire Line
-	4300 3550 4700 3550
-Wire Wire Line
-	4700 3550 4700 3700
 Connection ~ 4700 3700
 Wire Wire Line
 	4700 3700 4700 3850
@@ -138,8 +110,6 @@ Wire Wire Line
 	4700 3700 5400 3700
 Text HLabel 5400 3700 2    50   Output ~ 0
 JACK_DETECT
-Wire Wire Line
-	4300 3450 4700 3450
 Wire Wire Line
 	4700 3200 4700 3450
 Wire Wire Line
@@ -168,7 +138,6 @@ Wire Wire Line
 	7200 3150 7200 3250
 Wire Wire Line
 	4700 3450 5550 3450
-Connection ~ 4700 3450
 Wire Wire Line
 	5850 3450 6550 3450
 Wire Wire Line
@@ -202,4 +171,35 @@ F 3 "" H 7200 4300 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	7200 4300 7200 3650
+Wire Wire Line
+	4700 3550 4700 3700
+Connection ~ 4700 3450
+Wire Wire Line
+	4300 3450 4700 3450
+Wire Wire Line
+	4300 3550 4700 3550
+Wire Wire Line
+	3900 3650 3900 4300
+$Comp
+L power:GND #PWR?
+U 1 1 5ED63404
+P 3900 4300
+F 0 "#PWR?" H 3900 4050 50  0001 C CNN
+F 1 "GND" H 3905 4127 50  0000 C CNN
+F 2 "" H 3900 4300 50  0001 C CNN
+F 3 "" H 3900 4300 50  0001 C CNN
+	1    3900 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L thonkiconn_jackSocket_fuzzySi:fuzzySI_thonkiconn J?
+U 1 1 5ED5F1B0
+P 4100 3550
+F 0 "J?" H 4078 3875 50  0000 C CNN
+F 1 "fuzzySI_thonkiconn" H 4078 3784 50  0000 C CNN
+F 2 "" H 4350 3650 50  0001 C CNN
+F 3 "" H 4350 3650 50  0001 C CNN
+	1    4100 3550
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

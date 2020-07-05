@@ -49,7 +49,7 @@ F 3 "" H 5600 4000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5600 3700 5600 4000
+	5600 3700 5600 3900
 $Comp
 L power:GND #PWR?
 U 1 1 5ED3A9D0
@@ -76,4 +76,124 @@ Text HLabel 4550 3400 0    50   Input ~ 0
 CS
 Wire Wire Line
 	4550 3400 5100 3400
+$Comp
+L Amplifier_Operational:LM324 U?
+U 1 1 5ED45991
+P 7850 3200
+F 0 "U?" H 7850 3567 50  0000 C CNN
+F 1 "LM324" H 7850 3476 50  0000 C CNN
+F 2 "" H 7800 3300 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lm2902-n.pdf" H 7900 3400 50  0001 C CNN
+	1    7850 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Amplifier_Operational:LM324 U?
+U 5 1 5ED45997
+P 7850 3200
+F 0 "U?" H 7808 3246 50  0000 L CNN
+F 1 "LM324" H 7808 3155 50  0000 L CNN
+F 2 "" H 7800 3300 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lm2902-n.pdf" H 7900 3400 50  0001 C CNN
+	5    7850 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5ED459B1
+P 7900 3900
+F 0 "R?" V 7693 3900 50  0000 C CNN
+F 1 "7.7k" V 7784 3900 50  0000 C CNN
+F 2 "" V 7830 3900 50  0001 C CNN
+F 3 "~" H 7900 3900 50  0001 C CNN
+	1    7900 3900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED459B7
+P 7750 3500
+F 0 "#PWR?" H 7750 3250 50  0001 C CNN
+F 1 "GND" H 7755 3327 50  0000 C CNN
+F 2 "" H 7750 3500 50  0001 C CNN
+F 3 "" H 7750 3500 50  0001 C CNN
+	1    7750 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8150 3200 8400 3200
+Wire Wire Line
+	7550 3300 7550 3900
+Wire Wire Line
+	7550 3900 7750 3900
+Wire Wire Line
+	8400 3200 8400 3900
+Wire Wire Line
+	8400 3900 8050 3900
+$Comp
+L power:+12V #PWR?
+U 1 1 5ED459C4
+P 7750 2700
+F 0 "#PWR?" H 7750 2550 50  0001 C CNN
+F 1 "+12V" H 7765 2873 50  0000 C CNN
+F 2 "" H 7750 2700 50  0001 C CNN
+F 3 "" H 7750 2700 50  0001 C CNN
+	1    7750 2700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7750 2700 7750 2900
+$Comp
+L Device:R R?
+U 1 1 5ED459CB
+P 6950 3900
+F 0 "R?" V 6743 3900 50  0000 C CNN
+F 1 "10k" V 6834 3900 50  0000 C CNN
+F 2 "" V 6880 3900 50  0001 C CNN
+F 3 "~" H 6950 3900 50  0001 C CNN
+	1    6950 3900
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	7100 3900 7550 3900
+Connection ~ 7550 3900
+Wire Wire Line
+	5600 3900 6800 3900
+Connection ~ 5600 3900
+Wire Wire Line
+	5600 3900 5600 4000
+Wire Wire Line
+	6100 3100 7550 3100
+Wire Wire Line
+	8400 3200 9150 3200
+Connection ~ 8400 3200
+$Comp
+L power:GND #PWR?
+U 1 1 5ED51041
+P 9550 2850
+AR Path="/5ED37B53/5ED51041" Ref="#PWR?"  Part="1" 
+AR Path="/5ED51041" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 9550 2600 50  0001 C CNN
+F 1 "GND" H 9555 2677 50  0000 C CNN
+F 2 "" H 9550 2850 50  0001 C CNN
+F 3 "" H 9550 2850 50  0001 C CNN
+	1    9550 2850
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	9550 3000 9550 2850
+NoConn ~ 9150 3100
+$Comp
+L thonkiconn_jackSocket_fuzzySi:fuzzySI_thonkiconn J?
+U 1 1 5ED5104A
+P 9350 3100
+AR Path="/5ED37B53/5ED5104A" Ref="J?"  Part="1" 
+AR Path="/5ED5104A" Ref="J?"  Part="1" 
+F 0 "J?" H 9062 3076 50  0000 R CNN
+F 1 "JACK_V_OCT" H 9062 3167 50  0000 R CNN
+F 2 "" H 9600 3200 50  0001 C CNN
+F 3 "" H 9600 3200 50  0001 C CNN
+	1    9350 3100
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC
