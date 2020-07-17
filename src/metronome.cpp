@@ -28,53 +28,44 @@
 
 #include "metronome.h"
 
-#include <Arduino.h>
 #include <math.h>
+#include <stm32f3xx_hal.h>
 
 #define DEFAULT_BPM 120
 
-// @TODO: Understand we these are necessary
-uint16_t MetronomeClass::bpm_;
-boolean MetronomeClass::tick_;
+TIM_HandleTypeDef htim6;
 
-/*
- * Setup timers, using ATMega328P timers for now
- * With a prescaler of 256 we can go as low as 58bpm
- * (Output Compare interrupt flag at around 64,655)
- */
+// @TODO: Understand why these are necessary
+uint16_t MetronomeClass::bpm_;
+bool MetronomeClass::tick_;
+
 void MetronomeClass::Begin() {
-  // Set Timer/Counter1 Control Register A to:
-  // * Normal port operation, OC1A/OC1B disconnected.
-  // * No Waveform Generation Mode
-  TCCR1A = 0;
-  // Set prescaler to 256, timer will overflow at 2^8 = 65536
-  TCCR1B |= _BV(CS12);
-  TCCR1B &= ~_BV(CS11);
-  TCCR1B &= ~_BV(CS10);
-  // Reset the timer after an interrupt was generated
-  TCCR1B |= _BV(WGM12);
-  // Start counting at 0
-  TCNT1 = 0;
-  // Enable timer interrupt on Output Compare A Match
-  TIMSK1 |= _BV(OCIE1A);
-  // Enable global interrupts
-  sei();
   // Start with the default bpm value
-  SetBPM(DEFAULT_BPM);
+  // In this configuration it can be max 0.1μs off
+  htim6.Instance = TIM6;
+  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  // 48MHz/2400 = 20,000Hz
+  htim6.Init.Prescaler = 2399;
+  htim6.Init.Period = round(60 * 20000 / DEFAULT_BPM) - 1;
+
+  __HAL_RCC_TIM6_CLK_ENABLE();
+
+  HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
+
+  HAL_TIM_Base_Init(&htim6);
+  HAL_TIM_Base_Start_IT(&htim6);
 }
 
 void MetronomeClass::SetBPM(uint16_t bpm) {
-  bpm_ = bpm;
-  // On this value we will reach (60s / bpm), so the timer should interrupt
-  // Precision of this will be max 8us off / beat
-  OCR1A = round(16000000.0 / 256.0 * 60.0 / static_cast<float>(bpm));
+  bpm_ = bpm < 20 ? 20 : bpm;
+  uint16_t period = round(60 * 20000 / bpm_) - 1;
+  TIM6->ARR = period;
 }
 
-void MetronomeClass::SetTick() {
-  tick_ = true;
-}
+void MetronomeClass::SetTick() { tick_ = true; }
 
-boolean MetronomeClass::Tick() {
+bool MetronomeClass::Tick() {
   if (tick_) {
     tick_ = false;
     return true;
@@ -82,6 +73,11 @@ boolean MetronomeClass::Tick() {
   return false;
 }
 
-ISR(TIMER1_COMPA_vect) {
-  MetronomeClass::SetTick();
+extern "C" {
+
+void TIM6_DAC1_IRQHandler(void) { HAL_TIM_IRQHandler(&htim6); }
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  if (htim->Instance == TIM6) MetronomeClass::SetTick();
+}
 }

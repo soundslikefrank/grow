@@ -27,11 +27,11 @@
 #ifndef SRC_METRONOME_H_
 #define SRC_METRONOME_H_
 
-#include <Arduino.h>
+#include <stm32f3xx_hal.h>
 
 class MetronomeClass {
  private:
-  static boolean tick_;
+  static bool tick_;
   static uint16_t bpm_;
 
  public:
@@ -39,7 +39,7 @@ class MetronomeClass {
   static uint16_t GetBPM();
   static void SetBPM(uint16_t);
   static void SetTick();
-  static boolean Tick();
+  static bool Tick();
 };
 
 extern MetronomeClass Metronome;
