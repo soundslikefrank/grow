@@ -33,7 +33,7 @@
 
 #define DEFAULT_BPM 120
 
-TIM_HandleTypeDef htim6;
+TIM_HandleTypeDef htim2;
 
 // @TODO: Understand why these are necessary
 uint16_t MetronomeClass::bpm_;
@@ -41,26 +41,26 @@ bool MetronomeClass::tick_;
 
 void MetronomeClass::Begin() {
   // Start with the default bpm value
-  // In this configuration it can be max 0.1μs off
-  htim6.Instance = TIM6;
-  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-  // 48MHz/2400 = 20,000Hz
-  htim6.Init.Prescaler = 2399;
-  htim6.Init.Period = round(60 * 20000 / DEFAULT_BPM) - 1;
+  // In this configuration it can be max 1.8μs per day off
+  htim2.Instance = TIM2;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  // 48MHz
+  htim2.Init.Prescaler = 0;
+  htim2.Init.Period = round(60U * 48000000U / DEFAULT_BPM) - 1;
 
-  __HAL_RCC_TIM6_CLK_ENABLE();
+  __HAL_RCC_TIM2_CLK_ENABLE();
 
-  HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
+  HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
-  HAL_TIM_Base_Init(&htim6);
-  HAL_TIM_Base_Start_IT(&htim6);
+  HAL_TIM_Base_Init(&htim2);
+  HAL_TIM_Base_Start_IT(&htim2);
 }
 
 void MetronomeClass::SetBPM(uint16_t bpm) {
   bpm_ = bpm < 20 ? 20 : bpm;
-  uint16_t period = round(60 * 20000 / bpm_) - 1;
-  TIM6->ARR = period;
+  uint32_t period = round(60U * 48000000U / bpm_) - 1;
+  TIM2->ARR = period;
 }
 
 void MetronomeClass::SetTick() { tick_ = true; }
@@ -75,9 +75,9 @@ bool MetronomeClass::Tick() {
 
 extern "C" {
 
-void TIM6_DAC1_IRQHandler(void) { HAL_TIM_IRQHandler(&htim6); }
+void TIM2_IRQHandler(void) { HAL_TIM_IRQHandler(&htim2); }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  if (htim->Instance == TIM6) MetronomeClass::SetTick();
+  if (htim->Instance == TIM2) MetronomeClass::SetTick();
 }
 }

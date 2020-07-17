@@ -50,7 +50,7 @@ int main(void) {
 
   char msg[20] = "Hello world";
 
-  Metronome.SetBPM(30);
+  Metronome.SetBPM(60);
 
   while (1) {
     if (Metronome.Tick()) {
