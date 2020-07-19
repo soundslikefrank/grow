@@ -26,35 +26,38 @@
 //
 // Simple metronome, running a tick interval for a given BPM
 
-#include "metronome.h"
-
 #include <math.h>
 #include <stm32f3xx_hal.h>
 
+#include "metronome.h"
+
 #define DEFAULT_BPM 120
 
-TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim2;
 
 // @TODO: Understand why these are necessary
 uint16_t MetronomeClass::bpm_;
 bool MetronomeClass::tick_;
 
-void MetronomeClass::Begin() {
+void MetronomeClass::Init() {
+  __HAL_RCC_TIM2_CLK_ENABLE();
+
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 0;  // 48MHz/24000 = 2000Hz
+  htim2.Init.Period = 23999999;
   // Start with the default bpm value
   // In this configuration it can be max 1.8μs per day off
-  htim2.Instance = TIM2;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-  // 48MHz
-  htim2.Init.Prescaler = 0;
   htim2.Init.Period = round(60U * 48000000U / DEFAULT_BPM) - 1;
-
-  __HAL_RCC_TIM2_CLK_ENABLE();
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
 
   HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
   HAL_TIM_Base_Init(&htim2);
   HAL_TIM_Base_Start_IT(&htim2);
+
+  // Enable DMA for the TIM_UPDATE event on the timer
+  __HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE);
 }
 
 void MetronomeClass::SetBPM(uint16_t bpm) {
@@ -74,7 +77,6 @@ bool MetronomeClass::Tick() {
 }
 
 extern "C" {
-
 void TIM2_IRQHandler(void) { HAL_TIM_IRQHandler(&htim2); }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {

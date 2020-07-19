@@ -24,24 +24,21 @@
 //
 // -----------------------------------------------------------------------------
 
-#ifndef SRC_METRONOME_H_
-#define SRC_METRONOME_H_
+#ifndef SRC_DRIVERS_LED_H_
+#define SRC_DRIVERS_LED_H_
 
 #include <stm32f3xx_hal.h>
 
-class MetronomeClass {
- private:
-  static bool tick_;
-  static uint16_t bpm_;
-
+class LEDClass {
  public:
+  LEDClass();
   static void Init();
-  static uint16_t GetBPM();
-  static void SetBPM(uint16_t);
-  static void SetTick();
-  static bool Tick();
+  /* int f(); */
+
+  /* private: */
+  /*  int value; */
 };
 
-extern MetronomeClass Metronome;
+extern LEDClass LED;
 
-#endif  // SRC_METRONOME_H_
+#endif  // SRC_DRIVERS_LED_H_

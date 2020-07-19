@@ -4,7 +4,12 @@
 #include <string.h>
 
 #include "./metronome.h"
-#include "./uart_debug.h"
+#include "./drivers/led.h"
+#include "./drivers/uart_debug.h"
+
+// @TODO these have to be in main. Find out why
+TIM_HandleTypeDef htim2;
+DMA_HandleTypeDef hdma_tim2_up;
 
 // Default clock config, generated with STM32CubeMX
 void SystemClock_Config(void) {
@@ -43,23 +48,26 @@ void SystemClock_Config(void) {
 int main(void) {
   HAL_Init();
   SystemClock_Config();
-
-  Metronome.Begin();
-
   HUART1_Init();
 
-  char msg[20] = "Hello world";
+  Metronome.Init();
+  LED.Init();
 
-  Metronome.SetBPM(60);
+  /* char msg[20] = "Hello world"; */
+
+  // @TODO this is not acutally correct. We are in LOW the same time as we are
+  // in high, resulting in about half the time per cycle
+  // We probably need some sort of PWM or something to sort this out
+  Metronome.SetBPM(120);
 
   while (1) {
-    if (Metronome.Tick()) {
-      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
-                        HAL_MAX_DELAY);
-    }
+    /* if (Metronome.Tick()) { */
+    /*   HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), */
+    /*                     HAL_MAX_DELAY); */
+    /* } */
   }
 }
 
 extern "C" {
-void SysTick_Handler(void) { HAL_IncTick(); }
+  void SysTick_Handler(void) { HAL_IncTick(); }
 }
