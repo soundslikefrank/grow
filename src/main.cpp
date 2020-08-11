@@ -1,18 +1,17 @@
 // Copyright 2020 <Christian Maniewski>
 
 #include <stm32f3xx_hal.h>
-#include <string.h>
 
-#include "./metronome.h"
 #include "./drivers/led.h"
 #include "./drivers/uart_debug.h"
+#include "./metronome.h"
 
 // @TODO these have to be in main. Find out why
 TIM_HandleTypeDef htim2;
 DMA_HandleTypeDef hdma_tim2_up;
 
 // Default clock config, generated with STM32CubeMX
-void SystemClock_Config(void) {
+void SystemClock_Config() {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
@@ -45,29 +44,30 @@ void SystemClock_Config(void) {
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
 }
 
-int main(void) {
+int main() {
   HAL_Init();
   SystemClock_Config();
   HUART1_Init();
 
-  Metronome.Init();
-  LED.Init();
+  MetronomeClass::Init();
+  LEDClass::Init();
 
   /* char msg[20] = "Hello world"; */
 
   // @TODO this is not acutally correct. We are in LOW the same time as we are
   // in high, resulting in about half the time per cycle
   // We probably need some sort of PWM or something to sort this out
-  Metronome.SetBPM(120);
+  MetronomeClass::SetBPM(120);
 
   while (1) {
     /* if (Metronome.Tick()) { */
-    /*   HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), */
+    /*   HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg),
+     * strlen(msg), */
     /*                     HAL_MAX_DELAY); */
     /* } */
   }
 }
 
 extern "C" {
-  void SysTick_Handler(void) { HAL_IncTick(); }
+void SysTick_Handler(void) { HAL_IncTick(); }
 }

@@ -41,13 +41,12 @@ bool MetronomeClass::tick_;
 
 void MetronomeClass::Init() {
   __HAL_RCC_TIM2_CLK_ENABLE();
-
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;  // 48MHz/24000 = 2000Hz
   htim2.Init.Period = 23999999;
   // Start with the default bpm value
   // In this configuration it can be max 1.8μs per day off
-  htim2.Init.Period = round(60U * 48000000U / DEFAULT_BPM) - 1;
+  htim2.Init.Period = round(60 * 48000000 / DEFAULT_BPM) - 1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
 
   HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
