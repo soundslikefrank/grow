@@ -15,7 +15,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_program(OPENOCD openocd)
 
-set(PROJECT_FILES
+set(VENDOR_FILES
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_ll_usb.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c_ex.c
@@ -41,17 +41,18 @@ set(PROJECT_FILES
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_ll_usart.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_usart.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_usart_ex.c
+  )
 
+set(PROJECT_FILES
   src/main.cpp
   src/system_stm32f3xx.c
-  include/stm32f3xx_hal_conf.h
 
   startup_stm32f303xc.s
   )
 
 set(EXECUTABLE ${PROJECT_NAME}.out)
 
-add_executable(${EXECUTABLE} ${PROJECT_FILES})
+add_executable(${EXECUTABLE} ${PROJECT_FILES} ${VENDOR_FILES})
 
 target_compile_definitions(${EXECUTABLE} PRIVATE
   -DUSE_HAL_DRIVER
@@ -65,9 +66,7 @@ target_include_directories(${EXECUTABLE} SYSTEM PRIVATE
   )
 
 target_include_directories(${EXECUTABLE} PRIVATE
-  drivers
   include
-  src
   )
 
 target_compile_options(${EXECUTABLE} PRIVATE
