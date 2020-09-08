@@ -52,3 +52,4 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
 }
 
 #endif  // SRC_UART_DEBUG_H_
+

@@ -2,9 +2,9 @@
 
 #include <stm32f3xx_hal.h>
 #include <string.h>
-#include "./drivers/led.h"
-#include "./drivers/uart_debug.h"
-#include "./metronome.h"
+#include "drivers/led.h"
+#include "uart_debug.h"
+#include "metronome.h"
 
 // @TODO these have to be in main. Find out why
 TIM_HandleTypeDef htim2;
@@ -61,11 +61,7 @@ int main() {
 
   while (1) {
     if (Metronome.Tick()) {
-      /* HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), */
-                        /* HAL_MAX_DELAY); */
-      char str[5];
-      sprintf(str, "%d", GPIOE->ODR);
-      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(str), strlen(str),
+      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
     }
   }
