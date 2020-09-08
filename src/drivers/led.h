@@ -32,11 +32,7 @@
 class LEDClass {
  public:
   LEDClass();
-  static void Init();
-  /* int f(); */
-
-  /* private: */
-  /*  int value; */
+  void Init();
 };
 
 extern LEDClass LED;

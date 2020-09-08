@@ -1,7 +1,14 @@
-# vim: set ft=yaml:
-# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
-# To disable for a line use `// clang-format off`
-BasedOnStyle: Google # https://google.github.io/styleguide/cppguide.html
-ColumnLimit: 80
-IndentPPDirectives: BeforeHash
+# Use the Google style in this project.
+BasedOnStyle: Google
 
+IncludeBlocks: Merge
+
+# Format raw string literals with a `pb` or `proto` tag as proto.
+RawStringFormats:
+- Language: TextProto
+  Delimiters:
+  - 'pb'
+  - 'proto'
+  BasedOnStyle: Google
+
+CommentPragmas: '(@copydoc)'

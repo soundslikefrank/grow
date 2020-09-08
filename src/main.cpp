@@ -1,7 +1,7 @@
 // Copyright 2020 <Christian Maniewski>
 
 #include <stm32f3xx_hal.h>
-
+#include <string.h>
 #include "./drivers/led.h"
 #include "./drivers/uart_debug.h"
 #include "./metronome.h"
@@ -49,22 +49,25 @@ int main() {
   SystemClock_Config();
   HUART1_Init();
 
-  MetronomeClass::Init();
-  LEDClass::Init();
+  Metronome.Init();
+  LED.Init();
 
-  /* char msg[20] = "Hello world"; */
+  char msg[20] = "Hello world";
 
   // @TODO this is not acutally correct. We are in LOW the same time as we are
   // in high, resulting in about half the time per cycle
   // We probably need some sort of PWM or something to sort this out
-  MetronomeClass::SetBPM(120);
+  Metronome.SetBPM(30);
 
   while (1) {
-    /* if (Metronome.Tick()) { */
-    /*   HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg),
-     * strlen(msg), */
-    /*                     HAL_MAX_DELAY); */
-    /* } */
+    if (Metronome.Tick()) {
+      /* HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), */
+                        /* HAL_MAX_DELAY); */
+      char str[5];
+      sprintf(str, "%d", GPIOE->ODR);
+      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(str), strlen(str),
+                        HAL_MAX_DELAY);
+    }
   }
 }
 

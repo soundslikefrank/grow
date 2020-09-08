@@ -31,15 +31,15 @@
 
 class MetronomeClass {
  private:
-  static bool tick_;
-  static uint16_t bpm_;
+  bool tick_;
+  uint16_t bpm_;
 
  public:
-  static void Init();
-  static uint16_t GetBPM();
-  static void SetBPM(uint16_t);
-  static void SetTick();
-  static bool Tick();
+  void Init();
+  uint16_t GetBPM();
+  void SetBPM(uint16_t);
+  void SetTick();
+  bool Tick();
 };
 
 extern MetronomeClass Metronome;

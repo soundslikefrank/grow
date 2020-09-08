@@ -26,18 +26,17 @@
 //
 // Simple metronome, running a tick interval for a given BPM
 
+#include "metronome.h"
 #include <math.h>
 #include <stm32f3xx_hal.h>
-
-#include "metronome.h"
 
 #define DEFAULT_BPM 120
 
 extern TIM_HandleTypeDef htim2;
 
 // @TODO: Understand why these are necessary
-uint16_t MetronomeClass::bpm_;
-bool MetronomeClass::tick_;
+/* uint16_t MetronomeClass::bpm_; */
+/* bool MetronomeClass::tick_; */
 
 void MetronomeClass::Init() {
   __HAL_RCC_TIM2_CLK_ENABLE();
@@ -75,10 +74,14 @@ bool MetronomeClass::Tick() {
   return false;
 }
 
+MetronomeClass Metronome;
+
 extern "C" {
 void TIM2_IRQHandler(void) { HAL_TIM_IRQHandler(&htim2); }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  if (htim->Instance == TIM2) MetronomeClass::SetTick();
+  if (htim->Instance == TIM2) {
+    Metronome.SetTick();
+  }
 }
 }
