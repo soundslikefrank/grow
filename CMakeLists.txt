@@ -115,9 +115,7 @@ add_custom_command(TARGET ${EXECUTABLE}
 
 # Improve clean target
 set_target_properties(${EXECUTABLE} PROPERTIES ADDITIONAL_CLEAN_FILES
-  ${PROJECT_NAME}.hex
-  ${PROJECT_NAME}.bin
-  ${PROJECT_NAME}.map
+  "${PROJECT_NAME}.hex;${PROJECT_NAME}.bin;${PROJECT_NAME}.map"
   )
 
 add_custom_target(upload COMMAND
