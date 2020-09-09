@@ -1,29 +1,4 @@
 // Copyright 2020 Christian Maniewski.
-//
-// Author: Christian Maniewski (code@chmanie.com)
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-// See http://creativecommons.org/licenses/MIT/ for more information.
-//
-// -----------------------------------------------------------------------------
-//
 // Simple metronome, running a tick interval for a given BPM
 
 #include "metronome.h"
@@ -32,11 +7,13 @@
 
 #define DEFAULT_BPM 120
 
-extern TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim2;
 
 // @TODO: Understand why these are necessary
 /* uint16_t MetronomeClass::bpm_; */
 /* bool MetronomeClass::tick_; */
+
+MetronomeClass::MetronomeClass() = default;
 
 void MetronomeClass::Init() {
   __HAL_RCC_TIM2_CLK_ENABLE();
@@ -45,7 +22,7 @@ void MetronomeClass::Init() {
   htim2.Init.Period = 23999999;
   // Start with the default bpm value
   // In this configuration it can be max 1.8μs per day off
-  htim2.Init.Period = round(60 * 48000000 / DEFAULT_BPM) - 1;
+  htim2.Init.Period = round(60U * 48000000U / DEFAULT_BPM) - 1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
 
   HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);

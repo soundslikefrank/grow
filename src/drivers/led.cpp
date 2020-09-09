@@ -1,6 +1,6 @@
 #include "drivers/led.h"
 
-extern DMA_HandleTypeDef hdma_tim2_up;
+DMA_HandleTypeDef hdma_tim2_up;
 
 LEDClass::LEDClass() = default;
 
@@ -34,7 +34,8 @@ void LEDClass::Init() {
 
   // @TODO we could use the callback when the DMA has written data to change
   // data for the next step
-  HAL_DMA_Start(&hdma_tim2_up, (uint32_t)data, (uint32_t)&GPIOE->ODR, 2);
+  HAL_DMA_Start(&hdma_tim2_up, reinterpret_cast<uint32_t>(data),
+                reinterpret_cast<uint32_t>(&GPIOE->ODR), 2);
 }
 
 LEDClass LED;

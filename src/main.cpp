@@ -5,10 +5,7 @@
 #include "drivers/led.h"
 #include "uart_debug.h"
 #include "metronome.h"
-
-// @TODO these have to be in main. Find out why
-TIM_HandleTypeDef htim2;
-DMA_HandleTypeDef hdma_tim2_up;
+#include "quantizer.h"
 
 // Default clock config, generated with STM32CubeMX
 void SystemClock_Config() {
@@ -59,7 +56,7 @@ int main() {
   // We probably need some sort of PWM or something to sort this out
   Metronome.SetBPM(30);
 
-  while (1) {
+  while (true) {
     if (Metronome.Tick()) {
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
