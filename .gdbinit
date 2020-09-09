@@ -1,4 +1,4 @@
-file .pio/build/disco_f303vc/firmware.elf 
+file build/stm32f3-base.out 
 target remote localhost:3333
 load
 set remote hardware-breakpoint-limit 6
