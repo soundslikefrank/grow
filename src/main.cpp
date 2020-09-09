@@ -7,6 +7,8 @@
 #include "metronome.h"
 #include "quantizer.h"
 
+// @TODO Apply https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
+
 // Default clock config, generated with STM32CubeMX
 void SystemClock_Config() {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -48,6 +50,7 @@ int main() {
 
   Metronome.Init();
   LED.Init();
+  Quantizer.Refresh();
 
   char msg[20] = "Hello world";
 
