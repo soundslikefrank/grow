@@ -37,10 +37,22 @@ void QuantizerClass::Refresh() {
 }
 
 Note QuantizerClass::GetQuantizedNote(uint8_t position) {
+  if (octaves[position] < 0) {
+    // return A as the lowest note possible
+    return NOTE_A;
+  }
+  if ((octaves[position] == 7 && notes[position] > 3) ||
+      octaves[position] > 7) {
+    // return G_ as the highest note
+    return NOTE_G_;
+  }
   return notes[position];
 }
 
 uint8_t QuantizerClass::GetQuantizedOctave(uint8_t position) {
+  if (octaves[position] < 0) {
+    return 0;
+  }
   return octaves[position];
 }
 
