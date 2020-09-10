@@ -1,12 +1,15 @@
 // Copyright 2020 Christian Maniewski <code@chmanie.com>
 
-#include <stm32f3xx_hal.h>
 #include <drivers/dac.h>
+#include <math.h>
+#include <stm32f3xx_hal.h>
 
 // @TODO use hardware chip select
 #define PINS_SPI GPIO_PIN_5 | GPIO_PIN_7
 // @TODO have these in a config file somewhere
 #define GPIO_PORT GPIOA
+// @TODO Adjust this value
+#define DAC_VOLTAGE_MULTIPLIER 10
 
 SPI_HandleTypeDef spi;
 
@@ -50,7 +53,8 @@ void DACClass::Init() {
 void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
   /* @TODO do we need a `ready` flag? */
   /* Write to buffer with data and load DAC (selected by DB17 and DB18) */
-  command[0] = 0b00010000;
+  /* command[0] = 0b00010000; */
+  command[0] = 0x10;
   /**
    * Channel select
    * a 0b00010000
@@ -65,6 +69,14 @@ void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
   command[2] = voltage & 0xff;
   // @TODO interrupt handlers!
   HAL_SPI_Transmit_IT(&spi, command, 3);
+}
+
+void DACClass::SetNoteVoltage(uint8_t channel, uint8_t note, uint8_t octave) {
+  // @TODO this is definitely not correct, adjust these values according to the
+  // used op-amp Calculate V/OCT value divided by the voltage multiplier
+  float absoluteNote = (float)octave + (float)note / 12.0;
+  uint16_t voltage = floor(1000.0 * absoluteNote / DAC_VOLTAGE_MULTIPLIER);
+  SetVoltage(channel, voltage);
 }
 
 DACClass _DAC;

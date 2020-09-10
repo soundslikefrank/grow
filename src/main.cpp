@@ -2,14 +2,11 @@
 
 #include <stm32f3xx_hal.h>
 #include <string.h>
-#include <math.h>
 #include "drivers/fader_led.h"
 #include "metronome.h"
 #include "quantizer.h"
 #include "uart_debug.h"
 
-// @TODO Adjust this value
-#define DAC_VOLTAGE_MULTIPLIER 10
 
 // @TODO Apply
 // https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
@@ -47,6 +44,7 @@ void SystemClock_Config() {
   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL;
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
 }
+
 
 int main() {
   HAL_Init();
