@@ -47,7 +47,7 @@ set(PROJECT_FILES
   src/main.cpp
   src/metronome.cpp
   src/quantizer.cpp
-  src/drivers/led.cpp
+  src/drivers/fader_led.cpp
   src/drivers/dac.cpp
   src/system_stm32f3xx.c
 

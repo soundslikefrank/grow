@@ -2,12 +2,17 @@
 
 #include <stm32f3xx_hal.h>
 #include <string.h>
-#include "drivers/led.h"
-#include "uart_debug.h"
+#include <math.h>
+#include "drivers/fader_led.h"
 #include "metronome.h"
 #include "quantizer.h"
+#include "uart_debug.h"
 
-// @TODO Apply https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
+// @TODO Adjust this value
+#define DAC_VOLTAGE_MULTIPLIER 10
+
+// @TODO Apply
+// https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
 
 // Default clock config, generated with STM32CubeMX
 void SystemClock_Config() {
@@ -49,7 +54,7 @@ int main() {
   HUART1_Init();
 
   Metronome.Init();
-  LED.Init();
+  FaderLED.Init();
   Quantizer.Refresh();
 
   char msg[20] = "Hello world";
