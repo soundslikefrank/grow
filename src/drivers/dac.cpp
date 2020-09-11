@@ -54,7 +54,7 @@ void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
   /* @TODO do we need a `ready` flag? */
   /* Write to buffer with data and load DAC (selected by DB17 and DB18) */
   /* command[0] = 0b00010000; */
-  command[0] = 0x10;
+  command_[0] = 0x10;
   /**
    * Channel select
    * a 0b00010000
@@ -62,19 +62,19 @@ void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
    * c 0b00010100
    * d 0b00010110
    */
-  command[0] |= channel << 1;
+  command_[0] |= channel << 1;
   // Upper 8 bits
-  command[1] = voltage >> 8;
+  command_[1] = voltage >> 8;
   // Lower 8 bits
-  command[2] = voltage & 0xff;
+  command_[2] = voltage & 0xff;
   // @TODO interrupt handlers!
-  HAL_SPI_Transmit_IT(&spi, command, 3);
+  HAL_SPI_Transmit_IT(&spi, command_, 3);
 }
 
 void DACClass::SetNoteVoltage(uint8_t channel, uint8_t note, uint8_t octave) {
   // @TODO this is definitely not correct, adjust these values according to the
   // used op-amp Calculate V/OCT value divided by the voltage multiplier
-  float absoluteNote = (float)octave + (float)note / 12.0;
+  double absoluteNote = octave + note / 12.0;
   uint16_t voltage = floor(1000.0 * absoluteNote / DAC_VOLTAGE_MULTIPLIER);
   SetVoltage(channel, voltage);
 }

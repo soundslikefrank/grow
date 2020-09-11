@@ -23,13 +23,13 @@ enum Note {
 
 class QuantizerClass {
  private:
-  bool majorScale[7] = {1, 1, 0, 1, 1, 1, 0};
-  bool minorScale[7] = {1, 0, 1, 1, 0, 1, 1};
-  Note currentTonic = NOTE_C;
-  Key currentKey = KEY_MAJOR;
-  uint8_t currentOctave = 0;
-  Note notes[8] = {NOTE_A};
-  uint8_t octaves[8] = {0};
+  bool majorScale_[7] = {1, 1, 0, 1, 1, 1, 0};
+  bool minorScale_[7] = {1, 0, 1, 1, 0, 1, 1};
+  Note currentTonic_ = NOTE_C;
+  Key currentKey_ = KEY_MAJOR;
+  uint8_t currentOctave_ = 0;
+  Note notes_[8] = {NOTE_A};
+  uint8_t octaves_[8] = {0};
 
  public:
   QuantizerClass();

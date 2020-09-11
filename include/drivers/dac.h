@@ -7,7 +7,7 @@
 
 class DACClass {
  private:
-   uint8_t command[3];
+   uint8_t command_[3];
    void SetVoltage(uint8_t channel, uint16_t voltage);
  public:
   DACClass();
