@@ -45,11 +45,13 @@ set(VENDOR_FILES
 
 set(PROJECT_FILES
   src/main.cpp
-  src/metronome.cpp
   src/quantizer.cpp
   src/sequencer.cpp
   src/drivers/fader_led.cpp
   src/drivers/dac.cpp
+  src/drivers/tim_ui.cpp
+  src/drivers/tim_metronome.cpp
+  src/stm32f3xx_it.cpp
   src/system_stm32f3xx.c
 
   startup_stm32f303xc.s

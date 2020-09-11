@@ -3,7 +3,8 @@
 #include <stm32f3xx_hal.h>
 #include <string.h>
 #include "drivers/fader_led.h"
-#include "metronome.h"
+#include "drivers/tim_ui.h"
+#include "drivers/tim_metronome.h"
 #include "quantizer.h"
 #include "sequencer.h"
 #include "uart_debug.h"
@@ -50,7 +51,8 @@ int main() {
   SystemClock_Config();
   HUART1_Init();
 
-  Metronome.Init();
+  MetronomeTimer.Init();
+  UITimer.Init();
   FaderLED.Init();
   Quantizer.Refresh();
 
@@ -59,15 +61,15 @@ int main() {
   // @TODO this is not acutally correct. We are in LOW the same time as we are
   // in high, resulting in about half the time per cycle
   // We probably need some sort of PWM or something to sort this out
-  Metronome.SetBPM(120);
+  MetronomeTimer.SetBPM(120);
   Sequencer.Start();
 
   while (true) {
     Sequencer.Loop();
-    /* if (Metronome.Tick()) { */
-    /*   HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), */
-    /*                     HAL_MAX_DELAY); */
-    /* } */
+    if (UITimer.Tick()) {
+      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
+                        HAL_MAX_DELAY);
+    }
   }
 }
 

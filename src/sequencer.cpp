@@ -3,7 +3,7 @@
 #include "sequencer.h"
 #include <stm32f3xx_hal.h>
 #include "drivers/fader_led.h"
-#include "metronome.h"
+#include "drivers/tim_metronome.h"
 
 SequencerClass::SequencerClass() = default;
 
@@ -28,7 +28,7 @@ void SequencerClass::Loop() {
   }
   // @TODO We can only use Metronome.Tick() once in the entire program. Let's see if
   // this is going to be a problem
-  if (Metronome.Tick()) {
+  if (MetronomeTimer.Tick()) {
     NextStep();
     // @TODO this obviously won't work with more than 8 steps
     FaderLED.SetPosition(currentStep_);
