@@ -9,10 +9,13 @@ class MetronomeClass {
  private:
   bool tick_;
   uint16_t bpm_;
+  bool running_ = false;
 
  public:
   MetronomeClass();
   void Init();
+  void Start();
+  void Stop();
   uint16_t GetBPM();
   void SetBPM(uint16_t);
   void SetTick();

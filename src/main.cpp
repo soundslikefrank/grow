@@ -5,8 +5,8 @@
 #include "drivers/fader_led.h"
 #include "metronome.h"
 #include "quantizer.h"
+#include "sequencer.h"
 #include "uart_debug.h"
-
 
 // @TODO Apply
 // https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
@@ -45,7 +45,6 @@ void SystemClock_Config() {
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
 }
 
-
 int main() {
   HAL_Init();
   SystemClock_Config();
@@ -60,13 +59,15 @@ int main() {
   // @TODO this is not acutally correct. We are in LOW the same time as we are
   // in high, resulting in about half the time per cycle
   // We probably need some sort of PWM or something to sort this out
-  Metronome.SetBPM(30);
+  Metronome.SetBPM(120);
+  Sequencer.Start();
 
   while (true) {
-    if (Metronome.Tick()) {
-      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
-                        HAL_MAX_DELAY);
-    }
+    Sequencer.Loop();
+    /* if (Metronome.Tick()) { */
+    /*   HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), */
+    /*                     HAL_MAX_DELAY); */
+    /* } */
   }
 }
 

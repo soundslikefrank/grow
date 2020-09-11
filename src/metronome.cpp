@@ -9,10 +9,6 @@
 
 TIM_HandleTypeDef htim2;
 
-// @TODO: Understand why these are necessary
-/* uint16_t MetronomeClass::bpm_; */
-/* bool MetronomeClass::tick_; */
-
 MetronomeClass::MetronomeClass() = default;
 
 void MetronomeClass::Init() {
@@ -30,9 +26,6 @@ void MetronomeClass::Init() {
 
   HAL_TIM_Base_Init(&htim2);
   HAL_TIM_Base_Start_IT(&htim2);
-
-  // Enable DMA for the TIM_UPDATE event on the timer
-  __HAL_TIM_ENABLE_DMA(&htim2, TIM_DMA_UPDATE);
 }
 
 void MetronomeClass::SetBPM(uint16_t bpm) {
@@ -43,7 +36,14 @@ void MetronomeClass::SetBPM(uint16_t bpm) {
 
 void MetronomeClass::SetTick() { tick_ = true; }
 
+void MetronomeClass::Start() { running_ = true; }
+
+void MetronomeClass::Stop() { running_ = false; }
+
 bool MetronomeClass::Tick() {
+  if (running_) {
+    return false;
+  }
   if (tick_) {
     tick_ = false;
     return true;
