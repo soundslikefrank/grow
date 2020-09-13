@@ -16,6 +16,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_program(OPENOCD openocd)
 
 set(VENDOR_FILES
+  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_adc.c
+  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_adc_ex.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_ll_usb.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c_ex.c
@@ -47,6 +49,7 @@ set(PROJECT_FILES
   src/main.cpp
   src/quantizer.cpp
   src/sequencer.cpp
+  src/drivers/adc_ui.cpp
   src/drivers/fader_led.cpp
   src/drivers/dac.cpp
   src/drivers/tim_ui.cpp
