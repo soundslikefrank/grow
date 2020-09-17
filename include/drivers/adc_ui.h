@@ -14,6 +14,7 @@ class UIADCClass {
   UIADCClass();
   ADC_HandleTypeDef* GetADC();
   DMA_HandleTypeDef* GetDMA();
+  uint16_t GetValue(uint8_t index);
   void Init();
 
 };

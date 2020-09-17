@@ -2,9 +2,11 @@
 
 #include <stm32f3xx_hal.h>
 #include <string.h>
+#include <cstdio>
+#include "drivers/adc_ui.h"
 #include "drivers/fader_led.h"
-#include "drivers/tim_ui.h"
 #include "drivers/tim_metronome.h"
+#include "drivers/tim_ui.h"
 #include "quantizer.h"
 #include "sequencer.h"
 #include "uart_debug.h"
@@ -53,10 +55,12 @@ int main() {
 
   MetronomeTimer.Init();
   UITimer.Init();
+  UIADC.Init();
   FaderLED.Init();
   Quantizer.Refresh();
 
-  char msg[20] = "Hello world";
+  /* char msg[20] = "Hello world"; */
+  char msg[20];
 
   // @TODO this is not acutally correct. We are in LOW the same time as we are
   // in high, resulting in about half the time per cycle
@@ -67,8 +71,10 @@ int main() {
   while (true) {
     Sequencer.Loop();
     if (UITimer.Tick()) {
-      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
-                        HAL_MAX_DELAY);
+      /* HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), */
+      /*                   HAL_MAX_DELAY); */
+      sprintf(msg, "rawValue0: %hu\r\n", UIADC.GetValue(0));
+      HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
     }
   }
 }

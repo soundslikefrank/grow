@@ -4,7 +4,7 @@
 #include <stm32f3xx_hal.h>
 
 // Times per second, has to be divisor of 1000
-#define UI_TIMER_SAMPLE_RATE 10
+#define UI_TIMER_SAMPLE_RATE 1
 
 UITimerClass::UITimerClass() = default;
 

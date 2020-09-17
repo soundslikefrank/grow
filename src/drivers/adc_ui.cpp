@@ -6,6 +6,8 @@
 
 UIADCClass::UIADCClass() = default;
 
+uint16_t UIADCClass::adcValues[8] = {0,0,0,0,0,0,0,0};
+
 void UIADCClass::Init() {
   GPIO_InitTypeDef gpio = {0};
   ADC_ChannelConfTypeDef sConfig;
@@ -115,6 +117,10 @@ ADC_HandleTypeDef* UIADCClass::GetADC() {
 
 DMA_HandleTypeDef* UIADCClass::GetDMA() {
   return &hdmaAdc_;
+}
+
+uint16_t UIADCClass::GetValue(uint8_t index) {
+  return adcValues[index];
 }
 
 UIADCClass UIADC;
