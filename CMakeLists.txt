@@ -18,31 +18,31 @@ find_program(OPENOCD openocd)
 set(VENDOR_FILES
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_adc.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_adc_ex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_ll_usb.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c_ex.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_ll_usb.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c_ex.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_rcc.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_rcc_ex.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_gpio.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_dma.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_cortex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pwr.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pwr_ex.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pwr.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pwr_ex.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_flash.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_flash_ex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_exti.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_exti.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_spi.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_spi_ex.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_tim.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_tim_ex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pcd.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pcd_ex.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pcd.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pcd_ex.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_uart.c
   vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_uart_ex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_ll_usart.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_usart.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_usart_ex.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_ll_usart.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_usart.c
+  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_usart_ex.c
   )
 
 set(PROJECT_FILES
