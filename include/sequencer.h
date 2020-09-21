@@ -18,7 +18,7 @@ class SequencerClass {
   void Start();
   void Stop();
   void Loop();
-  /* void SetStepLength(); */
+  void SetStepLength(uint8_t stepLength);
 };
 
 extern SequencerClass Sequencer;
