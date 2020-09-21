@@ -38,8 +38,10 @@ void UIADCClass::Init() {
   hadc_.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc_.Init.Resolution = ADC_RESOLUTION_12B;
   hadc_.Init.ScanConvMode = ENABLE;
-  hadc_.Init.ContinuousConvMode = ENABLE;
+  hadc_.Init.ContinuousConvMode = DISABLE;
   hadc_.Init.DiscontinuousConvMode = DISABLE;
+  hadc_.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T3_TRGO;
+  hadc_.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
   hadc_.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc_.Init.DMAContinuousRequests = ENABLE;
   hadc_.Init.EOCSelection = ADC_EOC_SEQ_CONV;
