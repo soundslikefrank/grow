@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stm32f3xx_hal.h>
 
+#define TIMER_CLOCK_FREQUENCY 8000000U
 #define DEFAULT_BPM 120
 
 MetronomeTimerClass::MetronomeTimerClass() = default;
@@ -15,7 +16,7 @@ void MetronomeTimerClass::Init() {
   htim_.Init.Prescaler = 0;
   // Start with the default bpm value
   // In this configuration it can be max 1.8μs per day off
-  htim_.Init.Period = round(60U * 48000000U / DEFAULT_BPM) - 1;
+  htim_.Init.Period = round(60U * TIMER_CLOCK_FREQUENCY / DEFAULT_BPM) - 1;
   htim_.Init.CounterMode = TIM_COUNTERMODE_UP;
 
   HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
@@ -31,7 +32,7 @@ TIM_HandleTypeDef* MetronomeTimerClass::GetTimer() {
 
 void MetronomeTimerClass::SetBPM(uint16_t bpm) {
   bpm_ = bpm < 20 ? 20 : bpm;
-  uint32_t period = round(60U * 48000000U / bpm_) - 1;
+  uint32_t period = round(60U * TIMER_CLOCK_FREQUENCY / bpm_) - 1;
   TIM2->ARR = period;
 }
 

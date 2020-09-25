@@ -21,7 +21,7 @@ void UIADCClass::Init() {
    * ADC1 sits on
    * PA0-PA3 (ADC1_IN1-ADC1_IN4)
    * PF4 (ADC1_IN5)
-   * PC0-PC3 (ADC1_IN6-ADC1_IN8) 
+   * PC0-PC2 (ADC1_IN6-ADC1_IN8) 
    */
   gpio.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3;
   gpio.Mode = GPIO_MODE_ANALOG;

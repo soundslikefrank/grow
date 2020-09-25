@@ -53,8 +53,10 @@ void DACClass::Init() {
 void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
   /* @TODO do we need a `ready` flag? */
   /* Write to buffer with data and load DAC (selected by DB17 and DB18) */
-  /* command[0] = 0b00010000; */
-  command_[0] = 0x10;
+  // @TODO it is very unclear to me why it has to be binary. See logic analyzer
+  command_[0] = 0b00010000;
+  command_[1] = voltage >> 8;
+  command_[2] = voltage & 0xff;
   /**
    * Channel select
    * a 0b00010000
@@ -62,20 +64,26 @@ void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
    * c 0b00010100
    * d 0b00010110
    */
-  command_[0] |= channel << 1;
-  // Upper 8 bits
-  command_[1] = voltage >> 8;
-  // Lower 8 bits
-  command_[2] = voltage & 0xff;
+  /* command_[0] |= channel << 1; */
+  /* // Upper 8 bits */
+  /* command_[1] = voltage >> 8; */
+  /* // Lower 8 bits */
+  /* command_[2] = voltage & 0xff; */
   // @TODO interrupt handlers!
-  HAL_SPI_Transmit_IT(&spi, command_, 3);
+  //
+
+  // @TODO this can't be _IT for some reason. find out why
+  HAL_SPI_Transmit(&spi, command_, 3, HAL_MAX_DELAY);
 }
 
 void DACClass::SetNoteVoltage(uint8_t channel, uint8_t note, uint8_t octave) {
-  // @TODO this is definitely not correct, adjust these values according to the
-  // used op-amp Calculate V/OCT value divided by the voltage multiplier
-  double absoluteNote = octave + note / 12.0;
-  uint16_t voltage = floor(1000.0 * absoluteNote / DAC_VOLTAGE_MULTIPLIER);
+  // @TODO tunining (equal temperament?)
+  uint8_t absoluteNote = octave * 12 + note;
+  // @TODO figure out proper values here
+  // We set 7V as a maximum = 84 notes = 780.xxx steps / note
+  // (gain is 2.8)
+  double stepsPerNote = 780.19047619;
+  uint16_t voltage = round(stepsPerNote * (double)absoluteNote) - 1;
   SetVoltage(channel, voltage);
 }
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17.3)
 
-project(stm32f3-base)
+project(frank.counts)
 
 enable_language(CXX C ASM)
 set(CMAKE_C_STANDARD 99)
@@ -57,7 +57,7 @@ set(PROJECT_FILES
   src/stm32f3xx_it.cpp
   src/system_stm32f3xx.c
 
-  startup_stm32f303xc.s
+  startup_stm32f302xc.s
   )
 
 set(EXECUTABLE ${PROJECT_NAME}.out)
@@ -66,7 +66,7 @@ add_executable(${EXECUTABLE} ${PROJECT_FILES} ${VENDOR_FILES})
 
 target_compile_definitions(${EXECUTABLE} PRIVATE
   -DUSE_HAL_DRIVER
-  -DSTM32F303xC
+  -DSTM32F302xC
   )
 
 target_include_directories(${EXECUTABLE} SYSTEM PRIVATE
@@ -96,7 +96,7 @@ target_compile_options(${EXECUTABLE} PRIVATE
   )
 
 target_link_options(${EXECUTABLE} PRIVATE
-  -T${CMAKE_SOURCE_DIR}/STM32F303VCTx_FLASH.ld
+  -T${CMAKE_SOURCE_DIR}/STM32F302RCTx_FLASH.ld
   -mcpu=cortex-m4
   -mthumb
   -mfpu=fpv4-sp-d16
@@ -128,6 +128,6 @@ set_target_properties(${EXECUTABLE} PROPERTIES ADDITIONAL_CLEAN_FILES
   )
 
 add_custom_target(upload COMMAND
-  ${OPENOCD} -f interface/stlink-v2.cfg -f target/stm32f3x.cfg -c "init" -c "reset init" -c "halt" -c "flash write_image erase ${PROJECT_NAME}.hex" -c "verify_image ${PROJECT_NAME}.hex" -c "reset run" -c "shutdown"
+  ${OPENOCD} -f interface/stlink.cfg -f target/stm32f3x.cfg -c "init" -c "reset init" -c "halt" -c "flash write_image erase ${PROJECT_NAME}.hex" -c "verify_image ${PROJECT_NAME}.hex" -c "reset run" -c "shutdown"
   DEPENDS ${EXECUTABLE}
   )
