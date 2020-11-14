@@ -63,12 +63,11 @@ int main() {
   Sequencer.Start();
 
   while (true) {
-    Sequencer.Loop();
-    if (UITimer.Tick()) {
-      /* HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), */
-      /*                   HAL_MAX_DELAY); */
-      sprintf(msg, "rawValue0: %hu\r\n", UIADC.GetValue(0));
-      HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+    if (MetronomeTimer.Tick()) {
+      Sequencer.NextStep();
+      sprintf(msg, "rawValue0: %hu\r\n", UIADC.GetValue(7));
+      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
+                        HAL_MAX_DELAY);
       // @TODO make sure that the dac is ready before sending this command
       // That's why it's in the loop here
       _DAC.SetVoltage(0, 30000);

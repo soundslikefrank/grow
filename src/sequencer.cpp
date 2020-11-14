@@ -14,12 +14,17 @@ void SequencerClass::Start() { running_ = true; }
 
 void SequencerClass::Stop() { running_ = false; }
 
-void SequencerClass::NextStep() {
+uint8_t SequencerClass::NextStep() {
+  if (!running_) {
+    return currentStep_;
+  }
   if (currentStep_ < stepLength_ - 1) {
     currentStep_++;
   } else {
     currentStep_ = 0;
   }
+  FaderLED.SetPosition(currentStep_);
+  return currentStep_;
 }
 
 void SequencerClass::SetStepLength(uint8_t stepLength) {
@@ -29,18 +34,6 @@ void SequencerClass::SetStepLength(uint8_t stepLength) {
     stepLength_ = 0;
   } else {
     stepLength_ = stepLength;
-  }
-}
-
-void SequencerClass::Loop() {
-  if (!running_) {
-    return;
-  }
-  // @TODO We can only use Metronome.Tick() once in the entire program. Let's
-  // see if this is going to be a problem
-  if (MetronomeTimer.Tick()) {
-    NextStep();
-    FaderLED.SetPosition(currentStep_ % 8);
   }
 }
 

@@ -10,14 +10,13 @@ class SequencerClass {
   uint8_t stepLength_ = 8;
   uint8_t currentStep_ = 0;
   bool running_;
-  void NextStep();
 
  public:
   SequencerClass();
   void Init();
   void Start();
+  uint8_t NextStep();
   void Stop();
-  void Loop();
   void SetStepLength(uint8_t stepLength);
 };
 
