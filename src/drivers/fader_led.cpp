@@ -14,8 +14,8 @@ void FaderLEDClass::Init() {
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  // Let's reset the ODR register
-  GPIOB->ODR = 0;
+  // Let's reset the ODR register as a current sink
+  GPIOB->ODR = 0x0000ffff;
 }
 
 void FaderLEDClass::SetPosition(uint8_t position) {
@@ -27,7 +27,7 @@ void FaderLEDClass::SetPosition(uint8_t position) {
   }
 
   // Just light LED in given position (first byte sets LED register)
-  GPIOB->ODR = 0 | (1 << (8 + position));
+  GPIOB->ODR = 0x0000ffff & ~(1 << (8 + position));
 }
 
 FaderLEDClass FaderLED;
