@@ -48,15 +48,14 @@ void DACClass::Init() {
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 }
 
+// @TODO make this take an actual voltage e.g. 8000 for 8V
 void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
   /* @TODO do we need a `ready` flag? */
   /* Write to buffer with data and load DAC (selected by DB17 and DB18) */
   // @TODO it is very unclear to me why it has to be binary. See logic analyzer
-  command_[0] = 0b00010000;
-  command_[1] = voltage >> 8;
-  command_[2] = voltage & 0xff;
   /**
    * Channel select
    * a 0b00010000
@@ -64,18 +63,21 @@ void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
    * c 0b00010100
    * d 0b00010110
    */
-  /* command_[0] |= channel << 1; */
-  /* // Upper 8 bits */
-  /* command_[1] = voltage >> 8; */
-  /* // Lower 8 bits */
-  /* command_[2] = voltage & 0xff; */
+  command_[0] = 0b00010000 | (channel * 2);
+  /* command_[0] = 0b00010110; */
+  // Upper 8 bits
+  command_[1] = voltage >> 8;
+  // Lower 8 bits
+  command_[2] = voltage & 0xff;
   // @TODO interrupt handlers!
-  //
 
   // @TODO this can't be _IT for some reason. find out why
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
   HAL_SPI_Transmit(&spi, command_, 3, HAL_MAX_DELAY);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 }
 
+// @TODO move this function elsewhere
 void DACClass::SetNoteVoltage(uint8_t channel, uint8_t note, uint8_t octave) {
   // @TODO tunining (equal temperament?)
   uint8_t absoluteNote = octave * 12 + note;

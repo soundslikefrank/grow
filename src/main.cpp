@@ -3,8 +3,8 @@
 #include <stm32f3xx_hal.h>
 #include <string.h>
 #include <cstdio>
-#include "drivers/dac.h"
 #include "drivers/adc_ui.h"
+#include "drivers/dac.h"
 #include "drivers/fader_led.h"
 #include "drivers/tim_metronome.h"
 #include "drivers/tim_ui.h"
@@ -71,7 +71,10 @@ int main() {
       HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
       // @TODO make sure that the dac is ready before sending this command
       // That's why it's in the loop here
-      _DAC.SetNoteVoltage(0, 0, 4);
+      _DAC.SetVoltage(0, 30000);
+      _DAC.SetVoltage(1, 40000);
+      _DAC.SetVoltage(2, 50000);
+      _DAC.SetVoltage(3, 60000);
     }
   }
 }
