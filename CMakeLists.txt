@@ -96,7 +96,7 @@ target_compile_options(${EXECUTABLE} PRIVATE
   )
 
 target_link_options(${EXECUTABLE} PRIVATE
-  -T${CMAKE_SOURCE_DIR}/STM32F302RCTx_FLASH.ld
+  -T${CMAKE_SOURCE_DIR}/STM32F302RBTx_FLASH.ld
   -mcpu=cortex-m4
   -mthumb
   -mfpu=fpv4-sp-d16
