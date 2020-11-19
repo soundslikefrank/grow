@@ -1,0 +1,60 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# DAC8564IAPW-eec
+#
+DEF DAC8564IAPW-eec U 0 40 Y Y 1 L N
+F0 "U" 0 200 50 H V L CNN
+F1 "DAC8564IAPW-eec" 0 300 50 H V L CNN
+F2 "Texas_Instruments-DAC8564IAPW-*" 0 400 50 H I L CNN
+F3 "http://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=DAC8564&fileType=pdf" 0 500 50 H I L CNN
+F4 "MO-153" 0 600 50 H I L CNN "Code  JEDEC"
+F5 "Manufacturer URL" 0 700 50 H I L CNN "Component Link 1 Description"
+F6 "http://www.ti.com/" 0 800 50 H I L CNN "Component Link 1 URL"
+F7 "Package Specification" 0 900 50 H I L CNN "Component Link 3 Description"
+F8 "http://www.ti.com/lit/ml/mpds361/mpds361.pdf" 0 1000 50 H I L CNN "Component Link 3 URL"
+F9 "4" 0 1100 50 H I L CNN "DAC Channels"
+F10 "1" 0 1200 50 H I L CNN "DNL Max  LSB"
+F11 "SBAS403D" 0 1300 50 H I L CNN "Datasheet Version"
+F12 "12" 0 1400 50 H I L CNN "INL Max  LSB"
+F13 "Serial SPI" 0 1500 50 H I L CNN "Interface"
+F14 "Surface Mount" 0 1600 50 H I L CNN "Mounting Technology"
+F15 "16-Pin Plastic Small Outline, Body 5 x 4.4 mm, Pitch 0.65 mm" 0 1700 50 H I L CNN "Package Description"
+F16 "4040064-4/G, 02/2011" 0 1800 50 H I L CNN "Package Version"
+F17 "3.6" 0 1900 50 H I L CNN "Power ConsumptionTypmW"
+F18 "16" 0 2000 50 H I L CNN "Resolution Bits"
+F19 "78" 0 2100 50 H I L CNN "SFDRd B"
+F20 "90" 0 2200 50 H I L CNN "SNRd B"
+F21 "8" 0 2300 50 H I L CNN "Settling Timeus"
+F22 "Precision DAC (=<10MSPS)" 0 2400 50 H I L CNN "Sub Family"
+F23 "IC" 0 2500 50 H I L CNN "category"
+F24 "1089437" 0 2600 50 H I L CNN "ciiva ids"
+F25 "2cee0cb8be0783d0" 0 2700 50 H I L CNN "library id"
+F26 "Texas Instruments" 0 2800 50 H I L CNN "manufacturer"
+F27 "PW16" 0 2900 50 H I L CNN "package"
+F28 "1386907843" 0 3000 50 H I L CNN "release date"
+F29 "Yes" 0 3100 50 H I L CNN "rohs"
+F30 "D007236D-4D7A-4D2A-BA1E-669822A10C6F" 0 3200 50 H I L CNN "vault revision"
+F31 "yes" 0 3300 50 H I L CNN "imported"
+DRAW
+S 200 100 1200 -1200 1 1 0 f
+X VOUTA 1 1300 0 100 L 40 40 1 1 U
+X SCLK 10 100 0 100 R 40 40 1 1 I C
+X DIN 11 100 -100 100 R 40 40 1 1 I
+X IOVDD 12 100 -1000 100 R 40 40 1 1 W
+X A0 13 100 -400 100 R 40 40 1 1 I
+X A1 14 100 -500 100 R 40 40 1 1 I
+X ~ENABLE~ 15 100 -600 100 R 40 40 1 1 I
+X LDAC 16 100 -700 100 R 40 40 1 1 I
+X VOUTB 2 1300 -100 100 L 40 40 1 1 U
+X VREFH/VREFOUT 3 1300 -800 100 L 40 40 1 1 B
+X AVDD 4 100 -1100 100 R 40 40 1 1 W
+X VREFL 5 1300 -900 100 L 40 40 1 1 I
+X GND 6 1300 -1100 100 L 40 40 1 1 W
+X VOUTC 7 1300 -200 100 L 40 40 1 1 U
+X VOUTD 8 1300 -300 100 L 40 40 1 1 U
+X ~SYNC~ 9 100 -200 100 R 40 40 1 1 I
+ENDDRAW
+ENDDEF
+#
+#End Library

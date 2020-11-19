@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name DAC8562)(type Legacy)(uri ${KIPRJMOD}/models/DAC8562.pretty/DAC8562SDGSR.lib)(options "")(descr ""))
+  (lib (name frank_counts-rescue)(type Legacy)(uri ${KIPRJMOD}/frank_counts-rescue.lib)(options "")(descr ""))
+)
