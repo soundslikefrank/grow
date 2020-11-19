@@ -55,25 +55,24 @@ int main() {
   /* char msg[20] = "Hello world"; */
   char msg[20];
 
-  // @TODO this is not acutally correct. We are in LOW the same time as we are
-  // in high, resulting in about half the time per cycle
-  // We probably need some sort of PWM or something to sort this out
-  // We either want triggers or gates
   MetronomeTimer.SetBPM(120);
   Sequencer.Start();
 
   while (true) {
     if (MetronomeTimer.Tick()) {
-      Sequencer.NextStep();
-      sprintf(msg, "rawValue0: %hu\r\n", UIADC.GetValue(7));
-      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
-                        HAL_MAX_DELAY);
+      uint8_t step = Sequencer.NextStep();
+      uint16_t faderPos = (4096 - UIADC.GetValue(step % 8));
+      // Somewhere in the third octave after c0 (0v), 8192/octave
+      uint16_t voltage = 16 * faderPos - 1;
+      sprintf(msg, "rawValue0: %hu\r\n", voltage);
+      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), HAL_MAX_DELAY);
+      _DAC.SetVoltage(0, voltage);
       // @TODO make sure that the dac is ready before sending this command
       // That's why it's in the loop here
-      _DAC.SetVoltage(0, 30000);
-      _DAC.SetVoltage(1, 40000);
-      _DAC.SetVoltage(2, 50000);
-      _DAC.SetVoltage(3, 60000);
+      /* _DAC.SetVoltage(0, 30000); */
+      /* _DAC.SetVoltage(1, 40000); */
+      /* _DAC.SetVoltage(2, 50000); */
+      /* _DAC.SetVoltage(3, 60000); */
     }
   }
 }

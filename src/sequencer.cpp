@@ -23,7 +23,7 @@ uint8_t SequencerClass::NextStep() {
   } else {
     currentStep_ = 0;
   }
-  FaderLED.SetPosition(currentStep_);
+  FaderLED.SetPosition(currentStep_ % 8);
   return currentStep_;
 }
 
