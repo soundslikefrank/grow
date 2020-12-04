@@ -1,7 +1,7 @@
 /**
  * Uses huart1 for communication via the internal st-link
  */
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 #ifndef SRC_UART_DEBUG_H_
   #define SRC_UART_DEBUG_H_

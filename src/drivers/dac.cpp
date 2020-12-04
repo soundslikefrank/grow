@@ -2,7 +2,7 @@
 
 #include <drivers/dac.h>
 #include <math.h>
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 // @TODO use hardware chip select
 #define PINS_SPI GPIO_PIN_5 | GPIO_PIN_7

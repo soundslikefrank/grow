@@ -3,7 +3,7 @@
 #ifndef DRIVERS_TIM_METRONOME_H_
 #define DRIVERS_TIM_METRONOME_H_
 
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 class MetronomeTimerClass {
  private:

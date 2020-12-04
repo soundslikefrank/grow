@@ -3,7 +3,7 @@
 #ifndef SEQUENCER_H_
 #define SEQUENCER_H_
 
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 class SequencerClass {
  private:

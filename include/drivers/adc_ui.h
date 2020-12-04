@@ -3,7 +3,7 @@
 #ifndef ADC_UI_H
 #define ADC_UI_H
 
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 class UIADCClass {
  private:

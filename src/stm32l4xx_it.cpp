@@ -1,3 +1,4 @@
+#include <stm32l4xx_hal.h>
 #include "drivers/tim_metronome.h"
 #include "drivers/tim_ui.h"
 #include "drivers/adc_ui.h"

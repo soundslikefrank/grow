@@ -16,33 +16,35 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_program(OPENOCD openocd)
 
 set(VENDOR_FILES
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_adc.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_adc_ex.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_ll_usb.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_i2c_ex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_rcc.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_rcc_ex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_gpio.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_dma.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_cortex.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pwr.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pwr_ex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_flash.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_flash_ex.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_exti.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_spi.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_spi_ex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_tim.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_tim_ex.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pcd.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_pcd_ex.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_uart.c
-  vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_uart_ex.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_ll_usart.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_usart.c
-  # vendor/stm32f3xx_hal_driver/Src/stm32f3xx_hal_usart_ex.c
+  # Feel free to uncomment files that you don't need
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_adc.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_adc_ex.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_ll_usb.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_i2c.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_i2c_ex.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_rcc.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_rcc_ex.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_gpio.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_dma.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_cortex.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pwr.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pwr_ex.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_flash.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_flash_ex.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_exti.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_spi.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_qspi.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_spi_ex.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_tim.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_tim_ex.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pcd.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pcd_ex.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_uart.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_uart_ex.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_ll_usart.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_usart.c
+  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_usart_ex.c
   )
 
 set(PROJECT_FILES
@@ -54,10 +56,10 @@ set(PROJECT_FILES
   src/drivers/dac.cpp
   src/drivers/tim_ui.cpp
   src/drivers/tim_metronome.cpp
-  src/stm32f3xx_it.cpp
-  src/system_stm32f3xx.c
+  src/stm32l4xx_it.cpp # Interrupt handlers
+  src/system_stm32l4xx.c # System settings
 
-  startup_stm32f302xc.s
+  startup_stm32l452xx.s # STM32 Startup instructions
   )
 
 set(EXECUTABLE ${PROJECT_NAME}.out)
@@ -66,12 +68,12 @@ add_executable(${EXECUTABLE} ${PROJECT_FILES} ${VENDOR_FILES})
 
 target_compile_definitions(${EXECUTABLE} PRIVATE
   -DUSE_HAL_DRIVER
-  -DSTM32F302xC
+  -DSTM32L452xx
   )
 
 target_include_directories(${EXECUTABLE} SYSTEM PRIVATE
-  vendor/stm32f3xx_hal_driver/Inc
-  vendor/cmsis_device_f3/Include
+  vendor/stm32l4xx_hal_driver/Inc
+  vendor/cmsis_device_l4/Include
   vendor/cmsis_core/Include
   )
 
@@ -96,7 +98,7 @@ target_compile_options(${EXECUTABLE} PRIVATE
   )
 
 target_link_options(${EXECUTABLE} PRIVATE
-  -T${CMAKE_SOURCE_DIR}/STM32F302RBTx_FLASH.ld
+  -T${CMAKE_SOURCE_DIR}/STM32L452RETx_FLASH.ld
   -mcpu=cortex-m4
   -mthumb
   -mfpu=fpv4-sp-d16
@@ -128,6 +130,6 @@ set_target_properties(${EXECUTABLE} PROPERTIES ADDITIONAL_CLEAN_FILES
   )
 
 add_custom_target(upload COMMAND
-  ${OPENOCD} -f interface/stlink.cfg -f target/stm32f3x.cfg -c "init" -c "reset init" -c "halt" -c "flash write_image erase ${PROJECT_NAME}.hex" -c "verify_image ${PROJECT_NAME}.hex" -c "reset run" -c "shutdown"
+  ${OPENOCD} -f interface/stlink.cfg -f target/stm32l4x.cfg -c "init" -c "reset init" -c "halt" -c "flash write_image erase ${PROJECT_NAME}.hex" -c "verify_image ${PROJECT_NAME}.hex" -c "reset run" -c "shutdown"
   DEPENDS ${EXECUTABLE}
   )

@@ -1,7 +1,7 @@
 // Copyright 2020 Christian Maniewski.
 
 #include "sequencer.h"
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 #include "drivers/fader_led.h"
 #include "drivers/tim_metronome.h"
 

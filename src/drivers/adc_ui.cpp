@@ -1,8 +1,7 @@
 // Copyright 2020 Christian Maniewski.
 
 #include "drivers/adc_ui.h"
-#include <stm32f3xx_hal.h>
-#include <stm32f3xx_hal_gpio.h>
+#include <stm32l4xx_hal.h>
 
 UIADCClass::UIADCClass() = default;
 

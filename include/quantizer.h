@@ -3,7 +3,7 @@
 #ifndef QUANTIZER_H_
 #define QUANTIZER_H_
 
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 enum Key { KEY_MAJOR, KEY_MINOR };
 

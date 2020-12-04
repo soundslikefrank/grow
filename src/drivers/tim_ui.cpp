@@ -1,7 +1,7 @@
 // Copyright 2020 Christian Maniewski.
 
 #include "drivers/tim_ui.h"
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 // Times per second, has to be divisor of 1000
 #define UI_TIMER_SAMPLE_RATE 500

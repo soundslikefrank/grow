@@ -3,7 +3,7 @@
 
 #include "drivers/tim_metronome.h"
 #include <math.h>
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 #define TIMER_CLOCK_FREQUENCY 8000000U
 #define DEFAULT_BPM 120

@@ -3,7 +3,7 @@
 #ifndef DAC_H
 #define DAC_H
 
-#include <stm32f3xx_hal.h>
+#include <stm32l4xx_hal.h>
 
 class DACClass {
  private:
