@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 4
+Sheet 1 6
 Title "frank.counts"
 Date "2020-05-04"
 Rev "2"
@@ -13,10 +13,6 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Wire Wire Line
-	9050 1450 7850 1450
-Wire Wire Line
-	9050 1650 7850 1650
 Wire Wire Line
 	6150 2700 6350 2700
 Wire Wire Line
@@ -36,12 +32,13 @@ Wire Wire Line
 Wire Wire Line
 	7150 3650 7800 3650
 $Sheet
-S 9050 1350 950  400 
+S 9050 1350 1100 650 
 U 5ED4085B
 F0 "Trigger Input" 50
 F1 "trigger_input.sch" 50
-F2 "JACK_DETECT" O L 9050 1650 50 
-F3 "TRIGGER_IN" O L 9050 1450 50 
+F2 "jack_detect" O L 9050 1850 50 
+F3 "trigger_in_a" O L 9050 1450 50 
+F4 "trigger_in_b" O L 9050 1650 50 
 $EndSheet
 $Sheet
 S 7800 3500 550  600 
@@ -63,4 +60,16 @@ F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/da
 	1    5450 3600
 	1    0    0    -1  
 $EndComp
+$Sheet
+S 1550 3200 1050 800 
+U 5FCA3E21
+F0 "CV Input" 50
+F1 "cv_input.sch" 50
+$EndSheet
+$Sheet
+S 1850 1400 900  450 
+U 5FCB1CD7
+F0 "Power" 50
+F1 "power.sch" 50
+$EndSheet
 $EndSCHEMATC

@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 4
+Sheet 3 6
 Title ""
 Date ""
 Rev ""
@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L power:GND #PWR011
+L power:GND #PWR?
 U 1 1 5ED3A9D0
 P 6400 3950
-F 0 "#PWR011" H 6400 3700 50  0001 C CNN
+F 0 "#PWR?" H 6400 3700 50  0001 C CNN
 F 1 "GND" V 6405 3822 50  0000 R CNN
 F 2 "" H 6400 3950 50  0001 C CNN
 F 3 "" H 6400 3950 50  0001 C CNN
@@ -152,11 +152,6 @@ F 3 "~" H 5000 2000 50  0001 C CNN
 	1    5000 2000
 	1    0    0    -1  
 $EndComp
-Connection ~ 5000 1850
-Wire Wire Line
-	5000 1850 4600 1850
-Wire Wire Line
-	5000 1850 5350 1850
 Wire Wire Line
 	4600 2150 4600 2300
 Wire Wire Line
@@ -176,4 +171,11 @@ Text GLabel 7200 4500 0    50   Input ~ 0
 dac_vref
 Text GLabel 6550 1850 1    50   Input ~ 0
 dac_vref
+Wire Wire Line
+	4600 1850 5000 1850
+Connection ~ 5000 1850
+Wire Wire Line
+	5000 1850 5350 1850
+Text Notes 3950 1750 0    50   ~ 0
+Note: run on 5v? So we can use this for CV in as well?\n
 $EndSCHEMATC

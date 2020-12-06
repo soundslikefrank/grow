@@ -1,0 +1,317 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 5 6
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Amplifier_Operational:MCP6002-xMS U?
+U 1 1 5FCA4B33
+P 7200 2200
+F 0 "U?" H 7400 2100 50  0000 C CNN
+F 1 "MCP6002-xMS" H 7400 2000 50  0000 C CNN
+F 2 "" H 7200 2200 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 7200 2200 50  0001 C CNN
+	1    7200 2200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Amplifier_Operational:MCP6002-xMS U?
+U 3 1 5FCA7CF4
+P 3500 2300
+F 0 "U?" H 3458 2346 50  0000 L CNN
+F 1 "MCP6002-xMS" H 3458 2255 50  0000 L CNN
+F 2 "" H 3500 2300 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 3500 2300 50  0001 C CNN
+	3    3500 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FCC637B
+P 3400 2850
+F 0 "#PWR?" H 3400 2600 50  0001 C CNN
+F 1 "GND" H 3405 2677 50  0000 C CNN
+F 2 "" H 3400 2850 50  0001 C CNN
+F 3 "" H 3400 2850 50  0001 C CNN
+	1    3400 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 5FCC6D40
+P 3400 1900
+F 0 "#PWR?" H 3400 1750 50  0001 C CNN
+F 1 "+5V" H 3415 2073 50  0000 C CNN
+F 2 "" H 3400 1900 50  0001 C CNN
+F 3 "" H 3400 1900 50  0001 C CNN
+	1    3400 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5FCCAC86
+P 3050 2250
+F 0 "C?" H 3165 2296 50  0000 L CNN
+F 1 "100n" H 3165 2205 50  0000 L CNN
+F 2 "" H 3088 2100 50  0001 C CNN
+F 3 "~" H 3050 2250 50  0001 C CNN
+	1    3050 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3050 2100 3050 1900
+Wire Wire Line
+	3050 1900 3400 1900
+Wire Wire Line
+	3400 1900 3400 2000
+Connection ~ 3400 1900
+Wire Wire Line
+	3050 2400 3050 2600
+Wire Wire Line
+	3050 2600 3400 2600
+Wire Wire Line
+	3400 2600 3400 2850
+Connection ~ 3400 2600
+$Comp
+L Device:R R?
+U 1 1 5FCDCE8A
+P 1950 2000
+AR Path="/5ED37B53/5FB5AC07/5FCDCE8A" Ref="R?"  Part="1" 
+AR Path="/5FCA3E21/5FCDCE8A" Ref="R?"  Part="1" 
+F 0 "R?" V 1743 2000 50  0000 C CNN
+F 1 "62k" V 1834 2000 50  0000 C CNN
+F 2 "" V 1880 2000 50  0001 C CNN
+F 3 "~" H 1950 2000 50  0001 C CNN
+F 4 "0.1%" V 1950 2000 50  0001 C CNN "Notes"
+	1    1950 2000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FCDCE91
+P 1950 2500
+AR Path="/5ED37B53/5FB5AC07/5FCDCE91" Ref="R?"  Part="1" 
+AR Path="/5FCA3E21/5FCDCE91" Ref="R?"  Part="1" 
+F 0 "R?" V 1743 2500 50  0000 C CNN
+F 1 "27k" V 1834 2500 50  0000 C CNN
+F 2 "" V 1880 2500 50  0001 C CNN
+F 3 "~" H 1950 2500 50  0001 C CNN
+F 4 "0.1%" V 1950 2500 50  0001 C CNN "Notes"
+	1    1950 2500
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FCDCE97
+P 1950 2850
+AR Path="/5ED37B53/5FB5AC07/5FCDCE97" Ref="#PWR?"  Part="1" 
+AR Path="/5FCA3E21/5FCDCE97" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 1950 2600 50  0001 C CNN
+F 1 "GND" V 1955 2722 50  0000 R CNN
+F 2 "" H 1950 2850 50  0001 C CNN
+F 3 "" H 1950 2850 50  0001 C CNN
+	1    1950 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1950 2850 1950 2650
+Wire Wire Line
+	1950 2350 1950 2150
+Wire Wire Line
+	1950 1850 1750 1850
+Text GLabel 1950 2250 2    50   Input ~ 0
+ref_cv_in
+Text GLabel 6850 1850 2    50   Input ~ 0
+ref_cv_in
+Wire Wire Line
+	6150 2800 7350 2800
+Wire Wire Line
+	5950 2300 6150 2300
+Wire Wire Line
+	7650 2800 8300 2800
+Wire Wire Line
+	8300 2800 8300 2200
+$Comp
+L Device:R R?
+U 1 1 5FCFEC8F
+P 7500 2800
+AR Path="/5ED37B53/5FB5AC07/5FCFEC8F" Ref="R?"  Part="1" 
+AR Path="/5FCA3E21/5FCFEC8F" Ref="R?"  Part="1" 
+F 0 "R?" V 7293 2800 50  0000 C CNN
+F 1 "13k" V 7384 2800 50  0000 C CNN
+F 2 "" V 7430 2800 50  0001 C CNN
+F 3 "~" H 7500 2800 50  0001 C CNN
+	1    7500 2800
+	0    1    1    0   
+$EndComp
+Connection ~ 6150 2300
+Wire Wire Line
+	5350 2300 5650 2300
+Wire Wire Line
+	6750 2100 6900 2100
+$Comp
+L Device:R R?
+U 1 1 5FCFEC9C
+P 5800 2300
+AR Path="/5ED37B53/5FB5AC07/5FCFEC9C" Ref="R?"  Part="1" 
+AR Path="/5FCA3E21/5FCFEC9C" Ref="R?"  Part="1" 
+F 0 "R?" V 5593 2300 50  0000 C CNN
+F 1 "47k" V 5684 2300 50  0000 C CNN
+F 2 "" V 5730 2300 50  0001 C CNN
+F 3 "~" H 5800 2300 50  0001 C CNN
+	1    5800 2300
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6150 2300 6150 2800
+Wire Wire Line
+	6750 1850 6850 1850
+Wire Wire Line
+	6750 1850 6750 2100
+$Comp
+L power:GND #PWR?
+U 1 1 5FCFECAE
+P 4950 2600
+AR Path="/5ED37B53/5FB5AC07/5FCFECAE" Ref="#PWR?"  Part="1" 
+AR Path="/5FCA3E21/5FCFECAE" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 4950 2350 50  0001 C CNN
+F 1 "GND" V 4955 2472 50  0000 R CNN
+F 2 "" H 4950 2600 50  0001 C CNN
+F 3 "" H 4950 2600 50  0001 C CNN
+	1    4950 2600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8300 2200 8500 2200
+Connection ~ 8300 2200
+$Comp
+L thonkiconn_jackSocket_fuzzySi:fuzzySI_thonkiconn J?
+U 1 1 5FCFECA8
+P 5150 2400
+AR Path="/5ED37B53/5FB5AC07/5FCFECA8" Ref="J?"  Part="1" 
+AR Path="/5FCA3E21/5FCFECA8" Ref="J?"  Part="1" 
+F 0 "J?" H 4862 2376 50  0000 R CNN
+F 1 "CV_IN_A" H 4862 2467 50  0000 R CNN
+F 2 "" H 5400 2500 50  0001 C CNN
+F 3 "" H 5400 2500 50  0001 C CNN
+	1    5150 2400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 2300 6900 2300
+Wire Wire Line
+	4950 2500 4950 2600
+NoConn ~ 5350 2400
+Wire Wire Line
+	7500 2200 8300 2200
+Text HLabel 8500 2200 2    50   Output ~ 0
+cv_in_a
+$Comp
+L Amplifier_Operational:MCP6002-xMS U?
+U 2 1 5FD1C928
+P 7200 4000
+F 0 "U?" H 7400 3900 50  0000 C CNN
+F 1 "MCP6002-xMS" H 7400 3800 50  0000 C CNN
+F 2 "" H 7200 4000 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 7200 4000 50  0001 C CNN
+	2    7200 4000
+	1    0    0    -1  
+$EndComp
+Text GLabel 6850 3650 2    50   Input ~ 0
+ref_cv_in
+Wire Wire Line
+	6150 4600 7350 4600
+Wire Wire Line
+	5950 4100 6150 4100
+Wire Wire Line
+	7650 4600 8300 4600
+Wire Wire Line
+	8300 4600 8300 4000
+$Comp
+L Device:R R?
+U 1 1 5FD1C933
+P 7500 4600
+AR Path="/5ED37B53/5FB5AC07/5FD1C933" Ref="R?"  Part="1" 
+AR Path="/5FCA3E21/5FD1C933" Ref="R?"  Part="1" 
+F 0 "R?" V 7293 4600 50  0000 C CNN
+F 1 "13k" V 7384 4600 50  0000 C CNN
+F 2 "" V 7430 4600 50  0001 C CNN
+F 3 "~" H 7500 4600 50  0001 C CNN
+	1    7500 4600
+	0    1    1    0   
+$EndComp
+Connection ~ 6150 4100
+Wire Wire Line
+	5350 4100 5650 4100
+Wire Wire Line
+	6750 3900 6900 3900
+$Comp
+L Device:R R?
+U 1 1 5FD1C93C
+P 5800 4100
+AR Path="/5ED37B53/5FB5AC07/5FD1C93C" Ref="R?"  Part="1" 
+AR Path="/5FCA3E21/5FD1C93C" Ref="R?"  Part="1" 
+F 0 "R?" V 5593 4100 50  0000 C CNN
+F 1 "47k" V 5684 4100 50  0000 C CNN
+F 2 "" V 5730 4100 50  0001 C CNN
+F 3 "~" H 5800 4100 50  0001 C CNN
+	1    5800 4100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6150 4100 6150 4600
+Wire Wire Line
+	6750 3650 6850 3650
+Wire Wire Line
+	6750 3650 6750 3900
+$Comp
+L power:GND #PWR?
+U 1 1 5FD1C945
+P 4950 4400
+AR Path="/5ED37B53/5FB5AC07/5FD1C945" Ref="#PWR?"  Part="1" 
+AR Path="/5FCA3E21/5FD1C945" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 4950 4150 50  0001 C CNN
+F 1 "GND" V 4955 4272 50  0000 R CNN
+F 2 "" H 4950 4400 50  0001 C CNN
+F 3 "" H 4950 4400 50  0001 C CNN
+	1    4950 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8300 4000 8500 4000
+Connection ~ 8300 4000
+$Comp
+L thonkiconn_jackSocket_fuzzySi:fuzzySI_thonkiconn J?
+U 1 1 5FD1C94D
+P 5150 4200
+AR Path="/5ED37B53/5FB5AC07/5FD1C94D" Ref="J?"  Part="1" 
+AR Path="/5FCA3E21/5FD1C94D" Ref="J?"  Part="1" 
+F 0 "J?" H 4862 4176 50  0000 R CNN
+F 1 "CV_IN_B" H 4862 4267 50  0000 R CNN
+F 2 "" H 5400 4300 50  0001 C CNN
+F 3 "" H 5400 4300 50  0001 C CNN
+	1    5150 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 4100 6900 4100
+Wire Wire Line
+	4950 4300 4950 4400
+NoConn ~ 5350 4200
+Wire Wire Line
+	7500 4000 8300 4000
+Text HLabel 8500 4000 2    50   Output ~ 0
+cv_in_b
+Text GLabel 1750 1850 0    50   Input ~ 0
+ref_5v
+$EndSCHEMATC

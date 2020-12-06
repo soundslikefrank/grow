@@ -1,0 +1,146 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 6 6
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Reference_Voltage:LM4040DBZ-5 U?
+U 1 1 5FCB28E7
+P 8100 5000
+AR Path="/5FCA3E21/5FCB28E7" Ref="U?"  Part="1" 
+AR Path="/5FCB1CD7/5FCB28E7" Ref="U?"  Part="1" 
+F 0 "U?" V 8146 4912 50  0000 R CNN
+F 1 "LM4040DBZ-5" V 8055 4912 50  0000 R CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 8100 4800 50  0001 C CIN
+F 3 "http://www.ti.com/lit/ds/symlink/lm4040-n.pdf" H 8100 5000 50  0001 C CIN
+	1    8100 5000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:VCC #PWR?
+U 1 1 5FCB28ED
+P 7250 4450
+AR Path="/5FCA3E21/5FCB28ED" Ref="#PWR?"  Part="1" 
+AR Path="/5FCB1CD7/5FCB28ED" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 7250 4300 50  0001 C CNN
+F 1 "VCC" H 7265 4623 50  0000 C CNN
+F 2 "" H 7250 4450 50  0001 C CNN
+F 3 "" H 7250 4450 50  0001 C CNN
+	1    7250 4450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FCB3D42
+P 7250 5500
+F 0 "#PWR?" H 7250 5250 50  0001 C CNN
+F 1 "GND" H 7255 5327 50  0000 C CNN
+F 2 "" H 7250 5500 50  0001 C CNN
+F 3 "" H 7250 5500 50  0001 C CNN
+	1    7250 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5FCB5486
+P 7250 5000
+F 0 "C?" H 7365 5046 50  0000 L CNN
+F 1 "1u" H 7365 4955 50  0000 L CNN
+F 2 "" H 7288 4850 50  0001 C CNN
+F 3 "~" H 7250 5000 50  0001 C CNN
+	1    7250 5000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7250 4450 7250 4650
+Wire Wire Line
+	7250 4650 7550 4650
+Wire Wire Line
+	7250 4650 7250 4850
+Connection ~ 7250 4650
+Wire Wire Line
+	8100 4650 8100 4850
+Wire Wire Line
+	7250 5150 7250 5500
+$Comp
+L power:GND #PWR?
+U 1 1 5FCB7A00
+P 8100 5500
+F 0 "#PWR?" H 8100 5250 50  0001 C CNN
+F 1 "GND" H 8105 5327 50  0000 C CNN
+F 2 "" H 8100 5500 50  0001 C CNN
+F 3 "" H 8100 5500 50  0001 C CNN
+	1    8100 5500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8100 5150 8100 5500
+Wire Wire Line
+	7850 4650 8100 4650
+$Comp
+L Device:R R?
+U 1 1 5FCB4061
+P 7700 4650
+F 0 "R?" V 7493 4650 50  0000 C CNN
+F 1 "4k7" V 7584 4650 50  0000 C CNN
+F 2 "" V 7630 4650 50  0001 C CNN
+F 3 "~" H 7700 4650 50  0001 C CNN
+F 4 "0-2mA, 3k3 - 7k ohm" V 7700 4650 50  0001 C CNN "Note"
+	1    7700 4650
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5FCB8DB4
+P 8950 5000
+F 0 "C?" H 9065 5046 50  0000 L CNN
+F 1 "1u" H 9065 4955 50  0000 L CNN
+F 2 "" H 8988 4850 50  0001 C CNN
+F 3 "~" H 8950 5000 50  0001 C CNN
+	1    8950 5000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8100 4650 8950 4650
+Wire Wire Line
+	8950 4650 8950 4850
+Connection ~ 8100 4650
+$Comp
+L power:GND #PWR?
+U 1 1 5FCB98F3
+P 8950 5500
+F 0 "#PWR?" H 8950 5250 50  0001 C CNN
+F 1 "GND" H 8955 5327 50  0000 C CNN
+F 2 "" H 8950 5500 50  0001 C CNN
+F 3 "" H 8950 5500 50  0001 C CNN
+	1    8950 5500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8950 5150 8950 5500
+Text GLabel 9450 4650 2    50   Input ~ 0
+ref_5v
+Connection ~ 8950 4650
+Wire Wire Line
+	8950 4650 9450 4650
+Wire Notes Line
+	6950 4100 6950 5850
+Wire Notes Line
+	6950 5850 9950 5850
+Wire Notes Line
+	9950 5850 9950 4100
+Wire Notes Line
+	9950 4100 6950 4100
+Text Notes 6950 4050 0    50   ~ 0
+5V reference
+$EndSCHEMATC
