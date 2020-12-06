@@ -5,14 +5,14 @@
 
 UIADCClass::UIADCClass() = default;
 
-uint16_t UIADCClass::adcValues[8] = {0,0,0,0,0,0,0,0};
+uint16_t UIADCClass::adcValues[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 void UIADCClass::Init() {
   GPIO_InitTypeDef gpio = {0};
   ADC_ChannelConfTypeDef sConfig;
 
   __HAL_RCC_DMA1_CLK_ENABLE();
-  __HAL_RCC_ADC1_CLK_ENABLE();
+  __HAL_RCC_ADC_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /** Configure GPIO pins
@@ -20,7 +20,7 @@ void UIADCClass::Init() {
    * ADC1 sits on
    * PA0-PA3 (ADC1_IN1-ADC1_IN4)
    * PF4 (ADC1_IN5)
-   * PC0-PC2 (ADC1_IN6-ADC1_IN8) 
+   * PC0-PC2 (ADC1_IN6-ADC1_IN8)
    */
   gpio.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3;
   gpio.Mode = GPIO_MODE_ANALOG;
@@ -30,8 +30,9 @@ void UIADCClass::Init() {
   gpio.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2;
   HAL_GPIO_Init(GPIOC, &gpio);
 
-  gpio.Pin = GPIO_PIN_4;
-  HAL_GPIO_Init(GPIOF, &gpio);
+  // @TODO find out where this is
+  /* gpio.Pin = GPIO_PIN_4; */
+  /* HAL_GPIO_Init(GPIOF, &gpio); */
 
   hadc_.Instance = ADC1;
   hadc_.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
@@ -39,7 +40,7 @@ void UIADCClass::Init() {
   hadc_.Init.ScanConvMode = ENABLE;
   hadc_.Init.ContinuousConvMode = DISABLE;
   hadc_.Init.DiscontinuousConvMode = DISABLE;
-  hadc_.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T3_TRGO;
+  hadc_.Init.ExternalTrigConv = ADC_EXTERNALTRIG_T3_TRGO;
   hadc_.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
   hadc_.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc_.Init.DMAContinuousRequests = ENABLE;
@@ -64,7 +65,7 @@ void UIADCClass::Init() {
 
   // @TODO use UI Timer
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_601CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_247CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
 
@@ -112,16 +113,10 @@ void UIADCClass::Init() {
   HAL_ADC_Start_DMA(&hadc_, reinterpret_cast<uint32_t*>(adcValues), 8);
 }
 
-ADC_HandleTypeDef* UIADCClass::GetADC() {
-  return &hadc_;
-}
+ADC_HandleTypeDef* UIADCClass::GetADC() { return &hadc_; }
 
-DMA_HandleTypeDef* UIADCClass::GetDMA() {
-  return &hdmaAdc_;
-}
+DMA_HandleTypeDef* UIADCClass::GetDMA() { return &hdmaAdc_; }
 
-uint16_t UIADCClass::GetValue(uint8_t index) {
-  return adcValues[index];
-}
+uint16_t UIADCClass::GetValue(uint8_t index) { return adcValues[index]; }
 
 UIADCClass UIADC;

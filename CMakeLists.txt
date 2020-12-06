@@ -28,8 +28,8 @@ set(VENDOR_FILES
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_gpio.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_dma.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_cortex.c
-  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pwr.c
-  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pwr_ex.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pwr.c
+  vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pwr_ex.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_flash.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_flash_ex.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_exti.c
