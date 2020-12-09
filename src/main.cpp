@@ -100,11 +100,9 @@ int main() {
   while (true) {
     if (MetronomeTimer.Tick()) {
       uint8_t step = Sequencer.NextStep();
-      /* uint16_t faderPos = (4096 - UIADC.GetValue(step % 8)); */
-      // Somewhere in the third octave after c0 (0v), 8192/octave
-      /* uint16_t voltage = 16 * faderPos - 1; */
-      uint16_t voltage = UIADC.GetValue(0);
-      sprintf(msg, "rawValue0: %hu\r\n", voltage);
+      uint16_t faderPos = (4096 - UIADC.GetValue(step % 8));
+      uint16_t voltage = 16 * faderPos - 1;
+      sprintf(msg, "rawValue%d: %hu\r\n", step, voltage);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), HAL_MAX_DELAY);
       /* _DAC.SetVoltage(0, voltage); */
       // @TODO make sure that the dac is ready before sending this command
