@@ -11,28 +11,22 @@ void UIADCClass::Init() {
   GPIO_InitTypeDef gpio = {0};
   ADC_ChannelConfTypeDef sConfig;
 
-  __HAL_RCC_DMA1_CLK_ENABLE();
+  __HAL_RCC_DMA2_CLK_ENABLE();
   __HAL_RCC_ADC_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /** Configure GPIO pins
    *
    * ADC1 sits on
-   * PA0-PA3 (ADC1_IN1-ADC1_IN4)
-   * PF4 (ADC1_IN5)
-   * PC0-PC2 (ADC1_IN6-ADC1_IN8)
+   * PC0-PC3 (ADC1_IN1-ADC1_IN4)
+   * PA0-PA3 (ADC1_IN5-ADC_IN8)
    */
   gpio.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3;
   gpio.Mode = GPIO_MODE_ANALOG;
   gpio.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &gpio);
-
-  gpio.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2;
   HAL_GPIO_Init(GPIOC, &gpio);
-
-  // @TODO find out where this is
-  /* gpio.Pin = GPIO_PIN_4; */
-  /* HAL_GPIO_Init(GPIOF, &gpio); */
+  HAL_GPIO_Init(GPIOA, &gpio);
 
   hadc_.Instance = ADC1;
   hadc_.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
@@ -50,7 +44,8 @@ void UIADCClass::Init() {
   HAL_ADC_Init(&hadc_);
 
   /* ADC1 DMA Init */
-  hdmaAdc_.Instance = DMA1_Channel1;
+  hdmaAdc_.Instance = DMA2_Channel3;
+  hdmaAdc_.Init.Request = DMA_REQUEST_0;
   hdmaAdc_.Init.Direction = DMA_PERIPH_TO_MEMORY;
   hdmaAdc_.Init.PeriphInc = DMA_PINC_DISABLE;
   hdmaAdc_.Init.MemInc = DMA_MINC_ENABLE;
@@ -101,11 +96,11 @@ void UIADCClass::Init() {
   sConfig.Rank = ADC_REGULAR_RANK_8;
   HAL_ADC_ConfigChannel(&hadc_, &sConfig);
 
-  HAL_NVIC_SetPriority(ADC1_2_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(ADC1_2_IRQn);
+  HAL_NVIC_SetPriority(ADC1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(ADC1_IRQn);
 
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+  HAL_NVIC_SetPriority(DMA2_Channel3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Channel3_IRQn);
 
   HAL_ADCEx_Calibration_Start(&hadc_, ADC_SINGLE_ENDED);
 

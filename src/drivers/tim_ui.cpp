@@ -14,7 +14,7 @@ void UITimerClass::Init() {
 
   __HAL_RCC_TIM3_CLK_ENABLE();
   htim_.Instance = TIM3;
-  htim_.Init.Prescaler = 47999;  // 1000Hz
+  htim_.Init.Prescaler = 39999;  // 1000Hz
   htim_.Init.Period = (1000 / UI_TIMER_SAMPLE_RATE) - 1;
   htim_.Init.CounterMode = TIM_COUNTERMODE_UP;
 
