@@ -5,11 +5,8 @@
 #include <stm32l4xx_hal.h>
 
 // @TODO use hardware chip select
-#define PINS_SPI GPIO_PIN_5 | GPIO_PIN_7
-// @TODO have these in a config file somewhere
-#define GPIO_PORT GPIOA
-// @TODO Adjust this value
-#define DAC_VOLTAGE_MULTIPLIER 10
+#define PINS_SPI GPIO_PIN_13 | GPIO_PIN_15
+#define PIN_SPI_CS GPIO_PIN_12
 
 SPI_HandleTypeDef spi;
 
@@ -18,10 +15,10 @@ DACClass::DACClass() = default;
 void DACClass::Init() {
   GPIO_InitTypeDef GPIO_InitStruct;
 
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_SPI1_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_SPI2_CLK_ENABLE();
 
-  spi.Instance = SPI1;
+  spi.Instance = SPI2;
   spi.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   spi.Init.Direction = SPI_DIRECTION_2LINES;
   spi.Init.CLKPhase = SPI_PHASE_1EDGE;
@@ -40,19 +37,31 @@ void DACClass::Init() {
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+  GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
 
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  GPIO_InitStruct.Pin = GPIO_PIN_4;
+  GPIO_InitStruct.Pin = PIN_SPI_CS;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_WritePin(GPIOB, PIN_SPI_CS, GPIO_PIN_SET);
+
+  command_[0] = 0b00111000;
+  command_[1] = 0;
+  command_[2] = 1;
+  HAL_GPIO_WritePin(GPIOB, PIN_SPI_CS, GPIO_PIN_RESET);
+  // @TODO this can't be _IT for some reason. find out why
+  HAL_SPI_Transmit(&spi, command_, 3, HAL_MAX_DELAY);
+  HAL_GPIO_WritePin(GPIOB, PIN_SPI_CS, GPIO_PIN_SET);
 }
 
 // @TODO make this take an actual voltage e.g. 8000 for 8V
 void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
+  // We only have two channels
+  if (channel > 1) {
+    channel = 1;
+  }
   /* @TODO do we need a `ready` flag? */
   /* Write to buffer with data and load DAC (selected by DB17 and DB18) */
   // @TODO it is very unclear to me why it has to be binary. See logic analyzer
@@ -63,21 +72,20 @@ void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
    * c 0b00010100
    * d 0b00010110
    */
-  command_[0] = 0b00010000 | (channel * 2);
-  /* command_[0] = 0b00010110; */
+  command_[0] = 0b00011000 | channel;
   // Upper 8 bits
   command_[1] = voltage >> 8;
   // Lower 8 bits
   command_[2] = voltage & 0xff;
   // @TODO interrupt handlers!
 
+  HAL_GPIO_WritePin(GPIOB, PIN_SPI_CS, GPIO_PIN_RESET);
   // @TODO this can't be _IT for some reason. find out why
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
   HAL_SPI_Transmit(&spi, command_, 3, HAL_MAX_DELAY);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, PIN_SPI_CS, GPIO_PIN_SET);
 }
 
-// @TODO move this function elsewhere
+// @TODO move this function elsewhere (or remove it?)
 void DACClass::SetNoteVoltage(uint8_t channel, uint8_t note, uint8_t octave) {
   // @TODO tunining (equal temperament?)
   uint8_t absoluteNote = octave * 12 + note;

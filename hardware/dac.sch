@@ -178,4 +178,6 @@ Wire Wire Line
 	5000 1850 5350 1850
 Text Notes 3950 1750 0    50   ~ 0
 Note: run on 5v? So we can use this for CV in as well?\n
+Text Notes 4400 4650 0    50   ~ 0
+Check Layout example in datasheet!!
 $EndSCHEMATC
