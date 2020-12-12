@@ -6,9 +6,18 @@
 #include <stm32l4xx_hal.h>
 
 class LEDClass {
+ private:
+  // @TODO: Idea! Keep the LED state stored in class instance
+  // to be able to just toggle individual LEDs
+  // Initialize with 0?
+  uint8_t spiBuffer_[81] = {0};
+  QSPI_CommandTypeDef cqspi_ = {0};
+  QSPI_HandleTypeDef hqspi_ = {nullptr};
+
  public:
   LEDClass();
   void Init();
+  void Update();
 };
 
 extern LEDClass LED;

@@ -92,6 +92,7 @@ int main() {
       // That's why it's in the loop here
       _DAC.SetVoltage(0, 0);
       _DAC.SetVoltage(1, 0);
+      /* LED.Update(); */
       /* _DAC.SetVoltage(1, 40000); */
       /* _DAC.SetVoltage(2, 50000); */
       /* _DAC.SetVoltage(3, 60000); */
