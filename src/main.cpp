@@ -6,6 +6,7 @@
 #include "drivers/adc_ui.h"
 #include "drivers/dac.h"
 #include "drivers/fader_led.h"
+#include "drivers/led.h"
 #include "drivers/tim_metronome.h"
 #include "drivers/tim_ui.h"
 #include "quantizer.h"
@@ -15,16 +16,8 @@
 // @TODO Apply
 // https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
 
-#define DATA_PIN GPIO_PIN_0
-#define CLK_PIN GPIO_PIN_1
-#define LAT_PIN GPIO_PIN_4
-
-TIM_HandleTypeDef htim1;
-
-void MX_TIM1_Init(void);
-
 // Default clock config, generated with STM32CubeMX
-void SystemClock_Config(void)
+void SystemClock_Config()
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
@@ -68,17 +61,6 @@ void SystemClock_Config(void)
   HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
 }
 
-void writeLEDData(uint8_t data[16]) {
-  for (uint8_t i = 0; i < 16; i++) {
-    HAL_GPIO_WritePin(GPIOA, DATA_PIN, data[i] ? GPIO_PIN_SET : GPIO_PIN_RESET);
-    HAL_Delay(1);
-    HAL_GPIO_WritePin(GPIOA, CLK_PIN, GPIO_PIN_SET);
-    HAL_Delay(1);
-    HAL_GPIO_WritePin(GPIOA, CLK_PIN, GPIO_PIN_RESET);
-  }
-  HAL_GPIO_WritePin(GPIOA, DATA_PIN, GPIO_PIN_RESET);
-}
-
 int main() {
   HAL_Init();
   SystemClock_Config();
@@ -89,6 +71,7 @@ int main() {
   UITimer.Init();
   UIADC.Init();
   FaderLED.Init();
+  LED.Init();
   Quantizer.Refresh();
 
   /* char msg[20] = "Hello world"; */
@@ -104,10 +87,11 @@ int main() {
       uint16_t voltage = 16 * faderPos - 1;
       sprintf(msg, "rawValue%d: %hu\r\n", step, voltage);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg), HAL_MAX_DELAY);
-      _DAC.SetVoltage(0, voltage);
+      /* _DAC.SetVoltage(0, voltage); */
       // @TODO make sure that the dac is ready before sending this command
       // That's why it's in the loop here
-      /* _DAC.SetVoltage(0, 0); */
+      _DAC.SetVoltage(0, 0);
+      _DAC.SetVoltage(1, 0);
       /* _DAC.SetVoltage(1, 40000); */
       /* _DAC.SetVoltage(2, 50000); */
       /* _DAC.SetVoltage(3, 60000); */

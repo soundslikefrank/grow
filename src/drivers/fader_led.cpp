@@ -7,7 +7,7 @@ FaderLEDClass::FaderLEDClass() = default;
    GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13)
 
 void FaderLEDClass::Init() {
-  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
