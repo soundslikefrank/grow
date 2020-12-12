@@ -39,39 +39,12 @@ F 3 "" H 7250 4450 50  0001 C CNN
 	1    7250 4450
 	1    0    0    -1  
 $EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 5FCB3D42
-P 7250 5500
-F 0 "#PWR?" H 7250 5250 50  0001 C CNN
-F 1 "GND" H 7255 5327 50  0000 C CNN
-F 2 "" H 7250 5500 50  0001 C CNN
-F 3 "" H 7250 5500 50  0001 C CNN
-	1    7250 5500
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C?
-U 1 1 5FCB5486
-P 7250 5000
-F 0 "C?" H 7365 5046 50  0000 L CNN
-F 1 "1u" H 7365 4955 50  0000 L CNN
-F 2 "" H 7288 4850 50  0001 C CNN
-F 3 "~" H 7250 5000 50  0001 C CNN
-	1    7250 5000
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	7250 4450 7250 4650
 Wire Wire Line
 	7250 4650 7550 4650
 Wire Wire Line
-	7250 4650 7250 4850
-Connection ~ 7250 4650
-Wire Wire Line
 	8100 4650 8100 4850
-Wire Wire Line
-	7250 5150 7250 5500
 $Comp
 L power:GND #PWR?
 U 1 1 5FCB7A00
@@ -92,7 +65,7 @@ L Device:R R?
 U 1 1 5FCB4061
 P 7700 4650
 F 0 "R?" V 7493 4650 50  0000 C CNN
-F 1 "4k7" V 7584 4650 50  0000 C CNN
+F 1 "2k2" V 7584 4650 50  0000 C CNN
 F 2 "" V 7630 4650 50  0001 C CNN
 F 3 "~" H 7700 4650 50  0001 C CNN
 F 4 "0-2mA, 3k3 - 7k ohm" V 7700 4650 50  0001 C CNN "Note"
@@ -143,4 +116,107 @@ Wire Notes Line
 	9950 4100 6950 4100
 Text Notes 6950 4050 0    50   ~ 0
 5V reference
+Wire Wire Line
+	7250 1850 7250 2050
+Wire Wire Line
+	7250 2050 7550 2050
+Wire Wire Line
+	8100 2050 8100 2250
+$Comp
+L power:GND #PWR?
+U 1 1 5FD4341E
+P 8100 2900
+F 0 "#PWR?" H 8100 2650 50  0001 C CNN
+F 1 "GND" H 8105 2727 50  0000 C CNN
+F 2 "" H 8100 2900 50  0001 C CNN
+F 3 "" H 8100 2900 50  0001 C CNN
+	1    8100 2900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8100 2550 8100 2900
+Wire Wire Line
+	7850 2050 8100 2050
+$Comp
+L Device:R R?
+U 1 1 5FD43427
+P 7700 2050
+F 0 "R?" V 7493 2050 50  0000 C CNN
+F 1 "1k8" V 7584 2050 50  0000 C CNN
+F 2 "" V 7630 2050 50  0001 C CNN
+F 3 "~" H 7700 2050 50  0001 C CNN
+F 4 "0-2mA, 3k3 - 7k ohm" V 7700 2050 50  0001 C CNN "Note"
+	1    7700 2050
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5FD4342D
+P 8950 2400
+F 0 "C?" H 9065 2446 50  0000 L CNN
+F 1 "1u" H 9065 2355 50  0000 L CNN
+F 2 "" H 8988 2250 50  0001 C CNN
+F 3 "~" H 8950 2400 50  0001 C CNN
+	1    8950 2400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8100 2050 8950 2050
+Wire Wire Line
+	8950 2050 8950 2250
+Connection ~ 8100 2050
+$Comp
+L power:GND #PWR?
+U 1 1 5FD43436
+P 8950 2900
+F 0 "#PWR?" H 8950 2650 50  0001 C CNN
+F 1 "GND" H 8955 2727 50  0000 C CNN
+F 2 "" H 8950 2900 50  0001 C CNN
+F 3 "" H 8950 2900 50  0001 C CNN
+	1    8950 2900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8950 2550 8950 2900
+Text GLabel 9450 2050 2    50   Input ~ 0
+ref_-10v
+Connection ~ 8950 2050
+Wire Wire Line
+	8950 2050 9450 2050
+Wire Notes Line
+	6950 1500 6950 3250
+Wire Notes Line
+	6950 3250 9950 3250
+Wire Notes Line
+	9950 3250 9950 1500
+Wire Notes Line
+	9950 1500 6950 1500
+Text Notes 6950 1450 0    50   ~ 0
+-10V reference
+$Comp
+L power:VEE #PWR?
+U 1 1 5FD437B3
+P 7250 1850
+F 0 "#PWR?" H 7250 1700 50  0001 C CNN
+F 1 "VEE" H 7265 2023 50  0000 C CNN
+F 2 "" H 7250 1850 50  0001 C CNN
+F 3 "" H 7250 1850 50  0001 C CNN
+	1    7250 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Reference_Voltage:LM4040DBZ-10 U?
+U 1 1 5FD44CC9
+P 8100 2400
+F 0 "U?" V 8054 2479 50  0000 L CNN
+F 1 "LM4040DBZ-10" V 8145 2479 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 8100 2200 50  0001 C CIN
+F 3 "http://www.ti.com/lit/ds/symlink/lm4040-n.pdf" H 8100 2400 50  0001 C CIN
+	1    8100 2400
+	0    1    1    0   
+$EndComp
+Text Notes 9150 2050 0    50   ~ 0
+0.1mA
+Text Notes 9150 4650 0    50   ~ 0
+2.2mA
 $EndSCHEMATC

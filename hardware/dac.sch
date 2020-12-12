@@ -69,8 +69,6 @@ Wire Wire Line
 Connection ~ 6300 3950
 Wire Wire Line
 	6300 3950 6400 3950
-Text GLabel 4250 1850 0    50   Input ~ 0
-3v3_a
 $Comp
 L Device:C C?
 U 1 1 5FB6035A
@@ -93,7 +91,6 @@ F 3 "~" H 4600 2000 50  0001 C CNN
 	1    4600 2000
 	1    0    0    -1  
 $EndComp
-Connection ~ 4600 1850
 Wire Wire Line
 	4600 1850 4250 1850
 $Comp
@@ -128,8 +125,6 @@ F 3 "~" H 6400 3600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6150 3750 6400 3750
-Text GLabel 6400 3350 1    50   Input ~ 0
-3v3_a
 Wire Wire Line
 	6400 3450 6400 3350
 $Sheet
@@ -172,12 +167,26 @@ dac_vref
 Text GLabel 6550 1850 1    50   Input ~ 0
 dac_vref
 Wire Wire Line
-	4600 1850 5000 1850
-Connection ~ 5000 1850
-Wire Wire Line
 	5000 1850 5350 1850
 Text Notes 3950 1750 0    50   ~ 0
 Note: run on 5v? So we can use this for CV in as well?\n
 Text Notes 4400 4650 0    50   ~ 0
 Check Layout example in datasheet!!
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5FD27C48
+P 6400 3350
+F 0 "#PWR?" H 6400 3200 50  0001 C CNN
+F 1 "+3V3" H 6415 3523 50  0000 C CNN
+F 2 "" H 6400 3350 50  0001 C CNN
+F 3 "" H 6400 3350 50  0001 C CNN
+	1    6400 3350
+	1    0    0    -1  
+$EndComp
+Text GLabel 4250 1850 0    50   Input ~ 0
+ref_5v
+Wire Wire Line
+	4600 1850 5000 1850
+Connection ~ 4600 1850
+Connection ~ 5000 1850
 $EndSCHEMATC
