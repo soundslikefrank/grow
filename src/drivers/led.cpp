@@ -32,6 +32,11 @@ void LEDClass::Init() {
   TIM_OC_InitTypeDef sConfigOC = {0};
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_TIM1_CLK_ENABLE();
+  __HAL_RCC_QSPI_CLK_ENABLE();
+
   /* GSCLK timer configuration */
   GPIO_InitStruct.Pin = GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -64,12 +69,11 @@ void LEDClass::Init() {
   hqspi_.Init.DualFlash = QSPI_DUALFLASH_DISABLE;
   HAL_QSPI_Init(&hqspi_);
 
-  /* Peripheral clock enable */
-  /**QUADSPI GPIO Configuration
-  PB0     ------> QUADSPI_BK1_IO1
-  PB1     ------> QUADSPI_BK1_IO0
-  PB10     ------> QUADSPI_CLK
-  */
+  /*
+   * PB0     ------> DATA / QUADSPI_BK1_IO1
+   * PB1     ------> LAT / QUADSPI_BK1_IO0
+   * PB10     ------> CLK / QUADSPI_CLK
+   */
   GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_10;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -77,24 +81,13 @@ void LEDClass::Init() {
   GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-
-  __HAL_RCC_TIM1_CLK_ENABLE();
-
-  __HAL_RCC_QSPI_CLK_ENABLE();
-
-  /* Reset QSPI as per RM */
-  __HAL_RCC_QSPI_FORCE_RESET();
-  __HAL_RCC_QSPI_RELEASE_RESET();
-
-  /* Start TIM1 */
   HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_1);
 }
 
 void LEDClass::Update() {
   for (uint8_t i = 0; i < 16; i++) {
-    /* We need 5 bytes for the data to send:
+    /*
+     * We need 5 bytes for the data to send:
      * 2 bytes for SIN data
      * 2 bytes for LAT silence
      * 1 byte to send LAT command
