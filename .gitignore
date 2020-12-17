@@ -46,3 +46,6 @@ fp-info-cache
 *.xml
 *.csv
 models
+
+# Cache
+.cache

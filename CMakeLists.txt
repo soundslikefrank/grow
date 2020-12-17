@@ -52,11 +52,13 @@ set(PROJECT_FILES
   src/quantizer.cpp
   src/sequencer.cpp
   src/drivers/adc_ui.cpp
-  src/drivers/led.cpp
-  src/drivers/fader_led.cpp
   src/drivers/dac.cpp
+  src/drivers/fader_led.cpp
+  src/drivers/jack_detect.cpp
+  src/drivers/led.cpp
   src/drivers/tim_ui.cpp
   src/drivers/tim_metronome.cpp
+
   src/stm32l4xx_it.cpp # Interrupt handlers
   src/system_stm32l4xx.c # System settings
 

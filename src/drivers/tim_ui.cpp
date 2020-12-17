@@ -3,8 +3,7 @@
 #include "drivers/tim_ui.h"
 #include <stm32l4xx_hal.h>
 
-// Times per second, has to be divisor of 1000
-#define UI_TIMER_SAMPLE_RATE 500
+// @TODO rename. Maybe IO timer? input-timer?
 
 UITimerClass::UITimerClass() = default;
 
@@ -14,8 +13,10 @@ void UITimerClass::Init() {
 
   __HAL_RCC_TIM3_CLK_ENABLE();
   htim_.Instance = TIM3;
-  htim_.Init.Prescaler = 39999;  // 1000Hz
-  htim_.Init.Period = (1000 / UI_TIMER_SAMPLE_RATE) - 1;
+  // @40Mhz SysClock this should be 4kHz
+  htim_.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim_.Init.Prescaler = 19;
+  htim_.Init.Period =  499;
   htim_.Init.CounterMode = TIM_COUNTERMODE_UP;
 
   HAL_NVIC_SetPriority(TIM3_IRQn, 1, 1);

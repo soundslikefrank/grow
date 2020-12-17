@@ -7,7 +7,7 @@
 
 class UIADCClass {
  private:
-  static uint16_t adcValues[8];
+  static uint16_t adcValues[12];
   ADC_HandleTypeDef hadc_;
   DMA_HandleTypeDef hdmaAdc_;
  public:
