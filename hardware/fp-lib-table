@@ -1,3 +1,6 @@
 (fp_lib_table
   (lib (name DAC8562)(type KiCad)(uri ${KIPRJMOD}/models/DAC8562.pretty)(options "")(descr ""))
+  (lib (name PTL30-10R1-103B2)(type KiCad)(uri ${KIPRJMOD}/models/PTL30-10R1-103B2.pretty)(options "")(descr ""))
+  (lib (name TLC59482DBQ)(type KiCad)(uri ${KIPRJMOD}/models/TLC59482DBQ.pretty)(options "")(descr ""))
+  (lib (name SN74AHCT1G125DBVR)(type KiCad)(uri ${KIPRJMOD}/models/SN74AHCT1G125DBVR.pretty)(options "")(descr ""))
 )

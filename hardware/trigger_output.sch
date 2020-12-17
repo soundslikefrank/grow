@@ -1,0 +1,306 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 9 9
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Text HLabel 3850 2750 0    50   Input ~ 0
+trigger_out_a
+Text HLabel 3850 3900 0    50   Input ~ 0
+trigger_out_b
+$Comp
+L thonkiconn_jackSocket_fuzzySi:fuzzySI_thonkiconn J?
+U 1 1 5FDC2D9B
+P 6450 2550
+AR Path="/5ED37B53/5FB5AC07/5FDC2D9B" Ref="J?"  Part="1" 
+AR Path="/5FDBBE2F/5FDC2D9B" Ref="J?"  Part="1" 
+F 0 "J?" H 6162 2526 50  0000 R CNN
+F 1 "TRIGGER_OUT_A" H 6162 2617 50  0000 R CNN
+F 2 "" H 6700 2650 50  0001 C CNN
+F 3 "" H 6700 2650 50  0001 C CNN
+	1    6450 2550
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FDC2DA1
+P 6650 2350
+AR Path="/5ED37B53/5FB5AC07/5FDC2DA1" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDC2DA1" Ref="#PWR0167"  Part="1" 
+F 0 "#PWR0167" H 6650 2100 50  0001 C CNN
+F 1 "GND" V 6655 2222 50  0000 R CNN
+F 2 "" H 6650 2350 50  0001 C CNN
+F 3 "" H 6650 2350 50  0001 C CNN
+	1    6650 2350
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6650 2350 6650 2400
+Wire Wire Line
+	6250 2550 6250 2400
+Wire Wire Line
+	6250 2400 6650 2400
+Connection ~ 6650 2400
+Wire Wire Line
+	6650 2400 6650 2450
+Wire Wire Line
+	5200 2650 5650 2650
+$Comp
+L power:GND #PWR?
+U 1 1 5FDC3D71
+P 4200 2650
+AR Path="/5ED37B53/5FB5AC07/5FDC3D71" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDC3D71" Ref="#PWR0168"  Part="1" 
+F 0 "#PWR0168" H 4200 2400 50  0001 C CNN
+F 1 "GND" V 4205 2522 50  0000 R CNN
+F 2 "" H 4200 2650 50  0001 C CNN
+F 3 "" H 4200 2650 50  0001 C CNN
+	1    4200 2650
+	0    1    1    0   
+$EndComp
+$Comp
+L SN74AHCT1G125DBVR:SN74AHCT1G125DBVR IC?
+U 1 1 5FDC47DC
+P 4200 2650
+F 0 "IC?" H 4700 2915 50  0000 C CNN
+F 1 "SN74AHCT1G125DBVR" H 4700 2824 50  0000 C CNN
+F 2 "SOT95P280X145-5N" H 5050 2750 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/sn74ahct1g125.pdf" H 5050 2650 50  0001 L CNN
+F 4 "74AHCT Single Tri-state Bus Buffer SOT23 SN74AHCT1G125DBVR, Bus Buffer, HCT, 8.5 ns@ 50 pF, 8mA 4.5 ??? 5.5 V 5-Pin SOT-23" H 5050 2550 50  0001 L CNN "Description"
+F 5 "1.45" H 5050 2450 50  0001 L CNN "Height"
+F 6 "Texas Instruments" H 5050 2350 50  0001 L CNN "Manufacturer_Name"
+F 7 "SN74AHCT1G125DBVR" H 5050 2250 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "SN74AHCT1G125DBVR" H 5050 2150 50  0001 L CNN "Arrow Part Number"
+F 9 "https://www.arrow.com/en/products/sn74ahct1g125dbvr/texas-instruments" H 5050 2050 50  0001 L CNN "Arrow Price/Stock"
+F 10 "595-SNAHCT1G125DBVR" H 5050 1950 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/SN74AHCT1G125DBVR?qs=N6WZOzgtpqVaVW8Lh%252BgevA%3D%3D" H 5050 1850 50  0001 L CNN "Mouser Price/Stock"
+	1    4200 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FDC7341
+P 4200 2850
+AR Path="/5ED37B53/5FB5AC07/5FDC7341" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDC7341" Ref="#PWR0169"  Part="1" 
+F 0 "#PWR0169" H 4200 2600 50  0001 C CNN
+F 1 "GND" V 4205 2722 50  0000 R CNN
+F 2 "" H 4200 2850 50  0001 C CNN
+F 3 "" H 4200 2850 50  0001 C CNN
+	1    4200 2850
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 5FDC8A1E
+P 5200 2750
+AR Path="/5FDF6408/5FDC8A1E" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDC8A1E" Ref="#PWR0170"  Part="1" 
+F 0 "#PWR0170" H 5200 2600 50  0001 C CNN
+F 1 "+5V" V 5215 2878 50  0000 L CNN
+F 2 "" H 5200 2750 50  0001 C CNN
+F 3 "" H 5200 2750 50  0001 C CNN
+	1    5200 2750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4200 2750 3850 2750
+$Comp
+L power:+5V #PWR?
+U 1 1 5FDC9F6E
+P 1650 1100
+AR Path="/5FDF6408/5FDC9F6E" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDC9F6E" Ref="#PWR0171"  Part="1" 
+F 0 "#PWR0171" H 1650 950 50  0001 C CNN
+F 1 "+5V" V 1665 1228 50  0000 L CNN
+F 2 "" H 1650 1100 50  0001 C CNN
+F 3 "" H 1650 1100 50  0001 C CNN
+	1    1650 1100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FDCAA12
+P 1650 1500
+AR Path="/5ED37B53/5FB5AC07/5FDCAA12" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDCAA12" Ref="#PWR0172"  Part="1" 
+F 0 "#PWR0172" H 1650 1250 50  0001 C CNN
+F 1 "GND" V 1655 1372 50  0000 R CNN
+F 2 "" H 1650 1500 50  0001 C CNN
+F 3 "" H 1650 1500 50  0001 C CNN
+	1    1650 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1650 1100 1350 1100
+Wire Wire Line
+	1350 1100 1350 1150
+Wire Wire Line
+	1350 1500 1650 1500
+Wire Wire Line
+	1650 1100 1950 1100
+Wire Wire Line
+	1950 1100 1950 1150
+Wire Wire Line
+	1950 1500 1650 1500
+Connection ~ 1650 1100
+Connection ~ 1650 1500
+$Comp
+L Device:C C?
+U 1 1 5FDCBA9F
+P 1350 1300
+F 0 "C?" H 1465 1346 50  0000 L CNN
+F 1 "100n" H 1465 1255 50  0000 L CNN
+F 2 "" H 1388 1150 50  0001 C CNN
+F 3 "~" H 1350 1300 50  0001 C CNN
+	1    1350 1300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1350 1450 1350 1500
+$Comp
+L Device:C C?
+U 1 1 5FDCC13F
+P 1950 1300
+F 0 "C?" H 2065 1346 50  0000 L CNN
+F 1 "100n" H 2065 1255 50  0000 L CNN
+F 2 "" H 1988 1150 50  0001 C CNN
+F 3 "~" H 1950 1300 50  0001 C CNN
+	1    1950 1300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1950 1450 1950 1500
+$Comp
+L Device:R R?
+U 1 1 5FDD01CA
+P 5800 2650
+F 0 "R?" V 5593 2650 50  0000 C CNN
+F 1 "1k" V 5684 2650 50  0000 C CNN
+F 2 "" V 5730 2650 50  0001 C CNN
+F 3 "~" H 5800 2650 50  0001 C CNN
+	1    5800 2650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5950 2650 6250 2650
+$Comp
+L thonkiconn_jackSocket_fuzzySi:fuzzySI_thonkiconn J?
+U 1 1 5FDD72CF
+P 6450 3700
+AR Path="/5ED37B53/5FB5AC07/5FDD72CF" Ref="J?"  Part="1" 
+AR Path="/5FDBBE2F/5FDD72CF" Ref="J?"  Part="1" 
+F 0 "J?" H 6162 3676 50  0000 R CNN
+F 1 "TRIGGER_OUT_B" H 6162 3767 50  0000 R CNN
+F 2 "" H 6700 3800 50  0001 C CNN
+F 3 "" H 6700 3800 50  0001 C CNN
+	1    6450 3700
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FDD72D5
+P 6650 3500
+AR Path="/5ED37B53/5FB5AC07/5FDD72D5" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDD72D5" Ref="#PWR0173"  Part="1" 
+F 0 "#PWR0173" H 6650 3250 50  0001 C CNN
+F 1 "GND" V 6655 3372 50  0000 R CNN
+F 2 "" H 6650 3500 50  0001 C CNN
+F 3 "" H 6650 3500 50  0001 C CNN
+	1    6650 3500
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6650 3500 6650 3550
+Wire Wire Line
+	6250 3700 6250 3550
+Wire Wire Line
+	6250 3550 6650 3550
+Connection ~ 6650 3550
+Wire Wire Line
+	6650 3550 6650 3600
+Wire Wire Line
+	5200 3800 5650 3800
+$Comp
+L power:GND #PWR?
+U 1 1 5FDD72E1
+P 4200 3800
+AR Path="/5ED37B53/5FB5AC07/5FDD72E1" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDD72E1" Ref="#PWR0174"  Part="1" 
+F 0 "#PWR0174" H 4200 3550 50  0001 C CNN
+F 1 "GND" V 4205 3672 50  0000 R CNN
+F 2 "" H 4200 3800 50  0001 C CNN
+F 3 "" H 4200 3800 50  0001 C CNN
+	1    4200 3800
+	0    1    1    0   
+$EndComp
+$Comp
+L SN74AHCT1G125DBVR:SN74AHCT1G125DBVR IC?
+U 1 1 5FDD72EF
+P 4200 3800
+F 0 "IC?" H 4700 4065 50  0000 C CNN
+F 1 "SN74AHCT1G125DBVR" H 4700 3974 50  0000 C CNN
+F 2 "SOT95P280X145-5N" H 5050 3900 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/sn74ahct1g125.pdf" H 5050 3800 50  0001 L CNN
+F 4 "74AHCT Single Tri-state Bus Buffer SOT23 SN74AHCT1G125DBVR, Bus Buffer, HCT, 8.5 ns@ 50 pF, 8mA 4.5 ??? 5.5 V 5-Pin SOT-23" H 5050 3700 50  0001 L CNN "Description"
+F 5 "1.45" H 5050 3600 50  0001 L CNN "Height"
+F 6 "Texas Instruments" H 5050 3500 50  0001 L CNN "Manufacturer_Name"
+F 7 "SN74AHCT1G125DBVR" H 5050 3400 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "SN74AHCT1G125DBVR" H 5050 3300 50  0001 L CNN "Arrow Part Number"
+F 9 "https://www.arrow.com/en/products/sn74ahct1g125dbvr/texas-instruments" H 5050 3200 50  0001 L CNN "Arrow Price/Stock"
+F 10 "595-SNAHCT1G125DBVR" H 5050 3100 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/SN74AHCT1G125DBVR?qs=N6WZOzgtpqVaVW8Lh%252BgevA%3D%3D" H 5050 3000 50  0001 L CNN "Mouser Price/Stock"
+	1    4200 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FDD72F5
+P 4200 4000
+AR Path="/5ED37B53/5FB5AC07/5FDD72F5" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDD72F5" Ref="#PWR0175"  Part="1" 
+F 0 "#PWR0175" H 4200 3750 50  0001 C CNN
+F 1 "GND" V 4205 3872 50  0000 R CNN
+F 2 "" H 4200 4000 50  0001 C CNN
+F 3 "" H 4200 4000 50  0001 C CNN
+	1    4200 4000
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 5FDD72FB
+P 5200 3900
+AR Path="/5FDF6408/5FDD72FB" Ref="#PWR?"  Part="1" 
+AR Path="/5FDBBE2F/5FDD72FB" Ref="#PWR0176"  Part="1" 
+F 0 "#PWR0176" H 5200 3750 50  0001 C CNN
+F 1 "+5V" V 5215 4028 50  0000 L CNN
+F 2 "" H 5200 3900 50  0001 C CNN
+F 3 "" H 5200 3900 50  0001 C CNN
+	1    5200 3900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4200 3900 3850 3900
+$Comp
+L Device:R R?
+U 1 1 5FDD7302
+P 5800 3800
+F 0 "R?" V 5593 3800 50  0000 C CNN
+F 1 "1k" V 5684 3800 50  0000 C CNN
+F 2 "" V 5730 3800 50  0001 C CNN
+F 3 "~" H 5800 3800 50  0001 C CNN
+	1    5800 3800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5950 3800 6250 3800
+$EndSCHEMATC

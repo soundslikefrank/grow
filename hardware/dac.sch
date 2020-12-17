@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 6
+Sheet 3 9
 Title ""
 Date ""
 Rev ""
@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L power:GND #PWR?
+L power:GND #PWR0106
 U 1 1 5ED3A9D0
 P 6400 3950
-F 0 "#PWR?" H 6400 3700 50  0001 C CNN
+F 0 "#PWR0106" H 6400 3700 50  0001 C CNN
 F 1 "GND" V 6405 3822 50  0000 R CNN
 F 2 "" H 6400 3950 50  0001 C CNN
 F 3 "" H 6400 3950 50  0001 C CNN
@@ -25,7 +25,7 @@ F 3 "" H 6400 3950 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 Text HLabel 4450 3850 0    50   Input ~ 0
-dac_sck
+dac_clk
 Text HLabel 4450 3950 0    50   Input ~ 0
 dac_mosi
 Text HLabel 4450 3750 0    50   Input ~ 0
@@ -50,10 +50,10 @@ F 11 "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/DAC8562SDGSR?qs=L
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:GND #PWR?
+L power:GND #PWR0107
 U 1 1 5FB5E7F1
 P 6550 2150
-F 0 "#PWR?" H 6550 1900 50  0001 C CNN
+F 0 "#PWR0107" H 6550 1900 50  0001 C CNN
 F 1 "GND" H 6555 1977 50  0000 C CNN
 F 2 "" H 6550 2150 50  0001 C CNN
 F 3 "" H 6550 2150 50  0001 C CNN
@@ -89,15 +89,13 @@ F 1 "1u" H 4485 2045 50  0000 R CNN
 F 2 "" H 4638 1850 50  0001 C CNN
 F 3 "~" H 4600 2000 50  0001 C CNN
 	1    4600 2000
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
-Wire Wire Line
-	4600 1850 4250 1850
 $Comp
-L power:GND #PWR?
+L power:GND #PWR0108
 U 1 1 5FB62572
 P 4800 2300
-F 0 "#PWR?" H 4800 2050 50  0001 C CNN
+F 0 "#PWR0108" H 4800 2050 50  0001 C CNN
 F 1 "GND" H 4805 2127 50  0000 C CNN
 F 2 "" H 4800 2300 50  0001 C CNN
 F 3 "" H 4800 2300 50  0001 C CNN
@@ -112,25 +110,10 @@ Wire Wire Line
 	6600 4150 6600 4300
 Wire Wire Line
 	6600 4300 7200 4300
-$Comp
-L Device:R R?
-U 1 1 5FB72111
-P 6400 3600
-F 0 "R?" H 6470 3646 50  0000 L CNN
-F 1 "10k" H 6470 3555 50  0000 L CNN
-F 2 "" V 6330 3600 50  0001 C CNN
-F 3 "~" H 6400 3600 50  0001 C CNN
-	1    6400 3600
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6150 3750 6400 3750
-Wire Wire Line
-	6400 3450 6400 3350
 $Sheet
 S 7200 3950 950  650 
 U 5FB5AC07
-F0 "cv outputs" 50
+F0 "CV Outputs" 50
 F1 "cv_outputs.sch" 50
 F2 "dac_channel_a" I L 7200 4050 50 
 F3 "dac_channel_b" I L 7200 4300 50 
@@ -168,15 +151,13 @@ Text GLabel 6550 1850 1    50   Input ~ 0
 dac_vref
 Wire Wire Line
 	5000 1850 5350 1850
-Text Notes 3950 1750 0    50   ~ 0
-Note: run on 5v? So we can use this for CV in as well?\n
 Text Notes 4400 4650 0    50   ~ 0
 Check Layout example in datasheet!!
 $Comp
-L power:+3V3 #PWR?
+L power:+3V3 #PWR0109
 U 1 1 5FD27C48
 P 6400 3350
-F 0 "#PWR?" H 6400 3200 50  0001 C CNN
+F 0 "#PWR0109" H 6400 3200 50  0001 C CNN
 F 1 "+3V3" H 6415 3523 50  0000 C CNN
 F 2 "" H 6400 3350 50  0001 C CNN
 F 3 "" H 6400 3350 50  0001 C CNN
@@ -185,8 +166,27 @@ F 3 "" H 6400 3350 50  0001 C CNN
 $EndComp
 Text GLabel 4250 1850 0    50   Input ~ 0
 ref_5v
+Connection ~ 5000 1850
+Wire Wire Line
+	4250 1850 4600 1850
+Connection ~ 4600 1850
 Wire Wire Line
 	4600 1850 5000 1850
-Connection ~ 4600 1850
-Connection ~ 5000 1850
+Wire Wire Line
+	6150 3750 6400 3750
+Wire Wire Line
+	6400 3750 6400 3700
+$Comp
+L Device:R R?
+U 1 1 5FB72111
+P 6400 3550
+F 0 "R?" H 6470 3596 50  0000 L CNN
+F 1 "10k" H 6470 3505 50  0000 L CNN
+F 2 "" V 6330 3550 50  0001 C CNN
+F 3 "~" H 6400 3550 50  0001 C CNN
+	1    6400 3550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6400 3350 6400 3400
 $EndSCHEMATC

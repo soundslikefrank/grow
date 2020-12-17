@@ -1,0 +1,656 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 7 9
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L PTL30-10R1-103B2:PTL30-10R1-103B2 VR?
+U 1 1 5FD4D1DE
+P 3250 3000
+F 0 "VR?" V 4300 2750 50  0000 R CNN
+F 1 "PTL30-10R0-502B2" V 4200 2750 50  0000 R CNN
+F 2 "PTL3010R1103B2" H 4200 3100 50  0001 L CNN
+F 3 "https://www.mouser.com/datasheet/2/54/PTL-777483.pdf" H 4200 3000 50  0001 L CNN
+F 4 "Slide Potentiometers 10Kohms Travel=30mm Center Detent" H 4200 2900 50  0001 L CNN "Description"
+F 5 "18" H 4200 2800 50  0001 L CNN "Height"
+F 6 "Bourns" H 4200 2700 50  0001 L CNN "Manufacturer_Name"
+F 7 "PTL30-10R0-502B2" H 4200 2600 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 4200 2500 50  0001 L CNN "Arrow Part Number"
+F 9 "" H 4200 2400 50  0001 L CNN "Arrow Price/Stock"
+F 10 "652-PTL30-10R0-502B2" H 4200 2300 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.com/ProductDetail/Bourns/PTL30-10R0-502B2" H 4200 2200 50  0001 L CNN "Mouser Price/Stock"
+	1    3250 3000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0132
+U 1 1 5FD6D396
+P 3250 1900
+F 0 "#PWR0132" H 3250 1650 50  0001 C CNN
+F 1 "GND" H 3255 1727 50  0000 C CNN
+F 2 "" H 3250 1900 50  0001 C CNN
+F 3 "" H 3250 1900 50  0001 C CNN
+	1    3250 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FD6E1A4
+P 3350 1500
+F 0 "R?" H 3420 1546 50  0000 L CNN
+F 1 "220R" H 3420 1455 50  0000 L CNN
+F 2 "" V 3280 1500 50  0001 C CNN
+F 3 "~" H 3350 1500 50  0001 C CNN
+	1    3350 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3350 1650 3350 1900
+$Comp
+L power:+3V3 #PWR0133
+U 1 1 5FD6EFE8
+P 3350 1350
+F 0 "#PWR0133" H 3350 1200 50  0001 C CNN
+F 1 "+3V3" H 3365 1523 50  0000 C CNN
+F 2 "" H 3350 1350 50  0001 C CNN
+F 3 "" H 3350 1350 50  0001 C CNN
+	1    3350 1350
+	1    0    0    -1  
+$EndComp
+Text HLabel 3100 3250 0    50   Output ~ 0
+fader_a
+$Comp
+L power:+3V3 #PWR0134
+U 1 1 5FD71896
+P 3350 3250
+F 0 "#PWR0134" H 3350 3100 50  0001 C CNN
+F 1 "+3V3" H 3365 3423 50  0000 C CNN
+F 2 "" H 3350 3250 50  0001 C CNN
+F 3 "" H 3350 3250 50  0001 C CNN
+	1    3350 3250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3100 3250 3250 3250
+Wire Wire Line
+	3250 3000 3250 3250
+Wire Wire Line
+	3350 3000 3350 3250
+NoConn ~ 3450 3000
+Text HLabel 3650 3100 2    50   Input ~ 0
+fader_a_led
+Wire Wire Line
+	3550 3000 3550 3100
+Wire Wire Line
+	3550 3100 3650 3100
+$Comp
+L PTL30-10R1-103B2:PTL30-10R1-103B2 VR?
+U 1 1 5FD899E0
+P 4650 3000
+F 0 "VR?" V 5700 2750 50  0000 R CNN
+F 1 "PTL30-10R0-502B2" V 5600 2750 50  0000 R CNN
+F 2 "PTL3010R1103B2" H 5600 3100 50  0001 L CNN
+F 3 "https://www.mouser.com/datasheet/2/54/PTL-777483.pdf" H 5600 3000 50  0001 L CNN
+F 4 "Slide Potentiometers 10Kohms Travel=30mm Center Detent" H 5600 2900 50  0001 L CNN "Description"
+F 5 "18" H 5600 2800 50  0001 L CNN "Height"
+F 6 "Bourns" H 5600 2700 50  0001 L CNN "Manufacturer_Name"
+F 7 "PTL30-10R0-502B2" H 5600 2600 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 5600 2500 50  0001 L CNN "Arrow Part Number"
+F 9 "" H 5600 2400 50  0001 L CNN "Arrow Price/Stock"
+F 10 "652-PTL30-10R0-502B2" H 5600 2300 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.com/ProductDetail/Bourns/PTL30-10R0-502B2" H 5600 2200 50  0001 L CNN "Mouser Price/Stock"
+	1    4650 3000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0135
+U 1 1 5FD899E6
+P 4650 1900
+F 0 "#PWR0135" H 4650 1650 50  0001 C CNN
+F 1 "GND" H 4655 1727 50  0000 C CNN
+F 2 "" H 4650 1900 50  0001 C CNN
+F 3 "" H 4650 1900 50  0001 C CNN
+	1    4650 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FD899EC
+P 4750 1500
+F 0 "R?" H 4820 1546 50  0000 L CNN
+F 1 "220R" H 4820 1455 50  0000 L CNN
+F 2 "" V 4680 1500 50  0001 C CNN
+F 3 "~" H 4750 1500 50  0001 C CNN
+	1    4750 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4750 1650 4750 1900
+$Comp
+L power:+3V3 #PWR0136
+U 1 1 5FD899F3
+P 4750 1350
+F 0 "#PWR0136" H 4750 1200 50  0001 C CNN
+F 1 "+3V3" H 4765 1523 50  0000 C CNN
+F 2 "" H 4750 1350 50  0001 C CNN
+F 3 "" H 4750 1350 50  0001 C CNN
+	1    4750 1350
+	1    0    0    -1  
+$EndComp
+Text HLabel 4500 3250 0    50   Output ~ 0
+fader_b
+$Comp
+L power:+3V3 #PWR0137
+U 1 1 5FD899FA
+P 4750 3250
+F 0 "#PWR0137" H 4750 3100 50  0001 C CNN
+F 1 "+3V3" H 4765 3423 50  0000 C CNN
+F 2 "" H 4750 3250 50  0001 C CNN
+F 3 "" H 4750 3250 50  0001 C CNN
+	1    4750 3250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4500 3250 4650 3250
+Wire Wire Line
+	4650 3000 4650 3250
+Wire Wire Line
+	4750 3000 4750 3250
+NoConn ~ 4850 3000
+Text HLabel 5050 3100 2    50   Input ~ 0
+fader_b_led
+Wire Wire Line
+	4950 3000 4950 3100
+Wire Wire Line
+	4950 3100 5050 3100
+$Comp
+L PTL30-10R1-103B2:PTL30-10R1-103B2 VR?
+U 1 1 5FD9454D
+P 6050 3000
+F 0 "VR?" V 7100 2750 50  0000 R CNN
+F 1 "PTL30-10R0-502B2" V 7000 2750 50  0000 R CNN
+F 2 "PTL3010R1103B2" H 7000 3100 50  0001 L CNN
+F 3 "https://www.mouser.com/datasheet/2/54/PTL-777483.pdf" H 7000 3000 50  0001 L CNN
+F 4 "Slide Potentiometers 10Kohms Travel=30mm Center Detent" H 7000 2900 50  0001 L CNN "Description"
+F 5 "18" H 7000 2800 50  0001 L CNN "Height"
+F 6 "Bourns" H 7000 2700 50  0001 L CNN "Manufacturer_Name"
+F 7 "PTL30-10R0-502B2" H 7000 2600 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 7000 2500 50  0001 L CNN "Arrow Part Number"
+F 9 "" H 7000 2400 50  0001 L CNN "Arrow Price/Stock"
+F 10 "652-PTL30-10R0-502B2" H 7000 2300 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.com/ProductDetail/Bourns/PTL30-10R0-502B2" H 7000 2200 50  0001 L CNN "Mouser Price/Stock"
+	1    6050 3000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0138
+U 1 1 5FD94553
+P 6050 1900
+F 0 "#PWR0138" H 6050 1650 50  0001 C CNN
+F 1 "GND" H 6055 1727 50  0000 C CNN
+F 2 "" H 6050 1900 50  0001 C CNN
+F 3 "" H 6050 1900 50  0001 C CNN
+	1    6050 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FD94559
+P 6150 1500
+F 0 "R?" H 6220 1546 50  0000 L CNN
+F 1 "220R" H 6220 1455 50  0000 L CNN
+F 2 "" V 6080 1500 50  0001 C CNN
+F 3 "~" H 6150 1500 50  0001 C CNN
+	1    6150 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 1650 6150 1900
+$Comp
+L power:+3V3 #PWR0139
+U 1 1 5FD94560
+P 6150 1350
+F 0 "#PWR0139" H 6150 1200 50  0001 C CNN
+F 1 "+3V3" H 6165 1523 50  0000 C CNN
+F 2 "" H 6150 1350 50  0001 C CNN
+F 3 "" H 6150 1350 50  0001 C CNN
+	1    6150 1350
+	1    0    0    -1  
+$EndComp
+Text HLabel 5900 3250 0    50   Output ~ 0
+fader_c
+$Comp
+L power:+3V3 #PWR0140
+U 1 1 5FD94567
+P 6150 3250
+F 0 "#PWR0140" H 6150 3100 50  0001 C CNN
+F 1 "+3V3" H 6165 3423 50  0000 C CNN
+F 2 "" H 6150 3250 50  0001 C CNN
+F 3 "" H 6150 3250 50  0001 C CNN
+	1    6150 3250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5900 3250 6050 3250
+Wire Wire Line
+	6050 3000 6050 3250
+Wire Wire Line
+	6150 3000 6150 3250
+NoConn ~ 6250 3000
+Text HLabel 6450 3100 2    50   Input ~ 0
+fader_c_led
+Wire Wire Line
+	6350 3000 6350 3100
+Wire Wire Line
+	6350 3100 6450 3100
+$Comp
+L PTL30-10R1-103B2:PTL30-10R1-103B2 VR?
+U 1 1 5FD9457C
+P 7450 3000
+F 0 "VR?" V 8500 2750 50  0000 R CNN
+F 1 "PTL30-10R0-502B2" V 8400 2750 50  0000 R CNN
+F 2 "PTL3010R1103B2" H 8400 3100 50  0001 L CNN
+F 3 "https://www.mouser.com/datasheet/2/54/PTL-777483.pdf" H 8400 3000 50  0001 L CNN
+F 4 "Slide Potentiometers 10Kohms Travel=30mm Center Detent" H 8400 2900 50  0001 L CNN "Description"
+F 5 "18" H 8400 2800 50  0001 L CNN "Height"
+F 6 "Bourns" H 8400 2700 50  0001 L CNN "Manufacturer_Name"
+F 7 "PTL30-10R0-502B2" H 8400 2600 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 8400 2500 50  0001 L CNN "Arrow Part Number"
+F 9 "" H 8400 2400 50  0001 L CNN "Arrow Price/Stock"
+F 10 "652-PTL30-10R0-502B2" H 8400 2300 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.com/ProductDetail/Bourns/PTL30-10R0-502B2" H 8400 2200 50  0001 L CNN "Mouser Price/Stock"
+	1    7450 3000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0141
+U 1 1 5FD94582
+P 7450 1900
+F 0 "#PWR0141" H 7450 1650 50  0001 C CNN
+F 1 "GND" H 7455 1727 50  0000 C CNN
+F 2 "" H 7450 1900 50  0001 C CNN
+F 3 "" H 7450 1900 50  0001 C CNN
+	1    7450 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FD94588
+P 7550 1500
+F 0 "R?" H 7620 1546 50  0000 L CNN
+F 1 "220R" H 7620 1455 50  0000 L CNN
+F 2 "" V 7480 1500 50  0001 C CNN
+F 3 "~" H 7550 1500 50  0001 C CNN
+	1    7550 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7550 1650 7550 1900
+$Comp
+L power:+3V3 #PWR0142
+U 1 1 5FD9458F
+P 7550 1350
+F 0 "#PWR0142" H 7550 1200 50  0001 C CNN
+F 1 "+3V3" H 7565 1523 50  0000 C CNN
+F 2 "" H 7550 1350 50  0001 C CNN
+F 3 "" H 7550 1350 50  0001 C CNN
+	1    7550 1350
+	1    0    0    -1  
+$EndComp
+Text HLabel 7300 3250 0    50   Output ~ 0
+fader_d
+$Comp
+L power:+3V3 #PWR0143
+U 1 1 5FD94596
+P 7550 3250
+F 0 "#PWR0143" H 7550 3100 50  0001 C CNN
+F 1 "+3V3" H 7565 3423 50  0000 C CNN
+F 2 "" H 7550 3250 50  0001 C CNN
+F 3 "" H 7550 3250 50  0001 C CNN
+	1    7550 3250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	7300 3250 7450 3250
+Wire Wire Line
+	7450 3000 7450 3250
+Wire Wire Line
+	7550 3000 7550 3250
+NoConn ~ 7650 3000
+Text HLabel 7850 3100 2    50   Input ~ 0
+fader_d_led
+Wire Wire Line
+	7750 3000 7750 3100
+Wire Wire Line
+	7750 3100 7850 3100
+$Comp
+L PTL30-10R1-103B2:PTL30-10R1-103B2 VR?
+U 1 1 5FDC69CD
+P 3250 5550
+F 0 "VR?" V 4300 5300 50  0000 R CNN
+F 1 "PTL30-10R0-502B2" V 4200 5300 50  0000 R CNN
+F 2 "PTL3010R1103B2" H 4200 5650 50  0001 L CNN
+F 3 "https://www.mouser.com/datasheet/2/54/PTL-777483.pdf" H 4200 5550 50  0001 L CNN
+F 4 "Slide Potentiometers 10Kohms Travel=30mm Center Detent" H 4200 5450 50  0001 L CNN "Description"
+F 5 "18" H 4200 5350 50  0001 L CNN "Height"
+F 6 "Bourns" H 4200 5250 50  0001 L CNN "Manufacturer_Name"
+F 7 "PTL30-10R0-502B2" H 4200 5150 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 4200 5050 50  0001 L CNN "Arrow Part Number"
+F 9 "" H 4200 4950 50  0001 L CNN "Arrow Price/Stock"
+F 10 "652-PTL30-10R0-502B2" H 4200 4850 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.com/ProductDetail/Bourns/PTL30-10R0-502B2" H 4200 4750 50  0001 L CNN "Mouser Price/Stock"
+	1    3250 5550
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0144
+U 1 1 5FDC69D3
+P 3250 4450
+F 0 "#PWR0144" H 3250 4200 50  0001 C CNN
+F 1 "GND" H 3255 4277 50  0000 C CNN
+F 2 "" H 3250 4450 50  0001 C CNN
+F 3 "" H 3250 4450 50  0001 C CNN
+	1    3250 4450
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FDC69D9
+P 3350 4050
+F 0 "R?" H 3420 4096 50  0000 L CNN
+F 1 "220R" H 3420 4005 50  0000 L CNN
+F 2 "" V 3280 4050 50  0001 C CNN
+F 3 "~" H 3350 4050 50  0001 C CNN
+	1    3350 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3350 4200 3350 4450
+$Comp
+L power:+3V3 #PWR0145
+U 1 1 5FDC69E0
+P 3350 3900
+F 0 "#PWR0145" H 3350 3750 50  0001 C CNN
+F 1 "+3V3" H 3365 4073 50  0000 C CNN
+F 2 "" H 3350 3900 50  0001 C CNN
+F 3 "" H 3350 3900 50  0001 C CNN
+	1    3350 3900
+	1    0    0    -1  
+$EndComp
+Text HLabel 3100 5800 0    50   Output ~ 0
+fader_e
+$Comp
+L power:+3V3 #PWR0146
+U 1 1 5FDC69E7
+P 3350 5800
+F 0 "#PWR0146" H 3350 5650 50  0001 C CNN
+F 1 "+3V3" H 3365 5973 50  0000 C CNN
+F 2 "" H 3350 5800 50  0001 C CNN
+F 3 "" H 3350 5800 50  0001 C CNN
+	1    3350 5800
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3100 5800 3250 5800
+Wire Wire Line
+	3250 5550 3250 5800
+Wire Wire Line
+	3350 5550 3350 5800
+NoConn ~ 3450 5550
+Text HLabel 3650 5650 2    50   Input ~ 0
+fader_e_led
+Wire Wire Line
+	3550 5550 3550 5650
+Wire Wire Line
+	3550 5650 3650 5650
+$Comp
+L PTL30-10R1-103B2:PTL30-10R1-103B2 VR?
+U 1 1 5FDC69FC
+P 4650 5550
+F 0 "VR?" V 5700 5300 50  0000 R CNN
+F 1 "PTL30-10R0-502B2" V 5600 5300 50  0000 R CNN
+F 2 "PTL3010R1103B2" H 5600 5650 50  0001 L CNN
+F 3 "https://www.mouser.com/datasheet/2/54/PTL-777483.pdf" H 5600 5550 50  0001 L CNN
+F 4 "Slide Potentiometers 10Kohms Travel=30mm Center Detent" H 5600 5450 50  0001 L CNN "Description"
+F 5 "18" H 5600 5350 50  0001 L CNN "Height"
+F 6 "Bourns" H 5600 5250 50  0001 L CNN "Manufacturer_Name"
+F 7 "PTL30-10R0-502B2" H 5600 5150 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 5600 5050 50  0001 L CNN "Arrow Part Number"
+F 9 "" H 5600 4950 50  0001 L CNN "Arrow Price/Stock"
+F 10 "652-PTL30-10R0-502B2" H 5600 4850 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.com/ProductDetail/Bourns/PTL30-10R0-502B2" H 5600 4750 50  0001 L CNN "Mouser Price/Stock"
+	1    4650 5550
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0147
+U 1 1 5FDC6A02
+P 4650 4450
+F 0 "#PWR0147" H 4650 4200 50  0001 C CNN
+F 1 "GND" H 4655 4277 50  0000 C CNN
+F 2 "" H 4650 4450 50  0001 C CNN
+F 3 "" H 4650 4450 50  0001 C CNN
+	1    4650 4450
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FDC6A08
+P 4750 4050
+F 0 "R?" H 4820 4096 50  0000 L CNN
+F 1 "220R" H 4820 4005 50  0000 L CNN
+F 2 "" V 4680 4050 50  0001 C CNN
+F 3 "~" H 4750 4050 50  0001 C CNN
+	1    4750 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4750 4200 4750 4450
+$Comp
+L power:+3V3 #PWR0148
+U 1 1 5FDC6A0F
+P 4750 3900
+F 0 "#PWR0148" H 4750 3750 50  0001 C CNN
+F 1 "+3V3" H 4765 4073 50  0000 C CNN
+F 2 "" H 4750 3900 50  0001 C CNN
+F 3 "" H 4750 3900 50  0001 C CNN
+	1    4750 3900
+	1    0    0    -1  
+$EndComp
+Text HLabel 4500 5800 0    50   Output ~ 0
+fader_f
+$Comp
+L power:+3V3 #PWR0149
+U 1 1 5FDC6A16
+P 4750 5800
+F 0 "#PWR0149" H 4750 5650 50  0001 C CNN
+F 1 "+3V3" H 4765 5973 50  0000 C CNN
+F 2 "" H 4750 5800 50  0001 C CNN
+F 3 "" H 4750 5800 50  0001 C CNN
+	1    4750 5800
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4500 5800 4650 5800
+Wire Wire Line
+	4650 5550 4650 5800
+Wire Wire Line
+	4750 5550 4750 5800
+NoConn ~ 4850 5550
+Text HLabel 5050 5650 2    50   Input ~ 0
+fader_f_led
+Wire Wire Line
+	4950 5550 4950 5650
+Wire Wire Line
+	4950 5650 5050 5650
+$Comp
+L PTL30-10R1-103B2:PTL30-10R1-103B2 VR?
+U 1 1 5FDC6A2B
+P 6050 5550
+F 0 "VR?" V 7100 5300 50  0000 R CNN
+F 1 "PTL30-10R0-502B2" V 7000 5300 50  0000 R CNN
+F 2 "PTL3010R1103B2" H 7000 5650 50  0001 L CNN
+F 3 "https://www.mouser.com/datasheet/2/54/PTL-777483.pdf" H 7000 5550 50  0001 L CNN
+F 4 "Slide Potentiometers 10Kohms Travel=30mm Center Detent" H 7000 5450 50  0001 L CNN "Description"
+F 5 "18" H 7000 5350 50  0001 L CNN "Height"
+F 6 "Bourns" H 7000 5250 50  0001 L CNN "Manufacturer_Name"
+F 7 "PTL30-10R0-502B2" H 7000 5150 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 7000 5050 50  0001 L CNN "Arrow Part Number"
+F 9 "" H 7000 4950 50  0001 L CNN "Arrow Price/Stock"
+F 10 "652-PTL30-10R0-502B2" H 7000 4850 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.com/ProductDetail/Bourns/PTL30-10R0-502B2" H 7000 4750 50  0001 L CNN "Mouser Price/Stock"
+	1    6050 5550
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0150
+U 1 1 5FDC6A31
+P 6050 4450
+F 0 "#PWR0150" H 6050 4200 50  0001 C CNN
+F 1 "GND" H 6055 4277 50  0000 C CNN
+F 2 "" H 6050 4450 50  0001 C CNN
+F 3 "" H 6050 4450 50  0001 C CNN
+	1    6050 4450
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FDC6A37
+P 6150 4050
+F 0 "R?" H 6220 4096 50  0000 L CNN
+F 1 "220R" H 6220 4005 50  0000 L CNN
+F 2 "" V 6080 4050 50  0001 C CNN
+F 3 "~" H 6150 4050 50  0001 C CNN
+	1    6150 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 4200 6150 4450
+$Comp
+L power:+3V3 #PWR0151
+U 1 1 5FDC6A3E
+P 6150 3900
+F 0 "#PWR0151" H 6150 3750 50  0001 C CNN
+F 1 "+3V3" H 6165 4073 50  0000 C CNN
+F 2 "" H 6150 3900 50  0001 C CNN
+F 3 "" H 6150 3900 50  0001 C CNN
+	1    6150 3900
+	1    0    0    -1  
+$EndComp
+Text HLabel 5900 5800 0    50   Output ~ 0
+fader_g
+$Comp
+L power:+3V3 #PWR0152
+U 1 1 5FDC6A45
+P 6150 5800
+F 0 "#PWR0152" H 6150 5650 50  0001 C CNN
+F 1 "+3V3" H 6165 5973 50  0000 C CNN
+F 2 "" H 6150 5800 50  0001 C CNN
+F 3 "" H 6150 5800 50  0001 C CNN
+	1    6150 5800
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5900 5800 6050 5800
+Wire Wire Line
+	6050 5550 6050 5800
+Wire Wire Line
+	6150 5550 6150 5800
+NoConn ~ 6250 5550
+Text HLabel 6450 5650 2    50   Input ~ 0
+fader_g_led
+Wire Wire Line
+	6350 5550 6350 5650
+Wire Wire Line
+	6350 5650 6450 5650
+$Comp
+L PTL30-10R1-103B2:PTL30-10R1-103B2 VR?
+U 1 1 5FDC6A5A
+P 7450 5550
+F 0 "VR?" V 8500 5300 50  0000 R CNN
+F 1 "PTL30-10R0-502B2" V 8400 5300 50  0000 R CNN
+F 2 "PTL3010R1103B2" H 8400 5650 50  0001 L CNN
+F 3 "https://www.mouser.com/datasheet/2/54/PTL-777483.pdf" H 8400 5550 50  0001 L CNN
+F 4 "Slide Potentiometers 10Kohms Travel=30mm Center Detent" H 8400 5450 50  0001 L CNN "Description"
+F 5 "18" H 8400 5350 50  0001 L CNN "Height"
+F 6 "Bourns" H 8400 5250 50  0001 L CNN "Manufacturer_Name"
+F 7 "PTL30-10R0-502B2" H 8400 5150 50  0001 L CNN "Manufacturer_Part_Number"
+F 8 "" H 8400 5050 50  0001 L CNN "Arrow Part Number"
+F 9 "" H 8400 4950 50  0001 L CNN "Arrow Price/Stock"
+F 10 "652-PTL30-10R0-502B2" H 8400 4850 50  0001 L CNN "Mouser Part Number"
+F 11 "https://www.mouser.com/ProductDetail/Bourns/PTL30-10R0-502B2" H 8400 4750 50  0001 L CNN "Mouser Price/Stock"
+	1    7450 5550
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0153
+U 1 1 5FDC6A60
+P 7450 4450
+F 0 "#PWR0153" H 7450 4200 50  0001 C CNN
+F 1 "GND" H 7455 4277 50  0000 C CNN
+F 2 "" H 7450 4450 50  0001 C CNN
+F 3 "" H 7450 4450 50  0001 C CNN
+	1    7450 4450
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FDC6A66
+P 7550 4050
+F 0 "R?" H 7620 4096 50  0000 L CNN
+F 1 "220R" H 7620 4005 50  0000 L CNN
+F 2 "" V 7480 4050 50  0001 C CNN
+F 3 "~" H 7550 4050 50  0001 C CNN
+	1    7550 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7550 4200 7550 4450
+$Comp
+L power:+3V3 #PWR0154
+U 1 1 5FDC6A6D
+P 7550 3900
+F 0 "#PWR0154" H 7550 3750 50  0001 C CNN
+F 1 "+3V3" H 7565 4073 50  0000 C CNN
+F 2 "" H 7550 3900 50  0001 C CNN
+F 3 "" H 7550 3900 50  0001 C CNN
+	1    7550 3900
+	1    0    0    -1  
+$EndComp
+Text HLabel 7300 5800 0    50   Output ~ 0
+fader_h
+$Comp
+L power:+3V3 #PWR0155
+U 1 1 5FDC6A74
+P 7550 5800
+F 0 "#PWR0155" H 7550 5650 50  0001 C CNN
+F 1 "+3V3" H 7565 5973 50  0000 C CNN
+F 2 "" H 7550 5800 50  0001 C CNN
+F 3 "" H 7550 5800 50  0001 C CNN
+	1    7550 5800
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	7300 5800 7450 5800
+Wire Wire Line
+	7450 5550 7450 5800
+Wire Wire Line
+	7550 5550 7550 5800
+NoConn ~ 7650 5550
+Text HLabel 7850 5650 2    50   Input ~ 0
+fader_h_led
+Wire Wire Line
+	7750 5550 7750 5650
+Wire Wire Line
+	7750 5650 7850 5650
+$EndSCHEMATC

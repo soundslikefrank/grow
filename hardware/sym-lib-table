@@ -1,4 +1,7 @@
 (sym_lib_table
   (lib (name DAC8562)(type Legacy)(uri ${KIPRJMOD}/models/DAC8562.pretty/DAC8562SDGSR.lib)(options "")(descr ""))
   (lib (name frank_counts-rescue)(type Legacy)(uri ${KIPRJMOD}/frank_counts-rescue.lib)(options "")(descr ""))
+  (lib (name PTL30-10R1-103B2)(type Legacy)(uri ${KIPRJMOD}/models/PTL30-10R1-103B2.pretty/PTL30-10R1-103B2.lib)(options "")(descr ""))
+  (lib (name TLC59482DBQ)(type Legacy)(uri ${KIPRJMOD}/models/TLC59482DBQ.pretty/TLC59482DBQ.lib)(options "")(descr ""))
+  (lib (name SN74AHCT1G125DBVR)(type Legacy)(uri ${KIPRJMOD}/models/SN74AHCT1G125DBVR.pretty/SN74AHCT1G125DBVR.lib)(options "")(descr ""))
 )
