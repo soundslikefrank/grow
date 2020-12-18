@@ -3,6 +3,8 @@
 // Detect whether a jack is plugged in
 // Sends a pattern into all of the jacks' switch pin,
 // then measures whether the pattern is visible in he output
+// Losely based on the "normalization probe" used in MI modules
+// e.g. https://github.com/pichenettes/eurorack/blob/a8089ae4cc308b38c3bbc0033e133edd2e7eca79/plaits/ui.cc#L368
 
 #include "drivers/jack_detect.h"
 #include <stm32l4xx_hal.h>

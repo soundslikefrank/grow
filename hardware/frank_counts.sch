@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 9
+Sheet 1 10
 Title "frank.counts"
 Date "2020-05-04"
 Rev "2"
@@ -46,10 +46,10 @@ F0 "Power" 50
 F1 "power.sch" 50
 $EndSheet
 $Sheet
-S 1650 5050 950  1500
+S 1650 5050 950  1750
 U 5FD4CB96
-F0 "Faders" 50
-F1 "faders.sch" 50
+F0 "Faders & Pots" 50
+F1 "faders_pots.sch" 50
 F2 "fader_a" O L 1650 5250 50 
 F3 "fader_a_led" I R 2600 5250 50 
 F4 "fader_b" O L 1650 5400 50 
@@ -66,6 +66,8 @@ F14 "fader_g" O L 1650 6150 50
 F15 "fader_g_led" I R 2600 6150 50 
 F16 "fader_h" O L 1650 6300 50 
 F17 "fader_h_led" I R 2600 6300 50 
+F18 "pot_a" O L 1650 6450 50 
+F19 "pot_b" O L 1650 6600 50 
 $EndSheet
 Text GLabel 1650 5250 0    50   Input ~ 0
 fader_a
@@ -204,7 +206,7 @@ Text GLabel 4750 3100 0    50   Input ~ 0
 osc_in
 Text GLabel 4750 3200 0    50   Input ~ 0
 osc_out
-Text GLabel 6050 2400 2    50   Input ~ 0
+Text GLabel 6050 2600 2    50   Input ~ 0
 cv_in_a
 Text GLabel 9300 3250 0    50   Input ~ 0
 trigger_out_a
@@ -212,12 +214,12 @@ Text GLabel 9300 3450 0    50   Input ~ 0
 trigger_out_b
 Text GLabel 1700 3150 0    50   Input ~ 0
 cv_in_a
-Text GLabel 6050 2500 2    50   Input ~ 0
+Text GLabel 6050 2700 2    50   Input ~ 0
 cv_in_b
 Text GLabel 1700 3350 0    50   Input ~ 0
 cv_in_b
 Text Notes 7300 5450 0    50   ~ 0
-TODO:\nJTAG connector\nOscillator\nUSART connector (header)
+TODO:\nJTAG connector\nOscillator\nUSART connector (header)\nSome test headers?
 Text GLabel 9050 1450 0    50   Input ~ 0
 trigger_in
 Text GLabel 6050 2900 2    50   Input ~ 0
@@ -236,4 +238,33 @@ Text GLabel 1700 3550 0    50   Input ~ 0
 jack_detect
 Text GLabel 9050 1650 0    50   Input ~ 0
 jack_detect
+Text GLabel 6050 4200 2    50   Input ~ 0
+encoder_a
+Text GLabel 6050 4300 2    50   Input ~ 0
+encoder_b
+Text GLabel 6050 4400 2    50   Input ~ 0
+encoder_sw
+$Sheet
+S 4400 6500 900  550 
+U 5FDF0A57
+F0 "Encoder" 50
+F1 "encoder.sch" 50
+F2 "encoder_b" O L 4400 6800 50 
+F3 "encoder_a" O L 4400 6650 50 
+F4 "encoder_sw" O L 4400 6950 50 
+$EndSheet
+Text GLabel 4400 6650 0    50   Input ~ 0
+encoder_a
+Text GLabel 4400 6800 0    50   Input ~ 0
+encoder_b
+Text GLabel 4400 6950 0    50   Input ~ 0
+encoder_sw
+Text GLabel 6050 2400 2    50   Input ~ 0
+pot_a
+Text GLabel 6050 2500 2    50   Input ~ 0
+pot_b
+Text GLabel 1650 6450 0    50   Input ~ 0
+pot_a
+Text GLabel 1650 6600 0    50   Input ~ 0
+pot_b
 $EndSCHEMATC

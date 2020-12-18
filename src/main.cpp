@@ -5,6 +5,7 @@
 #include <cstdio>
 #include "drivers/adc_ui.h"
 #include "drivers/dac.h"
+#include "drivers/encoder.h"
 #include "drivers/fader_led.h"
 #include "drivers/jack_detect.h"
 #include "drivers/led.h"
@@ -73,6 +74,7 @@ int main() {
   HUART1_Init();
 
   _DAC.Init();
+  Encoder.Init();
   JackDetect.Init();
   MetronomeTimer.Init();
   UITimer.Init();
@@ -84,17 +86,25 @@ int main() {
   /* char msg[20] = "Hello world"; */
   char msg[30];
 
+  static uint16_t counter;
+
   MetronomeTimer.SetBPM(120);
   Sequencer.Start();
 
   while (true) {
+    if (UITimer.Tick()) {
+      counter += Encoder.ReadEncoder();
+      /* if (Encoder.ReadSwitch() == BUTTON_STATE_LONGPRESS) { */
+      /*   counter = 1; */
+      /* } */
+    }
     if (MetronomeTimer.Tick()) {
       uint8_t step = Sequencer.NextStep();
       uint16_t faderPos = (4096 - UIADC.GetValue(step % 8));
       uint16_t voltage = 16 * faderPos - 1;
       auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
-      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", step, voltage,
-              isPluggedIn);
+      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", step,
+              UIADC.GetValue(9), isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
       /* _DAC.SetVoltage(0, voltage); */

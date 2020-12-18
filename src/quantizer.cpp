@@ -1,3 +1,5 @@
+// Copyright 2020 Christian Maniewski.
+
 #include "quantizer.h"
 
 QuantizerClass::QuantizerClass() = default;

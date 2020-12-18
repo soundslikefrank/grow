@@ -1,20 +1,5 @@
 #include "drivers/led.h"
-
-// @TODO move to utility library
-// Interleave bits
-// Maybe we can find a more efficient way if that's needed
-uint32_t JoinBits(uint16_t a, uint16_t b) {
-  uint32_t result = 0;
-  for (int8_t ii = 15; ii >= 0; ii--) {
-    result |= (a >> ii) & 1;
-    result <<= 1;
-    result |= (b >> ii) & 1;
-    if (ii != 0) {
-      result <<= 1;
-    }
-  }
-  return result;
-}
+#include "util.h"
 
 LEDClass::LEDClass() {
   // QuadSPI command defaults (they don't change)
@@ -92,7 +77,7 @@ void LEDClass::Update() {
      * 2 bytes for LAT silence
      * 1 byte to send LAT command
      */
-    uint32_t ledData = JoinBits(0b0010000000000000, 0);
+    uint32_t ledData = joinBits(0b0010000000000000, 0);
     // Endianness
     spiBuffer_[i * 5 + 0] = (uint8_t)(ledData >> 24);
     spiBuffer_[i * 5 + 1] = (uint8_t)(ledData >> 16);

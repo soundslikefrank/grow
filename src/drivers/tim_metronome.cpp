@@ -1,10 +1,12 @@
 // Copyright 2020 Christian Maniewski.
+//
 // Simple metronome, running a tick interval for a given BPM
 
 #include "drivers/tim_metronome.h"
 #include <math.h>
 #include <stm32l4xx_hal.h>
 
+// @TODO this could be defined somewhere else (config file?)
 #define TIMER_CLOCK_FREQUENCY 40000000U
 #define DEFAULT_BPM 120
 

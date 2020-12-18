@@ -31,9 +31,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* /* hadc */) {
   // @TODO abstract the trigger input read
   jackValues[INPUT_JACK_TRIGGER] = (bool)HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1);
   // @TODO pick this value more carefully (calibration)
-  jackValues[INPUT_JACK_CV_1] = UIADC.GetValue(8) < 1500;
-  // @TODO this is just dummy data
-  jackValues[INPUT_JACK_CV_2] = false;
+  jackValues[INPUT_JACK_CV_1] = UIADC.GetValue(10) < 1500;
+  jackValues[INPUT_JACK_CV_2] = UIADC.GetValue(11) < 1500;
   JackDetect.Next(jackValues);
 }
 }

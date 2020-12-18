@@ -51,8 +51,10 @@ set(PROJECT_FILES
   src/main.cpp
   src/quantizer.cpp
   src/sequencer.cpp
+  src/util.cpp
   src/drivers/adc_ui.cpp
   src/drivers/dac.cpp
+  src/drivers/encoder.cpp
   src/drivers/fader_led.cpp
   src/drivers/jack_detect.cpp
   src/drivers/led.cpp
