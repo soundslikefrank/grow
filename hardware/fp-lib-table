@@ -4,4 +4,5 @@
   (lib (name TLC59482DBQ)(type KiCad)(uri ${KIPRJMOD}/models/TLC59482DBQ.pretty)(options "")(descr ""))
   (lib (name SN74AHCT1G125DBVR)(type KiCad)(uri ${KIPRJMOD}/models/SN74AHCT1G125DBVR.pretty)(options "")(descr ""))
   (lib (name PEC11R-4220F-S0024)(type KiCad)(uri ${KIPRJMOD}/models/PEC11R-4220F-S0024.pretty)(options "")(descr ""))
+  (lib (name ADP150AUJZ-3.3-R7)(type KiCad)(uri ${KIPRJMOD}/models/ADP150AUJZ-3.3-R7.pretty)(options "")(descr ""))
 )

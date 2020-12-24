@@ -5,4 +5,5 @@
   (lib (name TLC59482DBQ)(type Legacy)(uri ${KIPRJMOD}/models/TLC59482DBQ.pretty/TLC59482DBQ.lib)(options "")(descr ""))
   (lib (name SN74AHCT1G125DBVR)(type Legacy)(uri ${KIPRJMOD}/models/SN74AHCT1G125DBVR.pretty/SN74AHCT1G125DBVR.lib)(options "")(descr ""))
   (lib (name PEC11R-4220F-S0024)(type Legacy)(uri ${KIPRJMOD}/models/PEC11R-4220F-S0024.pretty/PEC11R-4220F-S0024.lib)(options "")(descr ""))
+  (lib (name ADP150AUJZ-3.3-R7)(type Legacy)(uri ${KIPRJMOD}/models/ADP150AUJZ-3.3-R7.pretty/ADP150AUJZ-3.3-R7.lib)(options "")(descr ""))
 )
