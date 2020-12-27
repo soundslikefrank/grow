@@ -448,4 +448,6 @@ F 3 "" H 3950 1500 50  0001 C CNN
 	1    3950 1500
 	1    0    0    -1  
 $EndComp
+Text Notes 7250 2600 0    50   ~ 0
+K1 = green\nK2 = red
 $EndSCHEMATC

@@ -86,25 +86,28 @@ int main() {
   /* char msg[20] = "Hello world"; */
   char msg[30];
 
-  static uint16_t counter;
+  uint16_t counter;
 
   MetronomeTimer.SetBPM(120);
   Sequencer.Start();
 
   while (true) {
     if (UITimer.Tick()) {
-      counter += Encoder.ReadEncoder();
+      /* counter += Encoder.ReadEncoder(); */
+      counter = 4 * UIADC.GetValue(7);
+      LED.Set(7, LED_COLOR_GREEN, counter);
       /* if (Encoder.ReadSwitch() == BUTTON_STATE_LONGPRESS) { */
       /*   counter = 1; */
       /* } */
+      LED.Update();
     }
     if (MetronomeTimer.Tick()) {
       uint8_t step = Sequencer.NextStep();
       uint16_t faderPos = (4096 - UIADC.GetValue(step % 8));
-      uint16_t voltage = 16 * faderPos - 1;
+      uint16_t voltage = 16 * (4096 - UIADC.GetValue(7)) - 1;
       auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
-      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", step,
-              UIADC.GetValue(step), isPluggedIn);
+      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", 8,
+              UIADC.GetValue(7), isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
       /* _DAC.SetVoltage(0, voltage); */
@@ -112,7 +115,7 @@ int main() {
       // That's why it's in the loop here
       _DAC.SetVoltage(0, 65355);
       _DAC.SetVoltage(1, 65355);
-      LED.Update(step, 65355);
+      // @TODO should be LED.Set(ledNumber, color (enum), brightness)
       /* _DAC.SetVoltage(1, 40000); */
       /* _DAC.SetVoltage(2, 50000); */
       /* _DAC.SetVoltage(3, 60000); */
