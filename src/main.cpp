@@ -104,15 +104,15 @@ int main() {
       uint16_t voltage = 16 * faderPos - 1;
       auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
       sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", step,
-              UIADC.GetValue(9), isPluggedIn);
+              UIADC.GetValue(step), isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
       /* _DAC.SetVoltage(0, voltage); */
       // @TODO make sure that the dac is ready before sending this command
       // That's why it's in the loop here
-      _DAC.SetVoltage(0, 0);
-      _DAC.SetVoltage(1, 0);
-      LED.Update();
+      _DAC.SetVoltage(0, 65355);
+      _DAC.SetVoltage(1, 65355);
+      LED.Update(step, 65355);
       /* _DAC.SetVoltage(1, 40000); */
       /* _DAC.SetVoltage(2, 50000); */
       /* _DAC.SetVoltage(3, 60000); */

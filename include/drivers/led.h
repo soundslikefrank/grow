@@ -17,7 +17,7 @@ class LEDClass {
  public:
   LEDClass();
   void Init();
-  void Update();
+  void Update(uint8_t led, uint16_t brightness);
 };
 
 extern LEDClass LED;

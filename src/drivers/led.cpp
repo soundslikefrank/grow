@@ -17,23 +17,23 @@ void LEDClass::Init() {
   TIM_OC_InitTypeDef sConfigOC = {0};
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_TIM1_CLK_ENABLE();
+  __HAL_RCC_TIM15_CLK_ENABLE();
   __HAL_RCC_QSPI_CLK_ENABLE();
 
   /* GSCLK timer configuration */
-  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Pin = GPIO_PIN_14;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  GPIO_InitStruct.Alternate = GPIO_AF14_TIM15;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  htim1.Instance = TIM1;
+  htim1.Instance = TIM15;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 99;
+  // GSCLK needs to be pretty fast (>2MHz)
+  htim1.Init.Period = 19;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   HAL_TIM_OC_Init(&htim1);
 
@@ -44,7 +44,7 @@ void LEDClass::Init() {
 
   /* QUADSPI parameter configuration*/
   hqspi_.Instance = QUADSPI;
-  hqspi_.Init.ClockPrescaler = 255;
+  hqspi_.Init.ClockPrescaler = 15;
   hqspi_.Init.FifoThreshold = 1;
   hqspi_.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
   hqspi_.Init.FlashSize = 31;
@@ -69,7 +69,10 @@ void LEDClass::Init() {
   HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_1);
 }
 
-void LEDClass::Update() {
+// @TODO like this only one LED can be ON at a time.
+// For different behaviour we should create a state object
+// for all the LED states and update that regularly
+void LEDClass::Update(uint8_t led, uint16_t brightness) {
   for (uint8_t i = 0; i < 16; i++) {
     /*
      * We need 5 bytes for the data to send:
@@ -77,7 +80,7 @@ void LEDClass::Update() {
      * 2 bytes for LAT silence
      * 1 byte to send LAT command
      */
-    uint32_t ledData = joinBits(0b0010000000000000, 0);
+    uint32_t ledData = i == led ? joinBits(brightness, 0) : 0;
     // Endianness
     spiBuffer_[i * 5 + 0] = (uint8_t)(ledData >> 24);
     spiBuffer_[i * 5 + 1] = (uint8_t)(ledData >> 16);

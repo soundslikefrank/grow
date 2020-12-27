@@ -42,9 +42,11 @@ fp-info-cache
 *.dsn
 *.ses
 
-# Exported BOM files
-*.xml
-*.csv
+# Exported files
+gerber
+assembly
+
+# Licensed models
 models
 
 # Cache
