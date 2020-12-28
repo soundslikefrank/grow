@@ -20,6 +20,7 @@ class LEDClass {
   uint8_t spiBuffer_[LED_BUFFER_SIZE] = {0};
   QSPI_CommandTypeDef cqspi_ = {0};
   QSPI_HandleTypeDef hqspi_ = {nullptr};
+  DMA_HandleTypeDef hdma_ = {nullptr};
 
  public:
   LEDClass();
@@ -27,6 +28,7 @@ class LEDClass {
   void Set(uint8_t led, LEDColor color, uint16_t brightness);
   void Update();
   void HandleIRQQuadSPI();
+  void HandleIRQDMA();
 };
 
 extern LEDClass LED;

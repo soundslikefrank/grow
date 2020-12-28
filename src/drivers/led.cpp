@@ -19,6 +19,19 @@ void LEDClass::Init() {
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_TIM15_CLK_ENABLE();
   __HAL_RCC_QSPI_CLK_ENABLE();
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  hdma_.Instance = DMA1_Channel5;
+  hdma_.Init.Request = DMA_REQUEST_5;
+  hdma_.Init.Direction = DMA_MEMORY_TO_PERIPH;
+  hdma_.Init.PeriphInc = DMA_PINC_DISABLE;
+  hdma_.Init.MemInc = DMA_MINC_ENABLE;
+  hdma_.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  hdma_.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+  hdma_.Init.Mode = DMA_NORMAL;
+  hdma_.Init.Priority = DMA_PRIORITY_LOW;
+  /* hdma_.XferCpltCallback = &DMATransferComplete; */
+  HAL_DMA_Init(&hdma_);
 
   /* GSCLK timer configuration */
   GPIO_InitStruct.Pin = GPIO_PIN_14;
@@ -55,6 +68,11 @@ void LEDClass::Init() {
 
   HAL_NVIC_SetPriority(QUADSPI_IRQn, 4, 4);
   HAL_NVIC_EnableIRQ(QUADSPI_IRQn);
+
+  __HAL_LINKDMA(&hqspi_, hdma, hdma_);
+
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 5, 5);
+  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
 
   /*
    * PB0     ------> DATA / QUADSPI_BK1_IO1
@@ -114,11 +132,11 @@ void LEDClass::Update() {
   // Latch into third GS register
   spiBuffer_[LED_BUFFER_SIZE - 1] = 0b01010100;
   HAL_QSPI_Command_IT(&hqspi_, &cqspi_);
-  HAL_QSPI_Transmit_IT(&hqspi_, spiBuffer_);
+  HAL_QSPI_Transmit_DMA(&hqspi_, spiBuffer_);
 }
 
-void LEDClass::HandleIRQQuadSPI() {
-  HAL_QSPI_IRQHandler(&hqspi_);
-}
+void LEDClass::HandleIRQQuadSPI() { HAL_QSPI_IRQHandler(&hqspi_); }
+
+void LEDClass::HandleIRQDMA() { HAL_DMA_IRQHandler(&hdma_); }
 
 LEDClass LED;

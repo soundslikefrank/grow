@@ -95,7 +95,7 @@ int main() {
     if (UITimer.Tick()) {
       /* counter += Encoder.ReadEncoder(); */
       counter = 4 * UIADC.GetValue(7);
-      LED.Set(7, LED_COLOR_GREEN, counter);
+      LED.Set(6, LED_COLOR_GREEN, counter);
       /* if (Encoder.ReadSwitch() == BUTTON_STATE_LONGPRESS) { */
       /*   counter = 1; */
       /* } */
@@ -106,8 +106,8 @@ int main() {
       uint16_t faderPos = (4096 - UIADC.GetValue(step % 8));
       uint16_t voltage = 16 * (4096 - UIADC.GetValue(7)) - 1;
       auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
-      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", 8,
-              UIADC.GetValue(7), isPluggedIn);
+      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", 8, UIADC.GetValue(7),
+              isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
       /* _DAC.SetVoltage(0, voltage); */

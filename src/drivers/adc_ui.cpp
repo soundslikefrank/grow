@@ -64,7 +64,6 @@ void UIADCClass::Init() {
 
   __HAL_LINKDMA(&hadc_, DMA_Handle, hdmaAdc_);
 
-  // @TODO use UI Timer
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.SamplingTime = ADC_SAMPLETIME_92CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
