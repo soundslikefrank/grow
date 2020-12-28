@@ -2,6 +2,7 @@
 #include "conf.h"
 #include "drivers/adc_ui.h"
 #include "drivers/jack_detect.h"
+#include "drivers/led.h"
 #include "drivers/tim_metronome.h"
 #include "drivers/tim_ui.h"
 
@@ -35,5 +36,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* /* hadc */) {
   jackValues[INPUT_JACK_CV_2] = UIADC.GetValue(11) < 1500;
   JackDetect.Next(jackValues);
 }
+
+void QUADSPI_IRQHandler(void) { LED.HandleIRQQuadSPI(); }
 }
 

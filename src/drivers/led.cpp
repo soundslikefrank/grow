@@ -53,6 +53,9 @@ void LEDClass::Init() {
   hqspi_.Init.DualFlash = QSPI_DUALFLASH_DISABLE;
   HAL_QSPI_Init(&hqspi_);
 
+  HAL_NVIC_SetPriority(QUADSPI_IRQn, 4, 4);
+  HAL_NVIC_EnableIRQ(QUADSPI_IRQn);
+
   /*
    * PB0     ------> DATA / QUADSPI_BK1_IO1
    * PB1     ------> LAT / QUADSPI_BK1_IO0
@@ -94,10 +97,9 @@ void LEDClass::Update() {
   stateChange_ = false;
   for (uint8_t i = 0; i < 16; i++) {
     /*
-     * We need 5 bytes for the data to send:
+     * We need 4 bytes for the data to send:
      * 2 bytes for SIN data
      * 2 bytes for LAT silence
-     * 1 byte to send LAT command
      */
     /* uint32_t ledData = (15 - i) == led ? joinBits(brightness, 0) : 0; */
     // @TODO do not recreate this variable every time?
@@ -111,9 +113,12 @@ void LEDClass::Update() {
   }
   // Latch into third GS register
   spiBuffer_[LED_BUFFER_SIZE - 1] = 0b01010100;
-  // TODO USE _IT command (or even DMA??)
-  HAL_QSPI_Command(&hqspi_, &cqspi_, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
-  HAL_QSPI_Transmit(&hqspi_, spiBuffer_, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+  HAL_QSPI_Command_IT(&hqspi_, &cqspi_);
+  HAL_QSPI_Transmit_IT(&hqspi_, spiBuffer_);
+}
+
+void LEDClass::HandleIRQQuadSPI() {
+  HAL_QSPI_IRQHandler(&hqspi_);
 }
 
 LEDClass LED;

@@ -26,6 +26,7 @@ class LEDClass {
   void Init();
   void Set(uint8_t led, LEDColor color, uint16_t brightness);
   void Update();
+  void HandleIRQQuadSPI();
 };
 
 extern LEDClass LED;
