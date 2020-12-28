@@ -18,9 +18,6 @@ class LEDClass {
   bool stateChange_ = false;
   uint16_t ledState_[16] = {0};
   uint8_t spiBuffer_[LED_BUFFER_SIZE] = {0};
-  QSPI_CommandTypeDef cqspi_ = {0};
-  QSPI_HandleTypeDef hqspi_ = {nullptr};
-  DMA_HandleTypeDef hdma_ = {nullptr};
 
  public:
   LEDClass();

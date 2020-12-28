@@ -6,20 +6,24 @@
 #include "drivers/tim_metronome.h"
 #include "drivers/tim_ui.h"
 
+// @TODO I think this is the way we're supposed to do this stuff
+extern QSPI_HandleTypeDef hqspi;
+extern DMA_HandleTypeDef hdma_qspi;
+
 // @TODO: move to some other place? JackDetect class?
 bool jackValues[INPUT_JACK_LAST] = {false, false, false};
 
 extern "C" {
 void SysTick_Handler() { HAL_IncTick(); }
 
-// @TODO Implement IRQHandler instead of GetTimer
+// @TODO use extern (as for the QSPI handler)
 void TIM2_IRQHandler() { HAL_TIM_IRQHandler(MetronomeTimer.GetTimer()); }
 void TIM3_IRQHandler() { HAL_TIM_IRQHandler(UITimer.GetTimer()); }
 
-// @TODO Implement IRQHandler instead of GetADC
+// @TODO use extern (as for the QSPI handler)
 void ADC1_IRQHandler() { HAL_ADC_IRQHandler(UIADC.GetADC()); }
 
-// @TODO Implement IRQHandler instead of GetDMA
+// @TODO use extern (as for the QSPI handler)
 void DMA2_Channel3_IRQHandler() { HAL_DMA_IRQHandler(UIADC.GetDMA()); }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
@@ -41,7 +45,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* /* hadc */) {
 }
 
 // LED driver IRQ handler
-void QUADSPI_IRQHandler(void) { LED.HandleIRQQuadSPI(); }
-void DMA1_Channel5_IRQHandler() { LED.HandleIRQDMA(); }
-}
+void QUADSPI_IRQHandler(void) { HAL_QSPI_IRQHandler(&hqspi); }
 
+void DMA1_Channel5_IRQHandler() { HAL_DMA_IRQHandler(&hdma_qspi); }
+}

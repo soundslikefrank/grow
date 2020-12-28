@@ -61,6 +61,7 @@ set(PROJECT_FILES
   src/drivers/tim_ui.cpp
   src/drivers/tim_metronome.cpp
 
+  src/stm32l4xx_hal_msp.cpp # MCU Support Package (HAL Initialization handlers)
   src/stm32l4xx_it.cpp # Interrupt handlers
   src/system_stm32l4xx.c # System settings
 
