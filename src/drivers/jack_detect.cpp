@@ -20,15 +20,15 @@ JackDetectClass::JackDetectClass() {
 }
 
 void JackDetectClass::Init() {
-  GPIO_InitTypeDef igpio = {0};
+  GPIO_InitTypeDef gpio = {0};
 
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  igpio.Pin = PIN_JACK_DETECT;
-  igpio.Mode = GPIO_MODE_OUTPUT_PP;
-  igpio.Pull = GPIO_NOPULL;
-  igpio.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(PORT_JACK_DETECT, &igpio);
+  gpio.Pin = PIN_JACK_DETECT;
+  gpio.Mode = GPIO_MODE_OUTPUT_PP;
+  gpio.Pull = GPIO_NOPULL;
+  gpio.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(PORT_JACK_DETECT, &gpio);
 }
 
 void JackDetectClass::Next(const bool values[INPUT_JACK_LAST]) {

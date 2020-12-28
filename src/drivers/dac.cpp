@@ -13,7 +13,7 @@ SPI_HandleTypeDef spi;
 DACClass::DACClass() = default;
 
 void DACClass::Init() {
-  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitTypeDef gpio = {0};
 
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_SPI2_CLK_ENABLE();
@@ -31,20 +31,21 @@ void DACClass::Init() {
   spi.Init.Mode = SPI_MODE_MASTER;
 
   HAL_SPI_Init(&spi);
+  // @TODO Maybe we don't need this once we're using _IT and/or msp init?
   __HAL_SPI_ENABLE(&spi);
 
-  GPIO_InitStruct.Pin = PINS_SPI;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
+  gpio.Pin = PINS_SPI;
+  gpio.Mode = GPIO_MODE_AF_PP;
+  gpio.Pull = GPIO_PULLUP;
+  gpio.Speed = GPIO_SPEED_FREQ_HIGH;
+  gpio.Alternate = GPIO_AF5_SPI2;
 
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &gpio);
 
-  GPIO_InitStruct.Pin = PIN_SPI_CS;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  gpio.Pin = PIN_SPI_CS;
+  gpio.Mode = GPIO_MODE_OUTPUT_PP;
 
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &gpio);
   HAL_GPIO_WritePin(GPIOB, PIN_SPI_CS, GPIO_PIN_SET);
 
   command_[0] = 0b00111000;
@@ -80,7 +81,7 @@ void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
   // @TODO interrupt handlers!
 
   HAL_GPIO_WritePin(GPIOB, PIN_SPI_CS, GPIO_PIN_RESET);
-  // @TODO this can't be _IT for some reason. find out why
+  // @TODO Make this an _IT command!!!
   HAL_SPI_Transmit(&spi, command_, 3, HAL_MAX_DELAY);
   HAL_GPIO_WritePin(GPIOB, PIN_SPI_CS, GPIO_PIN_SET);
 }

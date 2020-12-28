@@ -7,15 +7,15 @@ FaderLEDClass::FaderLEDClass() = default;
    GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13)
 
 void FaderLEDClass::Init() {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  GPIO_InitTypeDef gpio = {0};
 
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
-  GPIO_InitStruct.Pin = FADER_LED_PINS;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  gpio.Pin = FADER_LED_PINS;
+  gpio.Mode = GPIO_MODE_OUTPUT_PP;
+  gpio.Pull = GPIO_NOPULL;
+  gpio.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &gpio);
 
   // Let's reset the ODR register as a current sink
   HAL_GPIO_WritePin(GPIOC, FADER_LED_PINS, GPIO_PIN_SET);
