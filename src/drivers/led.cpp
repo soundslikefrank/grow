@@ -3,7 +3,6 @@
 
 QSPI_CommandTypeDef cqspi;
 QSPI_HandleTypeDef hqspi;
-DMA_HandleTypeDef hdma_qspi;
 TIM_HandleTypeDef htim15;
 
 LEDClass::LEDClass() {

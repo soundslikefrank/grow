@@ -8,12 +8,8 @@
 class UIADCClass {
  private:
   static uint16_t adcValues[12];
-  ADC_HandleTypeDef hadc_;
-  DMA_HandleTypeDef hdmaAdc_;
  public:
   UIADCClass();
-  ADC_HandleTypeDef* GetADC();
-  DMA_HandleTypeDef* GetDMA();
   uint16_t GetValue(uint8_t index);
   void Init();
 

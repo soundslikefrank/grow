@@ -3,6 +3,9 @@
 #include "drivers/adc_ui.h"
 #include <stm32l4xx_hal.h>
 
+ADC_HandleTypeDef hadc;
+DMA_HandleTypeDef hdmaADC;
+
 // @TODO: rename, just adc
 UIADCClass::UIADCClass() = default;
 
@@ -31,38 +34,39 @@ void UIADCClass::Init() {
              GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7;
   HAL_GPIO_Init(GPIOA, &gpio);
 
-  hadc_.Instance = ADC1;
-  hadc_.Init.ClockPrescaler = ADC_CLOCKPRESCALER_PCLK_DIV4;
-  hadc_.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc_.Init.ScanConvMode = ENABLE;
-  hadc_.Init.ContinuousConvMode = DISABLE;
-  hadc_.Init.DiscontinuousConvMode = DISABLE;
-  hadc_.Init.ExternalTrigConv = ADC_EXTERNALTRIG_T3_TRGO;
-  hadc_.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
-  hadc_.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc_.Init.DMAContinuousRequests = ENABLE;
-  hadc_.Init.EOCSelection = ADC_EOC_SEQ_CONV;
+  hadc.Instance = ADC1;
+  hadc.Init.ClockPrescaler = ADC_CLOCKPRESCALER_PCLK_DIV4;
+  hadc.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc.Init.ScanConvMode = ENABLE;
+  hadc.Init.ContinuousConvMode = DISABLE;
+  hadc.Init.DiscontinuousConvMode = DISABLE;
+  // We use TIM3's TRGO to trigger a conversion
+  hadc.Init.ExternalTrigConv = ADC_EXTERNALTRIG_T3_TRGO;
+  hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
+  hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc.Init.DMAContinuousRequests = ENABLE;
+  hadc.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   // 12 channels
-  hadc_.Init.NbrOfConversion = 12;
-  HAL_ADC_Init(&hadc_);
+  hadc.Init.NbrOfConversion = 12;
+  HAL_ADC_Init(&hadc);
 
   HAL_NVIC_SetPriority(DMA2_Channel3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Channel3_IRQn);
 
   /* ADC2 DMA Init */
-  hdmaAdc_.Instance = DMA2_Channel3;
-  hdmaAdc_.Init.Request = DMA_REQUEST_0;
-  hdmaAdc_.Init.Direction = DMA_PERIPH_TO_MEMORY;
-  hdmaAdc_.Init.PeriphInc = DMA_PINC_DISABLE;
-  hdmaAdc_.Init.MemInc = DMA_MINC_ENABLE;
+  hdmaADC.Instance = DMA2_Channel3;
+  hdmaADC.Init.Request = DMA_REQUEST_0;
+  hdmaADC.Init.Direction = DMA_PERIPH_TO_MEMORY;
+  hdmaADC.Init.PeriphInc = DMA_PINC_DISABLE;
+  hdmaADC.Init.MemInc = DMA_MINC_ENABLE;
   // ADC values cover 12 bits aligned in a half-word (2 bytes)
-  hdmaAdc_.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-  hdmaAdc_.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
-  hdmaAdc_.Init.Mode = DMA_CIRCULAR;
-  hdmaAdc_.Init.Priority = DMA_PRIORITY_LOW;
-  HAL_DMA_Init(&hdmaAdc_);
+  hdmaADC.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+  hdmaADC.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+  hdmaADC.Init.Mode = DMA_CIRCULAR;
+  hdmaADC.Init.Priority = DMA_PRIORITY_LOW;
+  HAL_DMA_Init(&hdmaADC);
 
-  __HAL_LINKDMA(&hadc_, DMA_Handle, hdmaAdc_);
+  __HAL_LINKDMA(&hadc, DMA_Handle, hdmaADC);
 
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.SamplingTime = ADC_SAMPLETIME_92CYCLES_5;
@@ -71,64 +75,60 @@ void UIADCClass::Init() {
 
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_2;
   sConfig.Rank = ADC_REGULAR_RANK_2;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_3;
   sConfig.Rank = ADC_REGULAR_RANK_3;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_4;
   sConfig.Rank = ADC_REGULAR_RANK_4;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = ADC_REGULAR_RANK_5;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_6;
   sConfig.Rank = ADC_REGULAR_RANK_6;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_7;
   sConfig.Rank = ADC_REGULAR_RANK_7;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_8;
   sConfig.Rank = ADC_REGULAR_RANK_8;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_9;
   sConfig.Rank = ADC_REGULAR_RANK_9;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_10;
   sConfig.Rank = ADC_REGULAR_RANK_10;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_11;
   sConfig.Rank = ADC_REGULAR_RANK_11;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   sConfig.Channel = ADC_CHANNEL_12;
   sConfig.Rank = ADC_REGULAR_RANK_12;
-  HAL_ADC_ConfigChannel(&hadc_, &sConfig);
+  HAL_ADC_ConfigChannel(&hadc, &sConfig);
 
   HAL_NVIC_SetPriority(ADC1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(ADC1_IRQn);
 
-  HAL_ADCEx_Calibration_Start(&hadc_, ADC_SINGLE_ENDED);
+  HAL_ADCEx_Calibration_Start(&hadc, ADC_SINGLE_ENDED);
 
   // casting to uint32_t as it can potentially handle a full word (4 byte)
-  HAL_ADC_Start_DMA(&hadc_, reinterpret_cast<uint32_t*>(adcValues), 12);
+  HAL_ADC_Start_DMA(&hadc, reinterpret_cast<uint32_t*>(adcValues), 12);
 }
-
-ADC_HandleTypeDef* UIADCClass::GetADC() { return &hadc_; }
-
-DMA_HandleTypeDef* UIADCClass::GetDMA() { return &hdmaAdc_; }
 
 uint16_t UIADCClass::GetValue(uint8_t index) { return adcValues[index]; }
 

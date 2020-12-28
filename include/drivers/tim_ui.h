@@ -8,11 +8,9 @@
 class UITimerClass {
  private:
   bool tick_;
-  TIM_HandleTypeDef htim_;
 
  public:
   UITimerClass();
-  TIM_HandleTypeDef* GetTimer();
   void Init();
   void SetTick();
   bool Tick();

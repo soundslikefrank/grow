@@ -5,6 +5,8 @@
 
 // @TODO rename. Maybe IO timer? input-timer?
 
+TIM_HandleTypeDef htim3;
+
 UITimerClass::UITimerClass() = default;
 
 void UITimerClass::Init() {
@@ -12,29 +14,27 @@ void UITimerClass::Init() {
   TIM_MasterConfigTypeDef sMasterConfig;
 
   __HAL_RCC_TIM3_CLK_ENABLE();
-  htim_.Instance = TIM3;
+  htim3.Instance = TIM3;
   // @40Mhz SysClock this should be 4kHz
-  htim_.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim_.Init.Prescaler = 19;
-  htim_.Init.Period =  499;
-  htim_.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.Prescaler = 19;
+  htim3.Init.Period =  499;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
 
   HAL_NVIC_SetPriority(TIM3_IRQn, 1, 1);
   HAL_NVIC_EnableIRQ(TIM3_IRQn);
 
-  HAL_TIM_Base_Init(&htim_);
+  HAL_TIM_Base_Init(&htim3);
 
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  HAL_TIM_ConfigClockSource(&htim_, &sClockSourceConfig);
+  HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig);
 
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  HAL_TIMEx_MasterConfigSynchronization(&htim_, &sMasterConfig);
+  HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig);
 
-  HAL_TIM_Base_Start_IT(&htim_);
+  HAL_TIM_Base_Start_IT(&htim3);
 }
-
-TIM_HandleTypeDef* UITimerClass::GetTimer() { return &htim_; }
 
 void UITimerClass::SetTick() { tick_ = true; }
 
