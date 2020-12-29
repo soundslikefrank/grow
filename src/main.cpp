@@ -73,7 +73,6 @@ int main() {
   SystemClock_Config();
   HUART1_Init();
 
-  _DAC.Init();
   Encoder.Init();
   JackDetect.Init();
   MetronomeTimer.Init();
@@ -81,6 +80,7 @@ int main() {
   UIADC.Init();
   FaderLED.Init();
   LED.Init();
+  _DAC.Init();
   Quantizer.Refresh();
 
   /* char msg[20] = "Hello world"; */
