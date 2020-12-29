@@ -1,5 +1,6 @@
 #include <stm32l4xx_hal.h>
-#include <stm32l4xx_hal_tim.h>
+
+#include "drivers/dac.h"
 
 extern QSPI_HandleTypeDef hqspi;
 extern TIM_HandleTypeDef htim15;
@@ -61,13 +62,34 @@ void HAL_QSPI_MspInit(QSPI_HandleTypeDef* hqspi) {
   hdmaQSPI.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
   hdmaQSPI.Init.Mode = DMA_NORMAL;
   hdmaQSPI.Init.Priority = DMA_PRIORITY_LOW;
-  /* hdmaQSPI.XferCpltCallback = &DMATransferComplete; */
   HAL_DMA_Init(&hdmaQSPI);
 
   __HAL_LINKDMA(hqspi, hdma, hdmaQSPI);
 
   HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 5, 5);
   HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+}
+
+void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi) {
+  GPIO_InitTypeDef gpio = {0};
+  if (hspi->Instance == SPI2) {
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_SPI2_CLK_ENABLE();
+
+    gpio.Pin = PINS_SPI2;
+    gpio.Mode = GPIO_MODE_AF_PP;
+    gpio.Pull = GPIO_PULLUP;
+    gpio.Speed = GPIO_SPEED_FREQ_HIGH;
+    gpio.Alternate = GPIO_AF5_SPI2;
+    HAL_GPIO_Init(GPIOB, &gpio);
+
+    gpio.Pin = PIN_SPI2_CS;
+    gpio.Mode = GPIO_MODE_OUTPUT_PP;
+    HAL_GPIO_Init(GPIOB, &gpio);
+
+    HAL_NVIC_SetPriority(SPI2_IRQn, 6, 6);
+    HAL_NVIC_EnableIRQ(SPI2_IRQn);
+  }
 }
 }
 

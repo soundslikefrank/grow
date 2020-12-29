@@ -5,6 +5,9 @@
 
 #include <stm32l4xx_hal.h>
 
+#define PINS_SPI2 GPIO_PIN_13 | GPIO_PIN_15
+#define PIN_SPI2_CS GPIO_PIN_12
+
 class DACClass {
  private:
   uint8_t command_[3];
@@ -13,7 +16,6 @@ class DACClass {
   DACClass();
   void Init();
   void SetVoltage(uint8_t channel, uint16_t voltage);
-  void SetNoteVoltage(uint8_t channel, uint8_t note, uint8_t octave);
 };
 
 // @TODO find a better name
