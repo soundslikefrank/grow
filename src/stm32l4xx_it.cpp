@@ -45,9 +45,17 @@ void DMA1_Channel5_IRQHandler() { HAL_DMA_IRQHandler(&hdmaQSPI); }
 void SPI2_IRQHandler() { HAL_SPI_IRQHandler(&hspi2); }
 
 /* Callbacks */
+// @TODO I think these should go into the corresponding files
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef* htim) {
+  if (htim->Instance == TIM2) {
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11 | GPIO_PIN_12, GPIO_PIN_RESET);
+  }
+}
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
   if (htim->Instance == TIM2) {
     MetronomeTimer.SetTick();
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11 | GPIO_PIN_12, GPIO_PIN_SET);
   }
   if (htim->Instance == TIM3) {
     UITimer.SetTick();
@@ -63,11 +71,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* /* hadc */) {
   JackDetect.Next(jackValues);
 }
 
-
-void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef* hspi) {
   if (hspi->Instance == SPI2) {
     HAL_GPIO_WritePin(GPIOB, PIN_SPI2_CS, GPIO_PIN_SET);
   }
 }
-
 }

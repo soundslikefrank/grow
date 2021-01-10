@@ -1,6 +1,6 @@
 #include <stm32l4xx_hal.h>
-
 #include "drivers/dac.h"
+#include "drivers/tim_metronome.h"
 
 extern QSPI_HandleTypeDef hqspi;
 extern TIM_HandleTypeDef htim15;
@@ -8,6 +8,35 @@ extern TIM_HandleTypeDef htim15;
 DMA_HandleTypeDef hdmaQSPI;
 
 extern "C" {
+void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim) {
+  GPIO_InitTypeDef gpio = {0};
+  TIM_OC_InitTypeDef configOC = {0};
+  TIM_MasterConfigTypeDef masterConfig = {0};
+
+  if (htim->Instance == TIM2) {
+    __HAL_RCC_TIM2_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    gpio.Pin = GPIO_PIN_11 | GPIO_PIN_12;
+    gpio.Mode = GPIO_MODE_OUTPUT_PP;
+    gpio.Pull = GPIO_PULLUP;
+    HAL_GPIO_Init(GPIOA, &gpio);
+
+    masterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+    masterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+    HAL_TIMEx_MasterConfigSynchronization(htim, &masterConfig);
+
+    configOC.OCMode = TIM_OCMODE_PWM1;
+    // 5ms
+    configOC.Pulse = 200000;
+    configOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+    configOC.OCFastMode = TIM_OCFAST_DISABLE;
+    HAL_TIM_PWM_ConfigChannel(htim, &configOC, TIM_CHANNEL_1);
+
+    HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TIM2_IRQn);
+  }
+}
 void HAL_TIM_OC_MspInit(TIM_HandleTypeDef* htim) {
   GPIO_InitTypeDef gpio = {0};
   TIM_OC_InitTypeDef configOC = {0};

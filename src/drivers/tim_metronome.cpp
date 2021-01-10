@@ -15,19 +15,18 @@ TIM_HandleTypeDef htim2;
 MetronomeTimerClass::MetronomeTimerClass() = default;
 
 void MetronomeTimerClass::Init() {
-  __HAL_RCC_TIM2_CLK_ENABLE();
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   // Start with the default bpm value
   // In this configuration it can be max 1.8μs per day off
   htim2.Init.Period = round(60U * TIMER_CLOCK_FREQUENCY / DEFAULT_BPM) - 1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 
-  HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(TIM2_IRQn);
-
-  HAL_TIM_Base_Init(&htim2);
-  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_PWM_Init(&htim2);
+  HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_1);
+  // Also enable the UPDATE interrupt (PWM only enables CC)
+  __HAL_TIM_ENABLE_IT(&htim2, TIM_IT_UPDATE);
 }
 
 void MetronomeTimerClass::SetBPM(uint16_t bpm) {
