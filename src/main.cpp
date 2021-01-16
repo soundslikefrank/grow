@@ -87,6 +87,7 @@ int main() {
   char msg[30];
 
   uint16_t counter;
+  uint8_t step;
 
   MetronomeTimer.SetBPM(120);
   Sequencer.Start();
@@ -94,15 +95,15 @@ int main() {
   while (true) {
     if (UITimer.Tick()) {
       /* counter += Encoder.ReadEncoder(); */
-      counter = 4 * UIADC.GetValue(7);
-      LED.Set(6, LED_COLOR_GREEN, counter);
+      counter = 4 * UIADC.GetValue(9);
+      LED.SetX(step % 8, LED_COLOR_YELLOW, counter);
       /* if (Encoder.ReadSwitch() == BUTTON_STATE_LONGPRESS) { */
       /*   counter = 1; */
       /* } */
       LED.Update();
     }
     if (MetronomeTimer.Tick()) {
-      uint8_t step = Sequencer.NextStep();
+      step = Sequencer.NextStep();
       uint16_t faderPos = (4096 - UIADC.GetValue(step % 8));
       uint16_t voltage = 16 * (4096 - UIADC.GetValue(7)) - 1;
       auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);

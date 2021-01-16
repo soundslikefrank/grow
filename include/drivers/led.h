@@ -10,9 +10,6 @@
 
 enum LEDColor { LED_COLOR_GREEN, LED_COLOR_RED, LED_COLOR_YELLOW };
 
-const uint8_t greenLEDs[8] = {0, 2, 4, 6, 14, 12, 10, 8};
-const uint8_t redLEDs[8] = {1, 3, 5, 7, 15, 13, 11, 9};
-
 class LEDClass {
  private:
   bool stateChange_ = false;
@@ -23,6 +20,7 @@ class LEDClass {
   LEDClass();
   void Init();
   void Set(uint8_t led, LEDColor color, uint16_t brightness);
+  void SetX(uint8_t led, LEDColor color, uint16_t brightness);
   void Update();
   void HandleIRQQuadSPI();
   void HandleIRQDMA();

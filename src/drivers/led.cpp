@@ -19,8 +19,9 @@ void LEDClass::Init() {
   htim15.Instance = TIM15;
   htim15.Init.Prescaler = 0;
   htim15.Init.CounterMode = TIM_COUNTERMODE_UP;
-  // GSCLK needs to be pretty fast (>2MHz)
-  htim15.Init.Period = 19;
+  // GSCLK needs to be pretty fast (>4MHz), otherwise there might be
+  // a noticeable delay
+  htim15.Init.Period = 4;
   htim15.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   HAL_TIM_OC_Init(&htim15);
 
@@ -42,17 +43,24 @@ void LEDClass::Init() {
 void LEDClass::Set(uint8_t led, LEDColor color, uint16_t brightness) {
   switch (color) {
     case LED_COLOR_GREEN:
-      ledState_[greenLEDs[led]] = brightness;
+      ledState_[14 - led * 2] = brightness;
       break;
     case LED_COLOR_RED:
-      ledState_[redLEDs[led]] = brightness;
+      ledState_[15 - led * 2] = brightness;
       break;
     case LED_COLOR_YELLOW:
-      ledState_[greenLEDs[led]] = brightness / 2;
-      ledState_[redLEDs[led]] = brightness / 2;
+      ledState_[14 - led * 2] = brightness / 2;
+      ledState_[15 - led * 2] = brightness / 2;
       break;
   }
   stateChange_ = true;
+}
+
+void LEDClass::SetX(uint8_t led, LEDColor color, uint16_t brightness) {
+  for (uint8_t i = 0; i < 16; i++) {
+    ledState_[i] = 0;
+  }
+  return Set(led, color, brightness);
 }
 
 void LEDClass::Update() {
