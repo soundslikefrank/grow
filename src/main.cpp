@@ -1,5 +1,6 @@
 // Copyright 2020 <Christian Maniewski>
 
+#include <math.h>
 #include <stm32l4xx_hal.h>
 #include <string.h>
 #include <cstdio>
@@ -88,6 +89,7 @@ int main() {
 
   uint16_t counter;
   uint8_t step;
+  double stepsPerOctave = 65536.0 / 9;
 
   MetronomeTimer.SetBPM(120);
   Sequencer.Start();
@@ -111,11 +113,8 @@ int main() {
               isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      /* _DAC.SetVoltage(0, voltage); */
-      // @TODO make sure that the dac is ready before sending this command
-      // That's why it's in the loop here
-      _DAC.SetVoltage(0, 0);
-      _DAC.SetVoltage(1, 0);
+      _DAC.SetVoltage(0, 2 * (uint16_t)floor(stepsPerOctave));
+      _DAC.SetVoltage(1, 1 * (uint16_t)floor(stepsPerOctave));
     }
   }
 }

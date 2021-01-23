@@ -3,6 +3,7 @@
 #include <drivers/dac.h>
 #include <math.h>
 #include <stm32l4xx_hal.h>
+#include "util.h"
 
 /* Also for that dac you may want to soft reset it and then enable both dacs */
 /* After each spi transmit if you’re doing back to back spi calls */
@@ -47,14 +48,47 @@ void DACClass::Init() {
   HAL_GPIO_WritePin(GPIOB, PIN_SPI2_CS, GPIO_PIN_RESET);
   HAL_SPI_Transmit(&hspi2, command_, 3, HAL_MAX_DELAY);
   HAL_GPIO_WritePin(GPIOB, PIN_SPI2_CS, GPIO_PIN_SET);
+
+  // Set gain back to 1
+  command_[0] = 0b00000010;
+  command_[1] = 0;
+  command_[2] = 0b11;
+  HAL_GPIO_WritePin(GPIOB, PIN_SPI2_CS, GPIO_PIN_RESET);
+  HAL_SPI_Transmit(&hspi2, command_, 3, HAL_MAX_DELAY);
+  HAL_GPIO_WritePin(GPIOB, PIN_SPI2_CS, GPIO_PIN_SET);
 }
 
-// @TODO make this take an actual voltage e.g. 8000 for 8V
+// These are the deviations from the actual voltages (in steps):
+// 7V (copied from 6V), 6V, 5V, 4V, 3V, 2V, 1V, 0V, -1V
+// @FIXv0.2 The copy is not necessary if we choose better bounds (like -2.4V -
+// +6.4V)
+uint16_t errorsA[9] = {31, 31, 29, 28, 27, 27, 26, 25, 25};
+uint16_t errorsB[9] = {15, 15, 14, 13, 10, 9, 7, 7, 7};
+const double stepsPerOctave = 65536.0 / 9;
+
 void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
-  // We only have two channels
+  uint16_t(*errors)[9] = channel == 0 ? &errorsA : &errorsB;
+
+  // @FIXv0.2 For v0.2 (channels are switched)
+  channel = channel == 1 ? 0 : 1;
+
+  // We only have two channels */
   if (channel > 1) {
     channel = 1;
   }
+  if (channel < 0) {
+    channel = 0;
+  }
+
+  // Calibration correction, assume linearity of error between two integer
+  // voltages
+  // @TODO For faster correction we can pre-calculate most of these values
+  // during calibration
+  auto eIdx = (uint8_t)floor(voltage / stepsPerOctave);
+  voltage += (double)(errors[eIdx + 1] - errors[eIdx]) / (stepsPerOctave) *
+                 (voltage - eIdx * stepsPerOctave) +
+             errors[eIdx];
+
   // Write to buffer with data and load DAC (selected by DB17 and DB18)
   command_[0] = 0b00011000 | channel;
   // Upper 8 bits
