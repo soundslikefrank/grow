@@ -35,6 +35,7 @@ class EncoderClass {
   EncoderClass();
   void Init();
   int8_t ReadEncoder();
+  bool GetRawSwitchState();
   ButtonState ReadSwitch();
 };
 

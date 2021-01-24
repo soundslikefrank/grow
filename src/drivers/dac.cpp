@@ -62,12 +62,12 @@ void DACClass::Init() {
 // 7V (copied from 6V), 6V, 5V, 4V, 3V, 2V, 1V, 0V, -1V
 // @FIXv0.2 The copy is not necessary if we choose better bounds (like -2.4V -
 // +6.4V)
-uint16_t errorsA[9] = {31, 31, 29, 28, 27, 27, 26, 25, 25};
-uint16_t errorsB[9] = {15, 15, 14, 13, 10, 9, 7, 7, 7};
-const double stepsPerOctave = 65536.0 / 9;
+int16_t errorsA[9] = {26, 26, 25, 24, 22, 21, 20, 19, 19};
+int16_t errorsB[9] = {13, 13, 12, 9, 7, 5, 3, 2, 3};
+const double stepsPerVolt = 65536.0 / 9;
 
 void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
-  uint16_t(*errors)[9] = channel == 0 ? &errorsA : &errorsB;
+  int16_t* errors = channel == 0 ? errorsA : errorsB;
 
   // @FIXv0.2 For v0.2 (channels are switched)
   channel = channel == 1 ? 0 : 1;
@@ -84,10 +84,10 @@ void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
   // voltages
   // @TODO For faster correction we can pre-calculate most of these values
   // during calibration
-  auto eIdx = (uint8_t)floor(voltage / stepsPerOctave);
-  voltage += (double)(errors[eIdx + 1] - errors[eIdx]) / (stepsPerOctave) *
-                 (voltage - eIdx * stepsPerOctave) +
-             errors[eIdx];
+  auto eIdx = (uint8_t)floor(voltage / stepsPerVolt);
+  voltage += round((errors[eIdx + 1] - errors[eIdx]) / (stepsPerVolt) *
+                       (voltage - eIdx * stepsPerVolt) +
+                   (errors[eIdx]));
 
   // Write to buffer with data and load DAC (selected by DB17 and DB18)
   command_[0] = 0b00011000 | channel;

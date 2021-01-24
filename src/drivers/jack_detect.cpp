@@ -32,6 +32,9 @@ void JackDetectClass::Init() {
 }
 
 void JackDetectClass::Next(const bool values[INPUT_JACK_LAST]) {
+  if (isCalibrating_) {
+    return;
+  }
   for (uint8_t i = 0; i < INPUT_JACK_LAST; i++) {
     if (values[i] != detectState_) {
       jackStates_[i].errors++;
@@ -55,5 +58,13 @@ void JackDetectClass::Next(const bool values[INPUT_JACK_LAST]) {
 bool JackDetectClass::IsPluggedIn(InputJack jack) {
   return jackStates_[jack].pluggedIn;
 };
+
+void JackDetectClass::ToggleCalibration() {
+  isCalibrating_ = !isCalibrating_;
+  if (isCalibrating_) {
+    // Pull down the pin to ground to be able to measure 0V offset
+    HAL_GPIO_WritePin(PORT_JACK_DETECT, PIN_JACK_DETECT, GPIO_PIN_RESET);
+  }
+}
 
 JackDetectClass JackDetect;

@@ -57,6 +57,11 @@ int8_t EncoderClass::ReadEncoder() {
   return 0;
 };
 
+bool EncoderClass::GetRawSwitchState() {
+  // Switch is implemented as a current sink
+  return !(bool)HAL_GPIO_ReadPin(ENCODER_PORT, ENCODER_PIN_SW);
+}
+
 ButtonState EncoderClass::ReadSwitch() {
   if (buttonSampleIdx_ == BUTTON_SAMPLE_SIZE) {
     buttonSampleIdx_ = 0;
@@ -76,8 +81,7 @@ ButtonState EncoderClass::ReadSwitch() {
     }
     buttonSamples_ = 0;
   }
-  buttonSamples_ |=
-      ((!HAL_GPIO_ReadPin(ENCODER_PORT, ENCODER_PIN_SW)) << buttonSampleIdx_);
+  buttonSamples_ |= (uint8_t)GetRawSwitchState() << buttonSampleIdx_;
   buttonSampleIdx_++;
   return BUTTON_STATE_IDLE;
 }

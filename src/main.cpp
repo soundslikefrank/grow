@@ -15,6 +15,7 @@
 #include "quantizer.h"
 #include "sequencer.h"
 #include "uart_debug.h"
+#include "util.h"
 
 // @TODO Apply
 // https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
@@ -89,14 +90,32 @@ int main() {
 
   uint16_t counter;
   uint8_t step;
-  double stepsPerOctave = 65536.0 / 9;
+  // @TODO don't have that in here
+  double stepsPerVoltDAC = 65536.0 / 9;
+  double stepsPerVoltADC = 4096.0 / 14;
+  uint8_t encoderValue = 0;
+
+  // Calibration mode. Hold encoder button while turning on
+  if (Encoder.GetRawSwitchState()) {
+    LED.SetX(0, LED_COLOR_GREEN, LED_MAX_BRIGHTNESS);
+    LED.Set(7, LED_COLOR_RED, LED_MAX_BRIGHTNESS);
+    JackDetect.ToggleCalibration();
+    while (true) {
+      if (UITimer.Tick()) {
+        LED.Update();
+        encoderValue += Encoder.ReadEncoder();
+      }
+      // @TODO more calibration logic here
+    }
+    JackDetect.ToggleCalibration();
+  }
 
   MetronomeTimer.SetBPM(120);
   Sequencer.Start();
 
   while (true) {
     if (UITimer.Tick()) {
-      /* counter += Encoder.ReadEncoder(); */
+      encoderValue += Encoder.ReadEncoder();
       counter = 4 * UIADC.GetValue(9);
       LED.SetX(step % 8, LED_COLOR_YELLOW, counter);
       /* if (Encoder.ReadSwitch() == BUTTON_STATE_LONGPRESS) { */
@@ -108,13 +127,18 @@ int main() {
       step = Sequencer.NextStep();
       uint16_t faderPos = (4096 - UIADC.GetValue(step % 8));
       uint16_t voltage = 16 * (4096 - UIADC.GetValue(7)) - 1;
+      /* uint16_t cv1 = UIADC.GetValue(10); */
       auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
-      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", 8, UIADC.GetValue(7),
+      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", 8, UIADC.GetValue(10),
               isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      _DAC.SetVoltage(0, 2 * (uint16_t)floor(stepsPerOctave));
-      _DAC.SetVoltage(1, 1 * (uint16_t)floor(stepsPerOctave));
+      sprintf(msg, "voltage: %.2f\r\n",
+              7.0 - (double)UIADC.GetValue(10) / stepsPerVoltADC);
+      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
+                        HAL_MAX_DELAY);
+      _DAC.SetVoltage(0, round(double(encoderValue) * stepsPerVoltDAC));
+      _DAC.SetVoltage(1, round(double(encoderValue) * stepsPerVoltDAC));
     }
   }
 }

@@ -1,6 +1,7 @@
 // Copyright 2020 Christian Maniewski.
 
 #include "drivers/adc_ui.h"
+#include <math.h>
 #include <stm32l4xx_hal.h>
 
 ADC_HandleTypeDef hadc;
@@ -130,6 +131,28 @@ void UIADCClass::Init() {
   HAL_ADC_Start_DMA(&hadc, reinterpret_cast<uint32_t*>(adcValues), 12);
 }
 
-uint16_t UIADCClass::GetValue(uint8_t index) { return adcValues[index]; }
+// @TODO obviously this should be somewhere else
+double cvACalibrationSlope = 0.0078125;
+double cvACalibrationIntercept = 1.71428;
+// @TODO these are not correct yet
+double cvBCalibrationSlope = 0.0078125;
+double cvBCalibrationIntercept = 1.71428;
+
+uint16_t UIADCClass::GetValue(uint8_t index) {
+  /// @TODO: constrain
+  // Correct CV input values using the linear regression results in calibration
+  if (index == 10) {
+    return adcValues[10] +
+           (uint16_t)(round(cvACalibrationSlope * (double)adcValues[10] +
+                            cvACalibrationIntercept));
+  }
+  if (index == 11) {
+    return adcValues[11] +
+           (uint16_t)(round(cvBCalibrationSlope * (double)adcValues[11] +
+                            cvBCalibrationIntercept));
+  }
+
+  return adcValues[index];
+}
 
 UIADCClass UIADC;

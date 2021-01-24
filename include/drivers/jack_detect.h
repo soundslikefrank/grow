@@ -18,12 +18,14 @@ class JackDetectClass {
   const uint32_t pattern_ = 0x80dc4370;
   uint8_t detectBit_ = 0;
   bool detectState_;
+  bool isCalibrating_;
 
  public:
   JackDetectClass();
   void Init();
   void Next(const bool values[INPUT_JACK_LAST]);
   bool IsPluggedIn(InputJack jack);
+  void ToggleCalibration();
 };
 
 extern JackDetectClass JackDetect;
