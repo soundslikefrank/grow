@@ -58,20 +58,14 @@ void DACClass::Init() {
   HAL_GPIO_WritePin(GPIOB, PIN_SPI2_CS, GPIO_PIN_SET);
 }
 
-// These are the deviations from the actual voltages (in steps):
-// 7V (copied from 6V), 6V, 5V, 4V, 3V, 2V, 1V, 0V, -1V
-// @FIXv0.2 The copy is not necessary if we choose better bounds (like -2.4V -
-// +6.4V)
-int16_t errorsA[9] = {26, 26, 25, 24, 22, 21, 20, 19, 19};
-int16_t errorsB[9] = {13, 13, 12, 9, 7, 5, 3, 2, 3};
-const double stepsPerVolt = 65536.0 / 9;
+// Polynomial regression, calibration results
+// @TODO: Move somewhere else, when EPROM
+double cal[2][3] = {{2.87784e-09, -0.00039953, 32.3809},
+                    {2.55127e-09, -0.000398639, 17.119}};
+// Just to store the calibration overflow result
+uint16_t ofResult;
 
 void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
-  int16_t* errors = channel == 0 ? errorsA : errorsB;
-
-  // @FIXv0.2 For v0.2 (channels are switched)
-  channel = channel == 1 ? 0 : 1;
-
   // We only have two channels */
   if (channel > 1) {
     channel = 1;
@@ -82,13 +76,15 @@ void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
 
   // Calibration correction, assume linearity of error between two integer
   // voltages
-  // @TODO For faster correction we can pre-calculate most of these values
-  // during calibration
-  auto eIdx = (uint8_t)floor(voltage / stepsPerVolt);
-  voltage += round((errors[eIdx + 1] - errors[eIdx]) / (stepsPerVolt) *
-                       (voltage - eIdx * stepsPerVolt) +
-                   (errors[eIdx]));
+  int16_t calibAdd = round(cal[channel][0] * pow(voltage, 2) +
+                            cal[channel][1] * voltage + cal[channel][2]);
 
+  if (!__builtin_add_overflow(voltage, calibAdd, &ofResult)) {
+    voltage += calibAdd;
+  }
+
+  // @FIXv0.2 For v0.2 (channels are switched)
+  channel = channel == 1 ? 0 : 1;
   // Write to buffer with data and load DAC (selected by DB17 and DB18)
   command_[0] = 0b00011000 | channel;
   // Upper 8 bits

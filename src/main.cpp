@@ -137,8 +137,8 @@ int main() {
               7.0 - (double)UIADC.GetValue(10) / stepsPerVoltADC);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      _DAC.SetVoltage(0, round(double(encoderValue) * stepsPerVoltDAC));
-      _DAC.SetVoltage(1, round(double(encoderValue) * stepsPerVoltDAC));
+      _DAC.SetVoltage(0, round(double(encoderValue) * stepsPerVoltDAC) - 1);
+      _DAC.SetVoltage(1, round(double(encoderValue) * stepsPerVoltDAC) - 1);
     }
   }
 }
