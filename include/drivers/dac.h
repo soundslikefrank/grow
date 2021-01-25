@@ -15,7 +15,7 @@ class DACClass {
  public:
   DACClass();
   void Init();
-  void SetVoltage(uint8_t channel, uint16_t voltage);
+  void SetVoltage(uint8_t channel, float voltage);
 };
 
 // @TODO find a better name

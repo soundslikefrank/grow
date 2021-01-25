@@ -93,7 +93,7 @@ int main() {
   // @TODO don't have that in here
   double stepsPerVoltDAC = 65536.0 / 9;
   double stepsPerVoltADC = 4096.0 / 14;
-  uint8_t encoderValue = 0;
+  int8_t encoderValue = 0;
 
   // Calibration mode. Hold encoder button while turning on
   if (Encoder.GetRawSwitchState()) {
@@ -137,8 +137,8 @@ int main() {
               7.0 - (double)UIADC.GetValue(10) / stepsPerVoltADC);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      _DAC.SetVoltage(0, round(double(encoderValue) * stepsPerVoltDAC) - 1);
-      _DAC.SetVoltage(1, round(double(encoderValue) * stepsPerVoltDAC) - 1);
+      _DAC.SetVoltage(0, encoderValue);
+      _DAC.SetVoltage(1, encoderValue);
     }
   }
 }

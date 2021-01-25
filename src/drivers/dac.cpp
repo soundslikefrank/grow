@@ -61,25 +61,31 @@ void DACClass::Init() {
 // Polynomial regression, calibration results
 // @TODO: Move somewhere else, when EPROM
 float cal[2][3] = {{2.87784e-09, -0.00039953, 32.3809},
-                    {2.55127e-09, -0.000398639, 17.119}};
+                   {2.55127e-09, -0.000398639, 17.119}};
 
-void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
+void DACClass::SetVoltage(uint8_t channel, float voltage) {
   CONSTRAIN(channel, 0, 1);
+  // @FIXv0.2 We're changing the op-amp range here in a next version
+  // Maybe something like -2.0F, 7.0F
+  CONSTRAIN(voltage, -1.5F, 6.5F);
+
+  // Desired voltage in DAC value range
+  voltage = (7.0F - voltage) * 65536.0F / 9.0F;
 
   // Quadratic regression calibration correction
-  int16_t calibAdd = round(cal[channel][0] * pow(voltage, 2) +
-                            cal[channel][1] * voltage + cal[channel][2]);
+  float correction = cal[channel][0] * pow(voltage, 2) +
+                     cal[channel][1] * voltage + cal[channel][2];
 
-  voltage = clampU16(static_cast<int32_t>(voltage + calibAdd));
+  uint16_t value = clampU16(static_cast<int32_t>(round(voltage + correction)));
 
   // @FIXv0.2 For v0.2 (channels are switched)
   channel = channel == 1 ? 0 : 1;
   // Write to buffer with data and load DAC (selected by DB17 and DB18)
   command_[0] = 0b00011000 | channel;
   // Upper 8 bits
-  command_[1] = voltage >> 8;
+  command_[1] = value >> 8;
   // Lower 8 bits
-  command_[2] = voltage & 0xff;
+  command_[2] = value & 0xff;
 
   HAL_GPIO_WritePin(GPIOB, PIN_SPI2_CS, GPIO_PIN_RESET);
   HAL_SPI_Transmit_IT(&hspi2, command_, 3);
