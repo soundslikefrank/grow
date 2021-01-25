@@ -5,7 +5,7 @@
 
 // 16LEDs * 4 control bytes + 2 latch bytes at the end
 #define LED_BUFFER_SIZE 66
-#define LED_MAX_BRIGHTNESS 65355
+#define LED_MAX_BRIGHTNESS UINT16_MAX
 
 #include <stm32l4xx_hal.h>
 

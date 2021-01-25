@@ -3,26 +3,30 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
-#include <stm32l4xx_hal.h>
+#include <stdint.h>
 
-// @TODO this is weird
+#define CONSTRAIN(var, min, max) \
+  if (var < min) {               \
+    var = min;                   \
+  } else if (var > max) {        \
+    var = max;                   \
+  }
+
 template <class T>
-const T& constrain(const T& amt, const T& low, const T& high) {
-  if (amt < low) {
-    return low;
-  }
-  if (high < amt) {
-    return high;
-  }
-  return amt;
+constexpr const T& clamp(const T& v, const T& lo, const T& hi) {
+  return (v < lo) ? lo : (hi < v) ? hi : v;
 }
 
-extern uint32_t joinBits(uint16_t a, uint16_t b);
+uint32_t joinBits(uint16_t a, uint16_t b);
 
 void linReg(uint8_t n, const double* x, const double* y, double* slope,
             double* intercept);
 
 void quadReg(uint8_t n, const double* x, const double* y, double* a, double* b,
              double* c);
+
+inline uint16_t clampU16(int32_t x) {
+  return (x < 0) ? 0 : (UINT16_MAX < x) ? UINT16_MAX : x;
+}
 
 #endif  // UTIL_H_

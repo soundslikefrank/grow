@@ -1,5 +1,6 @@
 // Copyright 2020 Christian Maniewski.
 
+#include <math.h>
 #include "util.h"
 
 // Interleave bits

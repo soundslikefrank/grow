@@ -41,8 +41,7 @@ void LEDClass::Init() {
 }
 
 void LEDClass::Set(uint8_t led, LEDColor color, uint16_t brightness) {
-  // @TODO proper constrain function here
-  /* brightness = constrain(brightness, 0, LED_MAX_BRIGHTNESS); */
+  CONSTRAIN(brightness, 0, LED_MAX_BRIGHTNESS)
   switch (color) {
     case LED_COLOR_GREEN:
       ledState_[14 - led * 2] = brightness;

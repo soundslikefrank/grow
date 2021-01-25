@@ -68,7 +68,7 @@ ButtonState EncoderClass::ReadSwitch() {
     if (buttonSamples_) {
       // We're still going!
       buttonLongPressCounter_ =
-          constrain(buttonLongPressCounter_ + 1, 0, UINT16_MAX);
+          clamp(buttonLongPressCounter_ + 1, 0, UINT16_MAX);
     } else if (buttonLongPressCounter_) {
       if (buttonLongPressCounter_ > ENCODER_BUTTON_LONGPRESS_THRESHOLD) {
         buttonLongPressCounter_ = 0;

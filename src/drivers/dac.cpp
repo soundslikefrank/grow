@@ -60,28 +60,17 @@ void DACClass::Init() {
 
 // Polynomial regression, calibration results
 // @TODO: Move somewhere else, when EPROM
-double cal[2][3] = {{2.87784e-09, -0.00039953, 32.3809},
+float cal[2][3] = {{2.87784e-09, -0.00039953, 32.3809},
                     {2.55127e-09, -0.000398639, 17.119}};
-// Just to store the calibration overflow result
-uint16_t ofResult;
 
 void DACClass::SetVoltage(uint8_t channel, uint16_t voltage) {
-  // We only have two channels */
-  if (channel > 1) {
-    channel = 1;
-  }
-  if (channel < 0) {
-    channel = 0;
-  }
+  CONSTRAIN(channel, 0, 1);
 
-  // Calibration correction, assume linearity of error between two integer
-  // voltages
+  // Quadratic regression calibration correction
   int16_t calibAdd = round(cal[channel][0] * pow(voltage, 2) +
                             cal[channel][1] * voltage + cal[channel][2]);
 
-  if (!__builtin_add_overflow(voltage, calibAdd, &ofResult)) {
-    voltage += calibAdd;
-  }
+  voltage = clampU16(static_cast<int32_t>(voltage + calibAdd));
 
   // @FIXv0.2 For v0.2 (channels are switched)
   channel = channel == 1 ? 0 : 1;
