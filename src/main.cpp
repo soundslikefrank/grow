@@ -6,6 +6,7 @@
 #include <cstdio>
 #include "drivers/adc_ui.h"
 #include "drivers/dac.h"
+#include "drivers/eeprom.h"
 #include "drivers/encoder.h"
 #include "drivers/fader_led.h"
 #include "drivers/jack_detect.h"
@@ -70,6 +71,16 @@ void SystemClock_Config() {
   }
 }
 
+// @TODO move calibration to a different file
+enum EEPROM_STORE {
+  STORE_CALIB_DAC_A_QUAD,
+  STORE_CALIB_DAC_A_LIN,
+  STORE_CALIB_DAC_A_CONST,
+  STORE_CALIB_DAC_B_QUAD,
+  STORE_CALIB_DAC_B_LIN,
+  STORE_CALIB_DAC_B_CONST
+};
+
 int main() {
   HAL_Init();
   SystemClock_Config();
@@ -86,15 +97,20 @@ int main() {
   Quantizer.Refresh();
 
   /* char msg[20] = "Hello world"; */
-  char msg[30];
+  char msg[41];
 
   uint16_t counter;
   uint8_t step;
   // @TODO don't have that in here
-  double stepsPerVoltDAC = 65536.0 / 9;
   double stepsPerVoltADC = 4096.0 / 14;
   int8_t encoderValue = 0;
+  float tempCalibDacA;
 
+  /* ----------------- CALIBRATION STUFF ------------------------ */
+
+  EEPROM.Init();
+
+  // @TODO move this to a different file
   // Calibration mode. Hold encoder button while turning on
   if (Encoder.GetRawSwitchState()) {
     LED.SetX(0, LED_COLOR_GREEN, LED_MAX_BRIGHTNESS);
@@ -106,9 +122,18 @@ int main() {
         encoderValue += Encoder.ReadEncoder();
       }
       // @TODO more calibration logic here
+      if (Encoder.ReadSwitch() == BUTTON_STATE_PRESS) {
+        JackDetect.ToggleCalibration();
+        EEPROM.WriteFloat(STORE_CALIB_DAC_A_QUAD, 2.87784e-09);
+        break;
+      }
     }
-    JackDetect.ToggleCalibration();
   }
+
+  tempCalibDacA = EEPROM.ReadFloat(STORE_CALIB_DAC_A_QUAD);
+  EEPROM.DeInit();
+
+  /* ----------------- CALIBRATION STUFF END -------------------- */
 
   MetronomeTimer.SetBPM(120);
   Sequencer.Start();
@@ -133,8 +158,7 @@ int main() {
               isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      sprintf(msg, "voltage: %.2f\r\n",
-              7.0 - (double)UIADC.GetValue(10) / stepsPerVoltADC);
+      sprintf(msg, "tempCalibDacA: %.18e\r\n", tempCalibDacA);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
       _DAC.SetVoltage(0, encoderValue);

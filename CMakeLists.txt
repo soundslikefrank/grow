@@ -16,10 +16,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_program(OPENOCD openocd)
 
 set(VENDOR_FILES
-  # Feel free to uncomment files that you don't need
+  vendor/eeprom_emul/Src/eeprom_emul.c
+  vendor/eeprom_emul/Src/flash_interface.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_adc.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_adc_ex.c
-  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_ll_usb.c
   # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_i2c.c
   # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_i2c_ex.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal.c
@@ -38,13 +38,8 @@ set(VENDOR_FILES
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_spi_ex.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_tim.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_tim_ex.c
-  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pcd.c
-  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_pcd_ex.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_uart.c
   vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_uart_ex.c
-  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_ll_usart.c
-  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_usart.c
-  # vendor/stm32l4xx_hal_driver/Src/stm32l4xx_hal_usart_ex.c
   )
 
 set(PROJECT_FILES
@@ -54,6 +49,7 @@ set(PROJECT_FILES
   src/util.cpp
   src/drivers/adc_ui.cpp
   src/drivers/dac.cpp
+  src/drivers/eeprom.cpp
   src/drivers/encoder.cpp
   src/drivers/fader_led.cpp
   src/drivers/jack_detect.cpp
@@ -81,6 +77,7 @@ target_include_directories(${EXECUTABLE} SYSTEM PRIVATE
   vendor/stm32l4xx_hal_driver/Inc
   vendor/cmsis_device_l4/Include
   vendor/cmsis_core/Include
+  vendor/eeprom_emul/Include
   )
 
 target_include_directories(${EXECUTABLE} PRIVATE
