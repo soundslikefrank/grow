@@ -57,7 +57,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin) {
 }
 
 /* Callbacks */
-// @TODO I think these should go into the corresponding files
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef* htim) {
   if (htim->Instance == TIM2) {
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11 | GPIO_PIN_12, GPIO_PIN_RESET);
@@ -65,18 +64,20 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef* htim) {
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
+  if (htim->Instance == TIM3) {
+    UITimer.SetTick();
+    return;
+  }
   if (htim->Instance == TIM2) {
     MetronomeTimer.SetTick();
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11 | GPIO_PIN_12, GPIO_PIN_SET);
-  }
-  if (htim->Instance == TIM3) {
-    UITimer.SetTick();
   }
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* /* hadc */) {
   // @TODO abstract the trigger input read
-  jackValues[INPUT_JACK_TRIGGER] = (bool)HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1);
+  jackValues[INPUT_JACK_TRIGGER] = (bool)HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2);
+  // @TODO maybe find more reasonable values here?
   jackValues[INPUT_JACK_CV_1] = UIADC.GetValue(10) < 1500;
   jackValues[INPUT_JACK_CV_2] = UIADC.GetValue(11) < 1500;
   JackDetect.Next(jackValues);

@@ -21,8 +21,6 @@
 // @TODO Apply
 // https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
 
-uint8_t foo = 0;
-
 void Error_Handler() {}
 
 void SystemClock_Config() {
@@ -83,6 +81,9 @@ enum EEPROM_STORE {
   STORE_CALIB_DAC_B_CONST
 };
 
+uint8_t foo = 0;
+uint8_t bar = 0;
+
 int main() {
   HAL_Init();
   SystemClock_Config();
@@ -99,6 +100,7 @@ int main() {
   Quantizer.Refresh();
 
   char msg[41] = "Hello, otter";
+  char msg2[41] = "Hello, otter";
 
   uint16_t counter;
   uint8_t step;
@@ -141,6 +143,10 @@ int main() {
 
   while (true) {
     if (foo == 1) {
+      bar = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2);
+      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg2), strlen(msg2),
+                        HAL_MAX_DELAY);
+      sprintf(msg, "bar: %d\r\n", bar);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
       foo = 0;
@@ -156,6 +162,10 @@ int main() {
     }
     if (MetronomeTimer.Tick()) {
       step = Sequencer.NextStep();
+      bar = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2);
+      sprintf(msg, "bar not interrupt: %d\r\n", bar);
+      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
+                        HAL_MAX_DELAY);
       uint16_t faderPos = (4096 - UIADC.GetValue(step % 8));
       uint16_t voltage = 16 * (4096 - UIADC.GetValue(7)) - 1;
       /* uint16_t cv1 = UIADC.GetValue(10); */
