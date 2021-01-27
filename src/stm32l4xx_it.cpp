@@ -19,6 +19,8 @@ extern DMA_HandleTypeDef hdmaADC;
 // DAC
 extern SPI_HandleTypeDef hspi2;
 
+extern uint8_t foo;
+
 // @TODO: move to some other place? JackDetect class?
 bool jackValues[INPUT_JACK_LAST] = {false, false, false};
 
@@ -44,6 +46,16 @@ void DMA1_Channel5_IRQHandler() { HAL_DMA_IRQHandler(&hdmaQSPI); }
 // DAC
 void SPI2_IRQHandler() { HAL_SPI_IRQHandler(&hspi2); }
 
+// External interrupt
+void EXTI2_IRQHandler() { HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2); }
+
+void HAL_GPIO_EXTI_Callback(uint16_t pin) {
+  if (pin == GPIO_PIN_2) {
+    foo = 1;
+    // @TODO react on trigger input
+  }
+}
+
 /* Callbacks */
 // @TODO I think these should go into the corresponding files
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef* htim) {
@@ -65,7 +77,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* /* hadc */) {
   // @TODO abstract the trigger input read
   jackValues[INPUT_JACK_TRIGGER] = (bool)HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1);
-  // @TODO pick this value more carefully (calibration)
   jackValues[INPUT_JACK_CV_1] = UIADC.GetValue(10) < 1500;
   jackValues[INPUT_JACK_CV_2] = UIADC.GetValue(11) < 1500;
   JackDetect.Next(jackValues);

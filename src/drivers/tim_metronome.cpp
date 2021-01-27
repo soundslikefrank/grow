@@ -15,6 +15,8 @@ TIM_HandleTypeDef htim2;
 MetronomeTimerClass::MetronomeTimerClass() = default;
 
 void MetronomeTimerClass::Init() {
+  GPIO_InitTypeDef igpio = {0};
+
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   // Start with the default bpm value
@@ -27,6 +29,15 @@ void MetronomeTimerClass::Init() {
   HAL_TIM_PWM_Start_IT(&htim2, TIM_CHANNEL_1);
   // Also enable the UPDATE interrupt (PWM only enables CC)
   __HAL_TIM_ENABLE_IT(&htim2, TIM_IT_UPDATE);
+
+  // External interrupt from trigger in
+  igpio.Pin = GPIO_PIN_2;
+  igpio.Mode = GPIO_MODE_IT_FALLING;
+  igpio.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &igpio);
+
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
 }
 
 void MetronomeTimerClass::SetBPM(uint16_t bpm) {

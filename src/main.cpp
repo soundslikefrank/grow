@@ -21,6 +21,8 @@
 // @TODO Apply
 // https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
 
+uint8_t foo = 0;
+
 void Error_Handler() {}
 
 void SystemClock_Config() {
@@ -71,7 +73,7 @@ void SystemClock_Config() {
   }
 }
 
-// @TODO move calibration to a different file
+// @TODO move to a different file?
 enum EEPROM_STORE {
   STORE_CALIB_DAC_A_QUAD,
   STORE_CALIB_DAC_A_LIN,
@@ -96,13 +98,11 @@ int main() {
   _DAC.Init();
   Quantizer.Refresh();
 
-  /* char msg[20] = "Hello world"; */
-  char msg[41];
+  char msg[41] = "Hello, otter";
 
   uint16_t counter;
   uint8_t step;
   // @TODO don't have that in here
-  double stepsPerVoltADC = 4096.0 / 14;
   int8_t encoderValue = 0;
   float tempCalibDacA;
 
@@ -113,6 +113,7 @@ int main() {
   // @TODO move this to a different file
   // Calibration mode. Hold encoder button while turning on
   if (Encoder.GetRawSwitchState()) {
+    // @TODO wait here while (encoder is not null)
     LED.SetX(0, LED_COLOR_GREEN, LED_MAX_BRIGHTNESS);
     LED.Set(7, LED_COLOR_RED, LED_MAX_BRIGHTNESS);
     JackDetect.ToggleCalibration();
@@ -139,6 +140,11 @@ int main() {
   Sequencer.Start();
 
   while (true) {
+    if (foo == 1) {
+      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
+                        HAL_MAX_DELAY);
+      foo = 0;
+    }
     if (UITimer.Tick()) {
       encoderValue += Encoder.ReadEncoder();
       counter = 4 * UIADC.GetValue(9);
