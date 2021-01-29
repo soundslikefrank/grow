@@ -1,18 +1,18 @@
 // Copyright 2020 Christian Maniewski.
-
-#include "drivers/adc_ui.h"
+//
+#include "drivers/adc.h"
 #include <math.h>
 #include <stm32l4xx_hal.h>
+#include "util.h"
 
 ADC_HandleTypeDef hadc;
 DMA_HandleTypeDef hdmaADC;
 
-// @TODO: rename, just adc
-UIADCClass::UIADCClass() = default;
+ADCClass::ADCClass() = default;
 
-uint16_t UIADCClass::adcValues[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint16_t ADCClass::values[12] = {};
 
-void UIADCClass::Init() {
+void ADCClass::Init() {
   GPIO_InitTypeDef gpio = {0};
   ADC_ChannelConfTypeDef sConfig;
 
@@ -128,7 +128,7 @@ void UIADCClass::Init() {
   HAL_ADCEx_Calibration_Start(&hadc, ADC_SINGLE_ENDED);
 
   // casting to uint32_t as it can potentially handle a full word (4 byte)
-  HAL_ADC_Start_DMA(&hadc, reinterpret_cast<uint32_t*>(adcValues), 12);
+  HAL_ADC_Start_DMA(&hadc, reinterpret_cast<uint32_t*>(values), 12);
 }
 
 // @TODO obviously this should be somewhere else
@@ -138,21 +138,21 @@ double cvACalibrationIntercept = 1.71428;
 double cvBCalibrationSlope = 0.0078125;
 double cvBCalibrationIntercept = 1.71428;
 
-uint16_t UIADCClass::GetValue(uint8_t index) {
-  /// @TODO: constrain
+uint16_t ADCClass::GetValue(uint8_t index) {
+  CONSTRAIN(index, 0, 11)
   // Correct CV input values using the linear regression results in calibration
   if (index == 10) {
-    return adcValues[10] +
-           (uint16_t)(round(cvACalibrationSlope * (double)adcValues[10] +
+    return values[10] +
+           (uint16_t)(round(cvACalibrationSlope * (double)values[10] +
                             cvACalibrationIntercept));
   }
   if (index == 11) {
-    return adcValues[11] +
-           (uint16_t)(round(cvBCalibrationSlope * (double)adcValues[11] +
+    return values[11] +
+           (uint16_t)(round(cvBCalibrationSlope * (double)values[11] +
                             cvBCalibrationIntercept));
   }
 
-  return adcValues[index];
+  return values[index];
 }
 
-UIADCClass UIADC;
+ADCClass ADC;

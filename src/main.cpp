@@ -4,7 +4,7 @@
 #include <stm32l4xx_hal.h>
 #include <string.h>
 #include <cstdio>
-#include "drivers/adc_ui.h"
+#include "drivers/adc.h"
 #include "drivers/dac.h"
 #include "drivers/eeprom.h"
 #include "drivers/encoder.h"
@@ -78,7 +78,11 @@ enum EEPROM_STORE {
   STORE_CALIB_DAC_A_CONST,
   STORE_CALIB_DAC_B_QUAD,
   STORE_CALIB_DAC_B_LIN,
-  STORE_CALIB_DAC_B_CONST
+  STORE_CALIB_DAC_B_CONST,
+  STORE_CALIB_CV_IN_A_LIN,
+  STORE_CALIB_CV_IN_A_CONST,
+  STORE_CALIB_CV_IN_B_LIN,
+  STORE_CALIB_CV_IN_B_CONST
 };
 
 uint8_t foo = 0;
@@ -93,7 +97,7 @@ int main() {
   JackDetect.Init();
   MetronomeTimer.Init();
   UITimer.Init();
-  UIADC.Init();
+  ADC.Init();
   FaderLED.Init();
   LED.Init();
   _DAC.Init();
@@ -107,6 +111,7 @@ int main() {
   // @TODO don't have that in here
   int8_t encoderValue = 0;
   float tempCalibDacA;
+
 
   /* ----------------- CALIBRATION STUFF ------------------------ */
 
@@ -153,7 +158,7 @@ int main() {
     }
     if (UITimer.Tick()) {
       encoderValue += Encoder.ReadEncoder();
-      counter = 4 * UIADC.GetValue(9);
+      counter = 4 * ADC.GetValue(9);
       LED.SetX(step % 8, LED_COLOR_YELLOW, counter);
       /* if (Encoder.ReadSwitch() == BUTTON_STATE_LONGPRESS) { */
       /*   counter = 1; */
@@ -166,11 +171,11 @@ int main() {
       sprintf(msg, "bar not interrupt: %d\r\n", bar);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      uint16_t faderPos = (4096 - UIADC.GetValue(step % 8));
-      uint16_t voltage = 16 * (4096 - UIADC.GetValue(7)) - 1;
+      uint16_t faderPos = (4096 - ADC.GetValue(step % 8));
+      uint16_t voltage = 16 * (4096 - ADC.GetValue(7)) - 1;
       /* uint16_t cv1 = UIADC.GetValue(10); */
       auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
-      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", 8, UIADC.GetValue(10),
+      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", 8, ADC.GetValue(10),
               isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);

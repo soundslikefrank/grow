@@ -1,6 +1,6 @@
 #include <stm32l4xx_hal.h>
 #include "conf.h"
-#include "drivers/adc_ui.h"
+#include "drivers/adc.h"
 #include "drivers/dac.h"
 #include "drivers/jack_detect.h"
 #include "drivers/tim_metronome.h"
@@ -78,8 +78,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* /* hadc */) {
   // @TODO abstract the trigger input read
   jackValues[INPUT_JACK_TRIGGER] = (bool)HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2);
   // @TODO maybe find more reasonable values here?
-  jackValues[INPUT_JACK_CV_1] = UIADC.GetValue(10) < 1500;
-  jackValues[INPUT_JACK_CV_2] = UIADC.GetValue(11) < 1500;
+  jackValues[INPUT_JACK_CV_1] = ADC.GetValue(10) < 1500;
+  jackValues[INPUT_JACK_CV_2] = ADC.GetValue(11) < 1500;
   JackDetect.Next(jackValues);
 }
 

@@ -47,7 +47,7 @@ set(PROJECT_FILES
   src/quantizer.cpp
   src/sequencer.cpp
   src/util.cpp
-  src/drivers/adc_ui.cpp
+  src/drivers/adc.cpp
   src/drivers/dac.cpp
   src/drivers/eeprom.cpp
   src/drivers/encoder.cpp
