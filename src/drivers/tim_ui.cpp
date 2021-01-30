@@ -3,7 +3,7 @@
 #include "drivers/tim_ui.h"
 #include <stm32l4xx_hal.h>
 
-// @TODO rename. Maybe IO timer? input-timer?
+// @TODO rename. Maybe IO timer? input-timer? stream-timer? clock?
 
 TIM_HandleTypeDef htim3;
 

@@ -1,7 +1,7 @@
 // Copyright 2020 Christian Maniewski.
 
-#include <math.h>
 #include "util.h"
+#include <math.h>
 
 // Interleave bits
 // @TODO Maybe we can find a more efficient way
@@ -16,6 +16,22 @@ uint32_t joinBits(uint16_t a, uint16_t b) {
     }
   }
   return result;
+}
+
+uint64_t rol(uint64_t num, uint8_t rotation, uint8_t size) {
+  rotation %= size - 1;
+  while (rotation--) {
+    num = (num << 1) | (1 & (num >> (size - 1)));
+  }
+  return num;
+}
+
+uint64_t ror(uint64_t num, uint8_t rotation, uint8_t size) {
+  rotation %= size - 1;
+  while (rotation--) {
+    num = (((num >> 1) & (~(1 << (size - 1)))) | ((num & 1) << (size - 1)));
+  }
+  return num;
 }
 
 // Calculate linear regression of n points

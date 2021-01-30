@@ -11,6 +11,8 @@ class ADCClass {
  public:
   ADCClass();
   uint16_t GetValue(uint8_t index);
+  /* Get normalized value (percentage) */
+  float GetValueN(uint8_t index);
   void Init();
 
 };

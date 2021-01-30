@@ -1,61 +1,44 @@
 // Copyright 2020 Christian Maniewski.
 
 #include "quantizer.h"
+#include <math.h>
+#include "util.h"
 
 QuantizerClass::QuantizerClass() = default;
 
-void QuantizerClass::SetTonic(Note tonic) { currentTonic_ = tonic; }
-
-void QuantizerClass::SetKey(Key key) { currentKey_ = key; }
-
-void QuantizerClass::SetOctave(uint8_t octave) { currentOctave_ = octave; }
-
-void QuantizerClass::Refresh() {
-  // Pick the right scale array
-  bool *scale = currentKey_ ? minorScale_ : majorScale_;
-  uint8_t note = currentTonic_;
-  uint8_t octave = currentOctave_;
-  // The first note of the scale is the one we start with
-  notes_[0] = static_cast<Note>(note);
-  octaves_[0] = octave;
-  for (int step = 0; step < 7; step++) {
-    // Go up one semitone (because we do that in any case)
-    if (++note == 12) {
-      note = 0;
-      octave++;
-    }
-    if (scale[step]) {
-      // If the current step is a whole tone, bump again
-      note++;
-    }
-    // If that got us out of the scale, start from 0
-    if (note == 12) {
-      note = 0;
-      octave++;
-    }
-    notes_[step + 1] = static_cast<Note>(note);
-    octaves_[step + 1] = octave;
-  }
+float QuantizerClass::GetQuantizedVoltage(float value) {
+  uint8_t index = round(value * (float)currentScaleLength_);
+  return currentScale_[index];
 }
 
-Note QuantizerClass::GetQuantizedNote(uint8_t position) {
-  if (octaves_[position] < 0) {
-    // return A as the lowest note possible
-    return NOTE_A;
-  }
-  if ((octaves_[position] == 7 && notes_[position] > 3) ||
-      octaves_[position] > 7) {
-    // return G_ as the highest note
-    return NOTE_G_;
-  }
-  return notes_[position];
-}
+// Octave: 0 (C0) - Range - 1
+// Range: 0 (1 Octave + 1) - 4 (5 Octaves + 1)
+void QuantizerClass::SetScale(Note tonic, Key key, Note root, uint8_t octave, uint8_t range) {
+  uint64_t scale = keys[key];
+  uint8_t pos = 0;
+  currentScaleLength_ = 0;
 
-uint8_t QuantizerClass::GetQuantizedOctave(uint8_t position) {
-  if (octaves_[position] < 0) {
-    return 0;
+  // Shift scale for tonic and root appropriately
+  int8_t shift = tonic - root;
+  if (shift > 0) {
+    scale = ror(scale, shift, 60);
   }
-  return octaves_[position];
+  if (shift < 0) {
+    scale = rol(scale, abs(shift), 60);
+  }
+  // Assemble scale
+  while (pos < (range + 1) * 12) {
+    if (scale & (1ULL << (59 - pos))) {
+      currentScale_[currentScaleLength_++] =
+          (float)octave + (float)(root + pos) * QUANT_STEP_SEMITONE;
+    }
+    pos++;
+  }
+  // We add the root value to the end if it's a 1 (x Octaves + 1)
+  if (scale & (1ULL << 59)) {
+    currentScale_[currentScaleLength_] =
+        (float)octave + (float)(root + pos) * QUANT_STEP_SEMITONE;
+  }
 }
 
 QuantizerClass Quantizer;

@@ -16,7 +16,6 @@
 #include "quantizer.h"
 #include "sequencer.h"
 #include "uart_debug.h"
-#include "util.h"
 
 // @TODO Apply
 // https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html
@@ -101,17 +100,16 @@ int main() {
   FaderLED.Init();
   LED.Init();
   _DAC.Init();
-  Quantizer.Refresh();
 
-  char msg[41] = "Hello, otter";
+  char msg[100] = "Hello, otter";
   char msg2[41] = "Hello, otter";
 
   uint16_t counter;
   uint8_t step;
+  uint16_t bpm = 120;
   // @TODO don't have that in here
   int8_t encoderValue = 0;
   float tempCalibDacA;
-
 
   /* ----------------- CALIBRATION STUFF ------------------------ */
 
@@ -143,7 +141,9 @@ int main() {
 
   /* ----------------- CALIBRATION STUFF END -------------------- */
 
-  MetronomeTimer.SetBPM(120);
+  MetronomeTimer.SetBPM(bpm);
+  Quantizer.SetScale(NOTE_F, KEY_MAJOR, NOTE_F, 2, 1);
+  /* SetScale(NOTE_C, KEY_MAJOR, NOTE_C, 2, 1); */
   Sequencer.Start();
 
   while (true) {
@@ -157,7 +157,7 @@ int main() {
       foo = 0;
     }
     if (UITimer.Tick()) {
-      encoderValue += Encoder.ReadEncoder();
+      bpm += Encoder.ReadEncoder();
       counter = 4 * ADC.GetValue(9);
       LED.SetX(step % 8, LED_COLOR_YELLOW, counter);
       /* if (Encoder.ReadSwitch() == BUTTON_STATE_LONGPRESS) { */
@@ -166,24 +166,26 @@ int main() {
       LED.Update();
     }
     if (MetronomeTimer.Tick()) {
+      MetronomeTimer.SetBPM(bpm);
       step = Sequencer.NextStep();
       bar = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2);
       sprintf(msg, "bar not interrupt: %d\r\n", bar);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      uint16_t faderPos = (4096 - ADC.GetValue(step % 8));
-      uint16_t voltage = 16 * (4096 - ADC.GetValue(7)) - 1;
+      /* uint16_t faderPos = (4096 - ADC.GetValue(step % 8)); */
+      /* uint16_t voltage = 16 * (4096 - ADC.GetValue(7)) - 1; */
       /* uint16_t cv1 = UIADC.GetValue(10); */
       auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
+      float voltage = Quantizer.GetQuantizedVoltage(ADC.GetValueN(step % 8));
       sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", 8, ADC.GetValue(10),
               isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      sprintf(msg, "tempCalibDacA: %.18e\r\n", tempCalibDacA);
+      sprintf(msg, "voltage: %.3f\r\n", voltage);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      _DAC.SetVoltage(0, encoderValue);
-      _DAC.SetVoltage(1, encoderValue);
+      _DAC.SetVoltage(0, voltage);
+      _DAC.SetVoltage(1, 3.0F);
     }
   }
 }

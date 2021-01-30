@@ -19,6 +19,10 @@ constexpr const T& clamp(const T& v, const T& lo, const T& hi) {
 
 uint32_t joinBits(uint16_t a, uint16_t b);
 
+uint64_t ror(uint64_t num, uint8_t rotation, uint8_t size);
+
+uint64_t rol(uint64_t num, uint8_t rotation, uint8_t size);
+
 void linReg(uint8_t n, const double* x, const double* y, double* slope,
             double* intercept);
 

@@ -155,4 +155,8 @@ uint16_t ADCClass::GetValue(uint8_t index) {
   return values[index];
 }
 
+float ADCClass::GetValueN(uint8_t index) {
+  return (float)ADCClass::GetValue(index) / 4096;
+}
+
 ADCClass ADC;
