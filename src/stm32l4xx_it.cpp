@@ -50,10 +50,7 @@ void SPI2_IRQHandler() { HAL_SPI_IRQHandler(&hspi2); }
 void EXTI2_IRQHandler() { HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2); }
 
 void HAL_GPIO_EXTI_Callback(uint16_t pin) {
-  if (pin == GPIO_PIN_2) {
-    foo = 1;
-    // @TODO react on trigger input
-  }
+  // @TODO react on trigger input
 }
 
 /* Callbacks */

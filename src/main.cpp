@@ -84,9 +84,6 @@ enum EEPROM_STORE {
   STORE_CALIB_CV_IN_B_CONST
 };
 
-uint8_t foo = 0;
-uint8_t bar = 0;
-
 int main() {
   HAL_Init();
   SystemClock_Config();
@@ -102,7 +99,6 @@ int main() {
   _DAC.Init();
 
   char msg[100] = "Hello, otter";
-  char msg2[41] = "Hello, otter";
 
   uint16_t counter;
   uint8_t step;
@@ -146,15 +142,6 @@ int main() {
   Sequencer.Start();
 
   while (true) {
-    if (foo == 1) {
-      bar = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2);
-      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg2), strlen(msg2),
-                        HAL_MAX_DELAY);
-      sprintf(msg, "bar: %d\r\n", bar);
-      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
-                        HAL_MAX_DELAY);
-      foo = 0;
-    }
     if (UITimer.Tick()) {
       bpm += Encoder.ReadEncoder();
       counter = 4 * ADC.GetValue(9);
@@ -165,26 +152,16 @@ int main() {
       LED.Update();
     }
     if (MetronomeTimer.Tick()) {
-      MetronomeTimer.SetBPM(bpm);
       step = Sequencer.NextStep();
-      bar = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2);
-      sprintf(msg, "bar not interrupt: %d\r\n", bar);
-      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
-                        HAL_MAX_DELAY);
-      /* uint16_t faderPos = (4096 - ADC.GetValue(step % 8)); */
-      /* uint16_t voltage = 16 * (4096 - ADC.GetValue(7)) - 1; */
-      /* uint16_t cv1 = UIADC.GetValue(10); */
-      auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
       float voltage = Quantizer.GetQuantizedVoltage(ADC.GetValueN(step % 8));
-      sprintf(msg, "rawValue%d: %hu, plugged in: %d\r\n", 8, ADC.GetValue(10),
+      _DAC.SetVoltage(0, voltage);
+      _DAC.SetVoltage(1, 3.0F);
+      MetronomeTimer.SetBPM(bpm);
+      auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
+      sprintf(msg, "voltage%d: %.3f, plugged in: %d\r\n", step, voltage,
               isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
                         HAL_MAX_DELAY);
-      sprintf(msg, "voltage: %.3f\r\n", voltage);
-      HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
-                        HAL_MAX_DELAY);
-      _DAC.SetVoltage(0, voltage);
-      _DAC.SetVoltage(1, 3.0F);
     }
   }
 }
