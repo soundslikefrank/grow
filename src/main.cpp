@@ -142,8 +142,7 @@ int main() {
   /* ----------------- CALIBRATION STUFF END -------------------- */
 
   MetronomeTimer.SetBPM(bpm);
-  Quantizer.SetScale(NOTE_F, KEY_MAJOR, NOTE_F, 2, 1);
-  /* SetScale(NOTE_C, KEY_MAJOR, NOTE_C, 2, 1); */
+  Quantizer.SetScale(NOTE_E, KEY_PENTATONIC_MINOR, NOTE_E, 2, 1);
   Sequencer.Start();
 
   while (true) {

@@ -7,7 +7,16 @@
 
 #define QUANT_STEP_SEMITONE 1.0F / 12.0F
 
-enum Key { KEY_SEMITONE, KEY_MAJOR, KEY_MINOR };
+enum Key {
+  KEY_SEMITONE,
+  KEY_MAJOR,
+  KEY_MINOR,
+  KEY_PENTATONIC_MAJOR,
+  KEY_PENTATONIC_MINOR,
+  KEY_PURVI,
+  KEY_TODI,
+  KEY_LAST
+};
 
 enum Note {
   NOTE_C,
@@ -24,13 +33,25 @@ enum Note {
   NOTE_B,
 };
 
-const uint64_t keys[3] = {
+// Four octaves of notes encoded in the following way
+// Starting from C, the following notes, that _are_ in the scale
+// get a one, the one's that aren't get a 0. Do that four times
+const uint64_t keys[KEY_LAST] = {
     // SEMITONE
     0xfffffffffffffff,
     // MAJOR
     0xad5ad5ad5ad5ad5,
     // MINOR
-    0xb5ab5ab5ab5ab5a};
+    0xb5ab5ab5ab5ab5a,
+    // PENTATONIC MAJOR,
+    0xa94a94a94a94a94,
+    // PENTATONIC MINOR,
+    0x952952952952952,
+    // PURVI SCALE
+    0xcb9cb9cb9cb9cb9,
+    // TODI SCALE,
+    0xd39d39d39d39d39, 
+};
 
 class QuantizerClass {
  private:
