@@ -1,6 +1,6 @@
-# frank.counts
+# GROW
 
-A Eurorack sequencer sporting a varying amount of features.
+A Eurorack genetic sequencer.
 
 
 This repository serves as the home for its MCU code and hardware schematics.
