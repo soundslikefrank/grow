@@ -8,13 +8,13 @@
 class ADCClass {
  private:
   static uint16_t values[12];
+
  public:
   ADCClass();
+  void Init();
   uint16_t GetValue(uint8_t index);
   /* Get normalized value (percentage) */
   float GetValueN(uint8_t index);
-  void Init();
-
 };
 
 extern ADCClass ADC;

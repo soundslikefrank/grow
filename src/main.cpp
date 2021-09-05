@@ -157,7 +157,7 @@ int main() {
       _DAC.SetVoltage(0, voltage);
       _DAC.SetVoltage(1, 3.0F);
       MetronomeTimer.SetBPM(bpm);
-      auto isPluggedIn = (uint8_t)JackDetect.IsPluggedIn(INPUT_JACK_CV_1);
+      auto isPluggedIn = static_cast<uint8_t>(JackDetect.IsPluggedIn(INPUT_JACK_CV_1));
       sprintf(msg, "voltage%d: %.3f, plugged in: %d\r\n", step, voltage,
               isPluggedIn);
       HAL_UART_Transmit(&huart1, reinterpret_cast<uint8_t*>(msg), strlen(msg),
