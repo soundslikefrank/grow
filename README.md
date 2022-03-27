@@ -2,6 +2,7 @@
 
 A Eurorack genetic sequencer.
 
+![grow](doc/grow.png)
 
 This repository serves as the home for its MCU code and hardware schematics.
 
